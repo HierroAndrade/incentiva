@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+
+button:hover {
+    opacity: 50%;
+    cursor: pointer;
+}
+
+button:active {
+    opacity: 90%;
+}
+
+:root {
+    --azul-clean: #198CF8;
+    /* Variável de cor */
+}
+
+#sem-projetos {
+    display: flex;
+}
+
+#sem-projetos-fill-space {
+    min-width: 300px;
+    max-width: 300px;
+}
+
+body {
+    background-color: rgb(248, 248, 248);
+}
+
+#sem-projetos {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+#sem-projetos-aside-bar {
+    background-color: var(--azul-clean);
+    height: 100vh;
+    width: 300px;
+    padding: 25px 0 0 22px;
+    top: 0;
+    position: fixed;
+}
+
+#sem-projetos-aside-bar img {
+    width: 250px;
+
+}
+
+.sem-projetos-aside-nav-item {
+    display: flex;
+    align-items: center;
+    margin: 25px 0 25px 0;
+    gap: 10px;
+
+}
+
+.sem-projetos-aside-nav-item:hover {
+    opacity: 60%;
+    cursor: pointer;
+}
+
+.sem-projetos-aside-nav-item span {
+    color: white;
+    font-size: 36px;
+    user-select: none;
+}
+
+.sem-projetos-aside-nav-item a {
+    text-decoration: none;
+    font-size: 24px;
+    color: white;
+    user-select: none;
+
+}
+
+#sem-projetos-nav-itens {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 88vh;
+    padding-bottom: 10px;
+}
+
+#sem-projetos-desconectar-btn {
+    padding: 10px 25px;
+    width: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    background-color: white;
+    color: var(--azul-clean);
+    border-radius: 10px;
+    border: none;
+    gap: 10px;
+}
+
+#sem-projetos-desconectar-btn span {
+    font-size: 30px;
+}
+
+#sem-projetos-info {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* #sem-projetos-info img {} */
+
+#sem-projetos-info p {
+    font-size: 25px;
+    margin: 10px 0 10px 0;
+    font-weight: 500;
+}
+
+#sem-projetos-criar-projeto {
+    padding: 15px 32px;
+    font-size: 22px;
+    color: white;
+    background-color: var(--azul-clean);
+    border: none;
+    border-radius: 10px;
+    font-weight: 500;
+}

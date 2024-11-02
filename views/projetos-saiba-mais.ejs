@@ -1,0 +1,733 @@
+<script>
+
+    authFetchJson("/user/get", "GET").then((response) => {
+        console.log(response.status);
+        if ((response.status == 401 || response.status == 403)) {
+            window.location.replace("/login");
+        } else {
+            console.log(response);
+            response.json().then((data) => {
+                if (data.user.verified == true) {
+                    if (!data.user.username) {
+                        window.location.replace("/etapa-perfil");
+                    }
+                } else {
+                    window.location.replace("/verificacao-email")
+                }
+
+                let myProjects = [];
+                let doIHaveAProject = false;
+                let selectPjs = document.getElementById("p-sm-select-projetos");
+                let selectedIndex = selectPjs.selectedIndex;
+                let selectedFiles = [];
+
+                let preViewPjName = document.getElementById("p-sm-know-more-pj-name");
+                let preViewPjStatus = document.getElementById("p-sm-know-more-pj-status-value");
+                let preViewPjTipoProjeto = document.getElementById("p-sm-know-more-pj-type-of-proj");
+                let preViewPjLogo = document.getElementById("p-sm-know-more-pj-logo");
+                let preViewPjArea = document.getElementById("p-sm-know-more-pj-field");
+                let preViewPjCidade = document.getElementById("p-sm-know-more-pj-localization");
+                let preViewPjInstituicao = document.getElementById("p-sm-know-more-pj-college");
+                let preViewPjQuickDesc = document.getElementsByClassName("p-sm-know-more-aligned-text")[0]
+                let preViewPjObjetivo = document.getElementsByClassName("p-sm-know-more-aligned-text")[1]
+                let preViewPjTecnicas = document.getElementsByClassName("p-sm-know-more-aligned-text")[2]
+                let preViewPjMotivo = document.getElementsByClassName("p-sm-know-more-aligned-text")[3]
+                let preViewPjImpactos = document.getElementsByClassName("p-sm-know-more-aligned-text")[4]
+                let preViewPjDetalhamento = document.getElementsByClassName("p-sm-know-more-aligned-text")[5]
+                let preViewPjProgresso = document.getElementById("p-sm-know-more-pj-progress-show-percentage");
+                let preViewPjImagensExtras = document.getElementById("p-sm-extra-images-container");
+
+                let smTxtObjetivo = document.getElementById("edicao-sm-objetivo");
+                let smTxtTecnicas = document.getElementById("edicao-sm-tecnicas");
+                let smTxtMotivo = document.getElementById("edicao-sm-motivo");
+                let smTxtImpactos = document.getElementById("edicao-sm-impactos");
+                let smTxtDetalhamento = document.getElementById("edicao-sm-detalhamento");
+                let smProgress = document.getElementById("edicao-sm-progresso");
+
+                if (!localStorage.getItem("selectedIndex") || localStorage.getItem("selectedIndex") == "-1") {
+                    localStorage.setItem("selectedIndex", "0")
+                }
+
+
+                fetch("/project/getAll")
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erro ao buscar os projetos: ' + response.statusText);
+                        }
+                        return response.json();
+                    }).then(projects => {
+
+                        //assim que entra:
+                        projects.forEach(pj => {
+                            console.log("a", pj.owner._id)
+                            console.log("b", data.user._id)
+                            console.log("c", pj.owner._id == data.user._id)
+                            if (pj.owner._id == data.user._id) {
+                                myProjects.push({ pj, owner: true });
+                                doIHaveAProject = true
+                            }
+                        });
+
+                        projects.forEach(pj => {
+                            pj.team_members.forEach((member) => {
+                                if (member._id == data.user._id) {
+                                    myProjects.push({ pj, owner: false });
+                                    doIHaveAProject = true
+                                }
+                            })
+                        })
+
+                        if (!doIHaveAProject) {
+                            window.location.href = "/sem-projetos"
+                        }
+
+
+                        console.log("proj", myProjects);
+
+                        myProjects.forEach((el) => {
+                            let opt = document.createElement("option");
+                            opt.value = el.pj.name;
+                            opt.innerText = el.pj.name;
+                            if (el.owner) {
+                                opt.setAttribute("owner", "true")
+                            } else {
+                                opt.setAttribute("owner", "false")
+                            }
+                            selectPjs.appendChild(opt);
+                        })
+
+
+                        selectPjs.addEventListener("change", (e) => {
+
+                            selectedIndex = selectPjs.selectedIndex;
+                            localStorage.setItem("selectedIndex", selectedIndex);
+
+                            if (myProjects[selectedIndex].pj.owner._id == data.user._id) {
+
+                                document.getElementById("p-sm-btn-sair-do-proj").innerHTML = `
+                                 <span class="material-symbols-outlined">
+                                delete
+                                </span>
+                                Excluir Projeto
+                                `
+
+                                document.getElementById("p-sm-btn-sair-do-proj").id = "p-sm-excluir-proj"
+
+                                document.getElementById("p-sm-nav-itens-side").innerHTML = `
+                            
+                            <a href="/projetos-post-na-home" class="p-sm-nav-side-item">Post na Home</a>
+                            <a href="/projetos-saiba-mais"  class="p-sm-nav-side-item">Saiba Mais</a>
+                             <a href="/projetos-adm" class="p-sm-nav-side-item">ADM</a>
+                     
+                            `
+
+                                document.getElementById("p-sm-excluir-proj").addEventListener("click", async () => {
+
+                                    selectedIndex = selectPjs.selectedIndex;
+
+                                    if (confirm("Tem certeza que deseja excluir esse projeto?")) {
+                                        const response = await fetch(`/project/deleteProject`, {
+                                            method: 'DELETE',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                            },
+                                            body: JSON.stringify({ pjId: myProjects[selectedIndex]?.pj?._id })
+                                        })
+
+                                        const json = await response.json()
+
+
+
+                                        if (json.msg == "sucesso") {
+                                            location.replace("/home")
+                                        }
+                                    }
+
+                                })
+
+
+                            } else {
+                                document.getElementById("p-sm-btn-sair-do-proj").removeAttribute("deleteMode")
+                                document.getElementById("p-sm-btn-sair-do-proj").innerHTML = `
+                                 <span class="material-symbols-outlined">
+                                 logout
+                                 </span>
+                                Sair do Projeto
+                                `
+                                document.getElementById("p-sm-nav-itens-side").innerHTML = `
+                            
+                            <a href="/projetos-post-na-home" class="p-sm-nav-side-item">Post na Home</a>
+                            <a href="/projetos-saiba-mais"  class="p-sm-nav-side-item">Saiba Mais</a>
+                     
+                            `
+
+                                document.getElementById("p-sm-btn-sair-do-proj").addEventListener("click", async () => {
+
+                                    const response = await fetch(`/project/deleteMember`, {
+                                        method: 'DELETE',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                            'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                        },
+                                        body: JSON.stringify({ pjId: myProjects[selectedIndex].pj._id, memberId: data.user._id })
+                                    })
+
+                                    window.location.replace("/home")
+                                })
+                            }
+
+
+
+                            if (myProjects[selectedIndex].pj.status == "Concluído") {
+                                smProgress.disabled = "true";
+                                smProgress.value = 100;
+                                document.getElementById("edicao-sm-progresso-number").innerText = "100%"
+                            } else {
+                                smProgress.disabled = "";
+                                document.getElementById("edicao-sm-progresso-number").innerText = `${myProjects[selectedIndex].pj.progress}%`
+                                smProgress.value = myProjects[selectedIndex].pj.progress;
+                                smProgress.addEventListener("change", (e) => {
+                                    document.getElementById("edicao-sm-progresso-number").innerText = `${e.target.value}%`
+                                })
+                            }
+
+
+                            preViewPjName.innerText = myProjects[selectedIndex].pj.name;
+                            preViewPjStatus.innerText = myProjects[selectedIndex].pj.status;
+                            preViewPjTipoProjeto.innerText = myProjects[selectedIndex].pj.type_of_project;
+                            preViewPjLogo.src = myProjects[selectedIndex].pj.logo_img;
+                            preViewPjArea.innerText = myProjects[selectedIndex].pj.field;
+                            preViewPjCidade.innerText = myProjects[selectedIndex].pj.localization;
+                            preViewPjInstituicao.innerText = myProjects[selectedIndex].pj.instituition;
+                            preViewPjQuickDesc.innerText = myProjects[selectedIndex].pj.quick_description;
+                            preViewPjObjetivo.innerText = myProjects[selectedIndex].pj.goal;
+                            preViewPjTecnicas.innerText = myProjects[selectedIndex].pj.knowledge_used;
+                            preViewPjMotivo.innerText = myProjects[selectedIndex].pj.reason_for_creation;
+                            preViewPjDetalhamento.innerText = myProjects[selectedIndex].pj.extra_informations;
+                            preViewPjImpactos.innerText = myProjects[selectedIndex].pj.society_impacts;
+                            document.getElementById("p-sm-know-more-pj-progress-number").innerText = myProjects[selectedIndex].pj.progress + "%"
+                            preViewPjProgresso.style.width = ((myProjects[selectedIndex].pj.progress / 100) * 600) + "px";
+                            preViewPjImpactos.innerText = myProjects[selectedIndex].pj.society_impacts;
+                            if (myProjects[selectedIndex].pj.extra_imgs[0]) {
+                                preViewPjImagensExtras.innerHTML = ""
+                                myProjects[selectedIndex].pj.extra_imgs.forEach((img) => {
+                                    let imgIndexavel = document.createElement("img");
+                                    imgIndexavel.src = img;
+                                    imgIndexavel.classList.add("p-sm-extra-image-style");
+                                    preViewPjImagensExtras.appendChild(imgIndexavel);
+                                })
+                            }
+
+                            smTxtObjetivo.value = myProjects[selectedIndex].pj.goal;
+                            smTxtTecnicas.value = myProjects[selectedIndex].pj.knowledge_used;
+                            smTxtMotivo.value = myProjects[selectedIndex].pj.reason_for_creation;
+                            smTxtImpactos.value = myProjects[selectedIndex].pj.society_impacts;
+                            smTxtDetalhamento.value = myProjects[selectedIndex].pj.extra_informations;
+
+
+                        })
+
+                        if (localStorage.getItem("selectedIndex")) {
+                            selectPjs.selectedIndex = Number(localStorage.getItem("selectedIndex"));
+                            selectPjs.dispatchEvent(new Event("change"));
+
+                        }
+
+                        //img
+                        const extraImgFileInput = document.getElementById("edicao-pj-extra-img");
+                        const extraImgfileNameDisplay = document.getElementById("edicao-pj-extra-img-name");
+                        const extraImgpreviewContainer = document.getElementById("edicao-preview-container");
+                        const extraImgmaxFiles = 10;
+
+                        updatePreview()
+
+                        extraImgFileInput.addEventListener("change", () => {
+                            const files = Array.from(extraImgFileInput.files);
+                            const validFiles = files.filter(file => file.type.startsWith('image/'));
+
+                            // Verifica se todos os arquivos são imagens
+                            if (validFiles.length !== files.length) {
+                                document.getElementById("criacao-msg-error").textContent = "Por favor, selecione um arquivo de imagem válido"
+                                modalError.showModal()
+
+                                extraImgFileInput.value = "";
+                                return;
+                            }
+
+                            if (validFiles.length + selectedFiles.length > extraImgmaxFiles) {
+                                document.getElementById("criacao-msg-error").textContent = `Você só pode selecionar até ${extraImgmaxFiles} imagens.`
+                                modalError.showModal()
+                                extraImgFileInput.value = "";
+                                return;
+                            }
+
+                            validFiles.forEach(file => selectedFiles.push(file));
+                            updatePreview();
+                            extraImgFileInput.value = "";
+                        });
+                        function updatePreview() {
+                            extraImgpreviewContainer.innerHTML = "";
+                            selectedFiles.forEach((file, index) => {
+                                const fileReader = new FileReader();
+                                fileReader.onload = () => {
+                                    const imgElement = document.createElement("img");
+                                    imgElement.classList.add("edicao-saiba-mais-extra-img-item");
+                                    imgElement.src = fileReader.result;
+                                    imgElement.style.marginRight = "10px";
+
+
+                                    const removeButton = document.createElement("button");
+                                    removeButton.classList.add("edicao-saiba-mais-extra-img-item-remove-btn");
+                                    removeButton.textContent = "X";
+                                    removeButton.style.display = "block";
+                                    removeButton.onclick = () => removeImage(index);
+
+                                    const container = document.createElement("div");
+                                    container.classList.add("edicao-saiba-mais-extra-img-item-div");
+                                    container.appendChild(imgElement);
+                                    container.appendChild(removeButton);
+                                    extraImgpreviewContainer.appendChild(container);
+                                };
+                                fileReader.readAsDataURL(file);
+                            });
+
+                            extraImgfileNameDisplay.textContent = `${selectedFiles.length} de ${extraImgmaxFiles} `;
+                        }
+
+                        function removeImage(index) {
+                            selectedFiles.splice(index, 1);
+                            updatePreview();
+                        }
+                        //img
+                        document.getElementById("desfazer-edicoes-btn").addEventListener("click", () => {
+                            smTxtObjetivo.value = myProjects[selectedIndex].pj.goal
+                            smTxtTecnicas.value = myProjects[selectedIndex].pj.knowledge_used
+                            smTxtMotivo.value = myProjects[selectedIndex].pj.reason_for_creation
+                            smTxtImpactos.value = myProjects[selectedIndex].pj.society_impacts
+                            smTxtDetalhamento.value = myProjects[selectedIndex].pj.extra_informations
+                            selectedFiles = [];
+                            updatePreview();
+                        })
+                    })
+
+
+
+                document.getElementById("salvar-edicoes-btn").addEventListener("click", async () => {
+                    selectedIndex = selectPjs.selectedIndex;
+                    let editedTextContent = { edited: false };
+                    let editedImgContext = { edited: false };
+                    const formData = new FormData();
+                    formData.append("projectId", myProjects[selectedIndex].pj._id)
+
+                    preViewPjName.innerText = myProjects[selectedIndex].pj.name;
+                    preViewPjStatus.innerText = myProjects[selectedIndex].pj.status;
+                    preViewPjTipoProjeto.innerText = myProjects[selectedIndex].pj.type_of_project;
+                    preViewPjLogo.src = myProjects[selectedIndex].pj.logo_img;
+                    preViewPjArea.innerText = myProjects[selectedIndex].pj.field;
+                    preViewPjCidade.innerText = myProjects[selectedIndex].pj.localization;
+                    preViewPjInstituicao.innerText = myProjects[selectedIndex].pj.instituition;
+                    preViewPjQuickDesc.innerText = myProjects[selectedIndex].pj.quick_description;
+                    preViewPjObjetivo.innerText = myProjects[selectedIndex].pj.goal;
+                    preViewPjTecnicas.innerText = myProjects[selectedIndex].pj.knowledge_used;
+                    preViewPjMotivo.innerText = myProjects[selectedIndex].pj.reason_for_creation;
+                    preViewPjDetalhamento.innerText = myProjects[selectedIndex].pj.extra_informations;
+                    preViewPjImpactos.innerText = myProjects[selectedIndex].pj.society_impacts;
+                    document.getElementById("p-sm-know-more-pj-progress-number").innerText = myProjects[selectedIndex].pj.progress + "%"
+                    preViewPjProgresso.style.width = ((myProjects[selectedIndex].pj.progress / 100) * 600) + "px";
+                    preViewPjImpactos.innerText = myProjects[selectedIndex].pj.society_impacts;
+                    if (myProjects[selectedIndex].pj.extra_imgs[0]) {
+                        preViewPjImagensExtras.innerHTML = ""
+                        myProjects[selectedIndex].pj.extra_imgs.forEach((img) => {
+                            let imgIndexavel = document.createElement("img");
+                            imgIndexavel.src = img;
+                            imgIndexavel.classList.add("p-sm-extra-image-style");
+                            preViewPjImagensExtras.appendChild(imgIndexavel);
+                        })
+                    }
+
+                    if (smTxtObjetivo.value != myProjects[selectedIndex].pj.goal) {
+                        editedTextContent.edited = true;
+                        editedTextContent.goal = smTxtObjetivo.value;
+                    }
+
+                    if (smTxtTecnicas.value != myProjects[selectedIndex].pj.knowledge_used) {
+                        editedTextContent.edited = true;
+                        editedTextContent.knowledge_used = smTxtTecnicas.value;
+                    }
+
+                    if (smTxtMotivo.value != myProjects[selectedIndex].pj.reason_for_creation) {
+                        editedTextContent.edited = true
+                        editedTextContent.reason_for_creation = smTxtMotivo.value
+                    }
+
+                    if (smTxtImpactos.value != myProjects[selectedIndex].pj.society_impacts) {
+                        editedTextContent.edited = true
+                        editedTextContent.society_impacts = smTxtImpactos.value
+                    }
+
+                    if (smTxtDetalhamento.value != myProjects[selectedIndex].pj.extra_informations) {
+                        editedTextContent.edited = true
+                        editedTextContent.extra_informations = smTxtDetalhamento.value
+                    }
+
+                    if (selectedFiles[0]) {
+                        editedImgContext.edited = true
+
+                        selectedFiles.forEach((file) => {
+                            formData.append("imagensExtras", file);
+                        });
+                    }
+
+                    if (editedTextContent.edited) {
+
+
+                        const response = await fetch(`/project/edit/${myProjects[selectedIndex].pj._id}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                            },
+                            body: JSON.stringify(editedTextContent)
+                        })
+
+                        const json = await response.json();
+
+                        localStorage.setItem("selectedIndex", selectedIndex);
+
+
+                    }
+
+                    if (editedImgContext.edited) {
+
+
+
+
+                        const response = await fetch("project/attachImages", {
+                            method: "PUT",
+                            headers: {
+                                "Authorization": `Bearer ${localStorage.getItem("token")} `
+                            },
+                            body: formData
+                        });
+
+                        const json = await response.json();
+
+
+
+                        localStorage.setItem("selectedIndex", selectedIndex);
+
+
+
+                    }
+
+                    location.reload()
+
+                })
+
+            })
+        }
+    })
+
+
+
+
+</script>
+
+
+<link rel="stylesheet" href="/styles/projetos-saiba-mais.css">
+<link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+<div id="p-sm">
+    <aside id="p-sm-aside-bar">
+
+        <img src="/assets/incentiva-branca-logo.png">
+        <nav id="p-sm-nav-itens">
+            <div id="p-sm-incons-itens">
+                <div class="p-sm-aside-nav-item">
+                    <span class="material-symbols-outlined">
+                        home
+                    </span>
+                    <a onclick=" window.location.href = '/home'">Home</a>
+                </div>
+                <div class="p-sm-aside-nav-item" id="goToProject">
+                    <span class="material-symbols-outlined">
+                        file_copy
+                    </span>
+                    <a>Projetos</a>
+                </div>
+                <div class="p-sm-aside-nav-item">
+                    <span class="material-symbols-outlined">
+                        chat
+                    </span>
+                    <a onclick=" window.location.href = '/chat'">Mensagens</a>
+                </div>
+            </div>
+            <button id="p-sm-desconectar-btn">Desconectar <span class="material-symbols-outlined">
+                    logout
+                </span> </button>
+        </nav>
+
+    </aside>
+
+    <div id="p-sm-fill-space">
+
+    </div>
+
+    <div id="p-sm-first-division">
+
+        <div id="p-sm-projeto-selecionado">
+            <h5>Projeto selecionado:</h5>
+        </div>
+
+        <div id="p-sm-functions">
+
+            <select name="" id="p-sm-select-projetos">
+            </select>
+
+
+
+            <button id="p-sm-btn-sair-do-proj">
+                <span class="material-symbols-outlined">
+                    logout
+                </span>
+                Sair do Projeto
+            </button>
+
+            <button id="p-sm-btn-criar-outro-proj" onclick="location.href = '/termos'">Criar outro Projeto +</button>
+        </div>
+        <div id="p-sm-campos-edicao">
+            <div id="campo-edicao-btns-sm">
+                <button id="desfazer-edicoes-btn">Desfazer Edições <span class="material-symbols-outlined">
+                        refresh
+                    </span></button>
+                <button id="salvar-edicoes-btn">Salvar Edições <span class="material-symbols-outlined">
+                        save
+                    </span></button>
+            </div>
+            <div id="p-sm-campos-edicao-content">
+
+
+                <div class="campo-edicao-sm">
+                    <label for="edicao-sm-objetivo">Qual é o Objetivo?</label>
+                    <textarea id="edicao-sm-objetivo" spellcheck="false"></textarea>
+                </div>
+                <div class="campo-edicao-sm">
+                    <label for="edicao-sm-tecnicas">Quais técnicas ou conhecimentos foram utilizados?</label>
+                    <textarea id="edicao-sm-tecnicas" spellcheck="false"></textarea>
+                </div>
+                <div class="campo-edicao-sm">
+                    <label for="edicao-sm-motivo">Qual o motivo da criação?</label>
+                    <textarea id="edicao-sm-motivo" spellcheck="false"></textarea>
+                </div>
+                <div class="campo-edicao-sm">
+                    <label for="edicao-sm-impactos">Quais impactos terá na sociedade?
+                    </label>
+                    <textarea id="edicao-sm-impactos" spellcheck="false"></textarea>
+                </div>
+                <div class="campo-edicao-sm">
+                    <label for="edicao-sm-detalhamento">Detalhamento:</label>
+                    <textarea id="edicao-sm-detalhamento" spellcheck="false"></textarea>
+                </div>
+                <div class="campo-edicao-sm">
+                    <label for="edicao-sm-progresso">O quanto seu projeto está pronto: <span
+                            id="edicao-sm-progresso-number">50%</span></label>
+                    <input type="range" id="edicao-sm-progresso" value="50" max="99">
+                </div>
+
+                <div class="campo-edicao-sm">
+                    <h2>Adicione imagens relevantes ao seu Projeto:</h2>
+                    <p>
+                        Coloque novas imagens extras(as imagens que forem selecionadas vão sobrepor as Imagens extras
+                        antigas)
+                    </p>
+                    <label for="edicao-pj-extra-img" class="edicao-file-linked">
+                        Imagens extras<span class="material-symbols-outlined">upload</span>
+                        <input type="file" id="edicao-pj-extra-img" multiple accept="image/*">
+                    </label>
+                    <div class="edicao-file-name" id="edicao-pj-extra-img-name">
+                        0 de 10
+                    </div>
+                    <div id="edicao-preview-container"></div>
+                </div>
+            </div>
+
+            <div id="p-sm-pre-visu">
+                <main id="p-sm-know-more-content">
+                    <div id="p-sm-know-more-project">
+                        <div id="p-sm-know-more-first-informations">
+                            <h1>Saiba Mais sobre o Projeto <span id="p-sm-know-more-pj-name">Incentiva</span></h1>
+
+                            <div id="p-sm-know-more-some-items">
+
+                                <div id="p-sm-clicables">
+                                    <div class="p-sm-style-boxes p-sm-style-clickable">
+                                        Integrantes
+                                    </div>
+
+                                    <div class="p-sm-style-boxes p-sm-style-clickable">
+                                        Incentivos recebidos
+                                    </div>
+                                </div>
+
+                                <div id="p-sm-no-clicables">
+                                    <div class="p-sm-style-boxes">
+                                        Status: <span id="p-sm-know-more-pj-status-value"> Em desenvolvimento</span>
+                                    </div>
+
+                                    <div class="p-sm-style-boxes">
+                                        Tipo de projeto: <span id="p-sm-know-more-pj-type-of-proj"> Plano de
+                                            Negócios</span>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                            <img src="./assets/incentiva-black-logo.png" id="p-sm-know-more-pj-logo">
+                            <div id="p-sm-know-more-pj-little-informations">
+                                <h3 id="p-sm-know-more-pj-field">Informática</h3>
+                                &bullet;
+                                <h3 id="p-sm-know-more-pj-localization">São Paulo</h3>
+                                &bullet;
+                                <h3 id="p-sm-know-more-pj-college">UFRJ</h3>
+                            </div>
+
+                            <p class="p-sm-know-more-aligned-text" id="p-sm-know-more-pj-quick-desc"> O Incentiva é um
+                                projeto que
+                                visa
+                                interligar Criadores de Projetos acadêmicos com Possíveis incentivadores e compradores
+                                de
+                                projetos.
+
+                        </div>
+
+                        <div id="p-sm-know-more-pj-questions">
+                            <div class="p-sm-know-more-question">
+                                <h2>Qual é o objetivo?
+                                </h2>
+                                <p class="p-sm-know-more-aligned-text">Criar uma plataforma educacional que utilize
+                                    técnicas
+                                    de
+                                    gamificação para aumentar a
+                                    motivação e a retenção de conhecimento entre os estudantes do ensino fundamental e
+                                    médio.
+                                </p>
+                            </div>
+                            <div class="p-sm-know-more-question">
+                                <h2>Quais técnicas ou conhecimentos foram utilizados?
+                                </h2>
+                                <p class="p-sm-know-more-aligned-text">O projeto utilizou técnicas de gamificação,
+                                    desenvolvimento de
+                                    software, design de interface
+                                    de usuário, métodos de ensino e aprendizagem, além de pesquisas qualitativas e
+                                    quantitativas.</p>
+                            </div>
+                            <div class="p-sm-know-more-question">
+                                <h2>Qual o motivo da criação?
+                                </h2>
+                                <p class="p-sm-know-more-aligned-text">A criação da plataforma foi motivada pela
+                                    necessidade
+                                    de
+                                    melhorar o engajamento dos
+                                    estudantes nas atividades escolares e tornar o processo de aprendizagem mais
+                                    interativo e
+                                    eficaz.</p>
+                            </div>
+                            <div class="p-sm-know-more-question">
+                                <h2>Quais impactos terá na sociedade?
+                                </h2>
+                                <p class="p-sm-know-more-aligned-text">O impacto que esse projeto terá na sociedade será
+                                    o
+                                    aumento do
+                                    interesse pelos estudos, a
+                                    melhoria da qualidade educacional, a redução da evasão escolar e o desenvolvimento
+                                    de
+                                    habilidades tecnológicas.</p>
+                            </div>
+                        </div>
+
+                        <div class="p-sm-know-more-question">
+                            <h2>Detalhamento
+                            </h2>
+                            <p class="p-sm-know-more-aligned-text" id="p-sm-know-more-detalhamento">Criar uma plataforma
+                                educacional que utilize
+                                técnicas
+                                de
+                                gamificação para aumentar a
+                                motivação e a retenção de conhecimento entre os estudantes do ensino fundamental e
+                                médio.
+                            </p>
+                        </div>
+
+                        <div id="p-sm-know-more-progress">
+                            <h3>Progresso: <span id="p-sm-know-more-pj-progress-number">40%</span></h3>
+                            <div id="p-sm-know-more-pj-progress-show">
+                                <div id="p-sm-know-more-pj-progress-show-percentage"></div>
+                            </div>
+
+                        </div>
+
+                        <div id="p-sm-know-more-pj-questions">
+
+                            <div id="p-sm-know-more-extra-images">
+                                <h2>Imagens Extras</h2>
+                                <div id="p-sm-extra-images-container">
+
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                </main>
+
+            </div>
+        </div>
+    </div>
+    <div id="p-sm-second-division">
+        <nav id="p-sm-nav-itens-side">
+            <a href="" class="p-sm-nav-side-item">Post na Home</a>
+            <a href="" class="p-sm-nav-side-item">Saiba Mais</a>
+            <a href="" class="p-sm-nav-side-item">ADM</a>
+        </nav>
+    </div>
+    <dialog id="criacao-modal-error" class="criacao-dialogs">
+
+        <p id="criacao-msg-error">
+            Algum campo não foi preenchido!
+        </p>
+        <div id="criacao-modal-error-btns">
+            <button id="criacao-modal-error-ok">OK</button>
+        </div>
+    </dialog>
+</div>
+
+
+
+
+<script>
+
+    const modalError = document.getElementById("criacao-modal-error");
+    const modalErrorOkBtn = document.getElementById("criacao-modal-error-ok")
+
+    modalErrorOkBtn.addEventListener("click", () => {
+        document.getElementById("criacao-modal-error").close();
+
+    })
+
+    document.getElementById("p-sm-desconectar-btn").addEventListener("click", (e) => {
+        if (confirm("Tem certeza que deseja desconectar?")) {
+            localStorage.removeItem("token");
+            window.location.replace("/login");
+        }
+
+    })
+
+
+
+
+
+
+
+</script>

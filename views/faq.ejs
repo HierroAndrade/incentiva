@@ -1,0 +1,68 @@
+<script>
+
+    authFetchJson("/user/get", "GET").then((response) => {
+        console.log(response.status);
+        if ((response.ok)) {
+            window.location.replace("/home");
+        }
+    })
+</script>
+
+
+<link rel="stylesheet" href="/styles/faq.css">
+<div id="faq">
+    <nav id="faq-nav">
+        <div id="faq-nav-box-1">
+            <img src="/assets/logo-azul-incentiva.png" onclick=" window.location.href = '/pagina-inicial'">
+            <ul>
+                <li onclick=" window.location.href = '/faq'">FAQ</li>
+                <li onclick=" window.location.href = '/contato'">CONTATO</li>
+            </ul>
+        </div>
+        <div id="faq-nav-box-2">
+            <button id="faq-cadastrar-btn" onclick=" window.location.href = '/cadastro'">CADASTRAR</button>
+            <button id="faq-entrar-btn" onclick=" window.location.href = '/login'">ENTRAR</button>
+        </div>
+    </nav>
+    <main id="faq-conteudo-principal">
+        <h1> QUAIS PROJETOS SÃO SUPORTADOS?</h1>
+        <p>Alguns dos principais projetos suportados são:
+            - Plano de Negócios
+            - Tese
+            - Monografia
+            - Artigo Científico
+            - TCC
+            - Pesquisa
+        </p>
+
+        <h1>O QUE É UM INCENTIVO?</h1>
+        <p>- Você pode fazer uma doação de qualquer valor para uma equipe ou pessoa com um projeto acadêmico em
+            desenvolvimento.</p>
+
+        <h1>POSSO COMPRAR PROJETOS?</h1>
+        <p>- Sim, você pode comprar um projeto acadêmico de sua preferência e usar da maneira que achar melhor, mas
+            sem se passar como criador do projeto.</p>
+
+        <h1>COMO FAÇO PARA POSTAR UM PROJETO?</h1>
+        <p>- Preencha detalhadamente todos os campos descritivos do seu projeto sem economizar nas palavras, coloque
+            as suas imagens. Caso esteja completo, não esqueça de postar a documentação e o próprio projeto na
+            plataforma.</p>
+
+        <h1>QUAIS SÃO OS MEIOS DE PAGAMENTO?</h1>
+        <p>- O meio de pagamento é via Pix.</p>
+
+        <h1>O QUE É O INCENTIVA?</h1>
+        <p>- Uma plataforma que conecta pessoas
+            que desenvolvem um TCC a pessoas e investidores
+            interessados em possuir comprar ou projeto acadêmico.</p>
+
+        <h1>O QUE É A SHELTERCODE?</h1>
+        <p>- A ShelterCode é uma startup criada no Colégio Fecap por Hierro Malaquias, Rafael Fernandes, Breno Groba
+            e João Fernando, da turma do 3° ano de Informática. Essa startup foi responsável por criar o Incentiva.
+        </p>
+
+
+
+
+    </main>
+</div>

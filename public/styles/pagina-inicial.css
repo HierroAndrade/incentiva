@@ -1,0 +1,257 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+:root {
+    --azul-clean: #198CF8;
+    /* Variável de cor */
+}
+
+/* padrão */
+
+
+#pagina-inicial {
+    display: flex;
+    flex-direction: column;
+}
+
+/* nav */
+#pagina-inicial-nav {
+    height: 110px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#pagina-inicial-nav-box-1 {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+    margin-left: 20px;
+}
+
+#pagina-inicial-nav-box-1 img:hover {
+    cursor: pointer;
+    opacity: 60%;
+}
+
+#pagina-inicial-nav-box-1 img:active {
+    opacity: 90%;
+}
+
+#pagina-inicial-nav-box-1 ul {
+    list-style-type: none;
+    display: flex;
+    gap: 50px;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--azul-clean);
+}
+
+#pagina-inicial-nav-box-1 ul li:hover {
+    cursor: pointer;
+    opacity: 60%;
+}
+
+#pagina-inicial-nav-box-1 ul li:active {
+    opacity: 90%;
+}
+
+#pagina-inicial-nav-box-2 {
+    margin-right: 50px;
+    display: flex;
+    gap: 25px;
+}
+
+#pagina-inicial-nav-box-2 button {
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: 600;
+    border: 2px solid;
+    border-radius: 4px;
+}
+
+#pagina-inicial-cadastrar-btn {
+    background-color: var(--azul-clean);
+    color: white;
+}
+
+#pagina-inicial-cadastrar-btn:hover {
+    cursor: pointer;
+    opacity: 60%;
+}
+
+#pagina-inicial-cadastrar-btn:active {
+    opacity: 90%;
+}
+
+#pagina-inicial-entrar-btn {
+    background-color: white;
+    color: var(--azul-clean);
+    border-color: var(--azul-clean);
+}
+
+#pagina-inicial-entrar-btn:hover {
+    cursor: pointer;
+    opacity: 60%;
+}
+
+#pagina-inicial-entrar-btn:active {
+    opacity: 90%;
+}
+
+/* nav */
+
+/* conteudo-principal */
+
+#pagina-inicial-conteudo-principal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#pagina-inicial-conteudo-box-1 {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+
+
+#pagina-inicial-conteudo-box-1-img-div img {
+    width: 800px;
+}
+
+#pagina-inicial-conteudo-box-1-copywriting h1 {
+    color: var(--azul-clean);
+    width: 700px;
+    font-size: 50px;
+}
+
+#pagina-inicial-conteudo-box-1-copywriting p {
+    color: var(--azul-clean);
+    font-size: 24px;
+    font-weight: 500;
+    width: 700px;
+}
+
+#pagina-inicial-vamos-la-btn {
+    background-color: var(--azul-clean);
+    color: white;
+    margin-top: 20px;
+    padding: 15px 80px;
+    font-size: 25px;
+    font-weight: 500;
+    border: 2px solid;
+    border-radius: 20px;
+}
+
+#pagina-inicial-vamos-la-btn:hover {
+    cursor: pointer;
+    opacity: 60%;
+}
+
+#pagina-inicial-vamos-la-btn:active {
+    opacity: 90%;
+}
+
+#pagina-inicial-conteudo-box-2 {
+    background-color: var(--azul-clean);
+    width: 100%;
+    padding-top: 250px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 200px;
+}
+
+#pagina-inicial-conteudo-box-2-info-cards {
+    padding-top: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    width: 1300px;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+}
+
+.pagina-inicial-info-cards {
+    width: 600px;
+    height: 400px;
+    background-color: aliceblue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--azul-clean);
+    border: 7px solid white;
+    border-radius: 15px;
+    color: white;
+    font-size: 28px;
+    text-align: center;
+    padding: 20px;
+    gap: 20px;
+}
+
+.pagina-inicial-info-cards img {
+    width: 250px;
+}
+
+#pagina-inicial-not-and-cell img {
+    width: 1100px;
+    margin-bottom: 100px;
+}
+
+/* conteudo-principal */
+
+/* footer */
+
+footer {
+    background-color: white;
+    width: 100%;
+    padding: 50px 0 10px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+    gap: 80px;
+
+}
+
+
+#pagina-inicial-footer-links {
+    display: flex;
+    gap: 150px;
+}
+
+.pagina-inicial-footer-element {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.pagina-inicial-footer-element h1 {
+    font-weight: 600;
+}
+
+.pagina-inicial-footer-element-a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.pagina-inicial-footer-element-a a {
+    text-decoration: none;
+    color: #499eed;
+    font-size: 18px;
+    font-weight: 500;
+
+}
+
+/* footer */

@@ -1,0 +1,83 @@
+<script>
+
+    authFetchJson("/user/get", "GET").then((response) => {
+        console.log(response.status);
+        if ((response.ok)) {
+            window.location.replace("/home");
+        }
+    })
+</script>
+
+<link rel="stylesheet" href="/styles/pagina-inicial.css">
+<div id="pagina-inicial">
+    <nav id="pagina-inicial-nav">
+        <div id="pagina-inicial-nav-box-1">
+            <img src="/assets/logo-azul-incentiva.png" onclick=" window.location.href = '/pagina-inicial'">
+            <ul>
+                <li onclick=" window.location.href = '/faq'">FAQ</li>
+                <li onclick=" window.location.href = '/contato'">CONTATO</li>
+            </ul>
+        </div>
+        <div id="pagina-inicial-nav-box-2">
+            <button id="pagina-inicial-cadastrar-btn" onclick=" window.location.href = '/cadastro' ">CADASTRAR</button>
+            <button id="pagina-inicial-entrar-btn" onclick=" window.location.href = '/login'">ENTRAR</button>
+        </div>
+    </nav>
+    <main id="pagina-inicial-conteudo-principal">
+        <div id="pagina-inicial-conteudo-box-1">
+            <div id="pagina-inicial-conteudo-box-1-img-div">
+                <img src="/assets/img-ideias-vendas.png">
+            </div>
+            <div id="pagina-inicial-conteudo-box-1-copywriting">
+                <h1>A plataforma dos PROJETOS ACADÊMICOS</h1>
+                <p>O incentiva é uma plataforma do ramo educacional que envolve a interação de usuário e projetos
+                    acadêmicos.</p>
+                <button id="pagina-inicial-vamos-la-btn"
+                    onclick=" document.getElementById('pagina-inicial-conteudo-box-2-info-cards').scrollIntoView({ behavior: 'smooth' });">O
+                    QUE POSSO FAZER NO INCENTIVAR?</button>
+            </div>
+        </div>
+
+        <div id="pagina-inicial-conteudo-box-2">
+            <div id="pagina-inicial-conteudo-box-2-info-cards">
+                <div class="pagina-inicial-info-cards">
+                    <img src="/assets/interaja.png" alt="" srcset="">
+                    Interagir com outras pessoas desenvolvendo projetos acadêmicos
+                </div>
+                <div class="pagina-inicial-info-cards">
+                    <img src="/assets/incentive.png" alt="" srcset="">
+                    Incentivar ou comprar projetos acadêmicos
+                </div>
+                <div class="pagina-inicial-info-cards">
+                    <img src="/assets/receba-incentivos.png" alt="" srcset="">
+                    Receber incentivos ou vender seu projeto acadêmico
+                </div>
+
+            </div>
+            <div id="pagina-inicial-not-and-cell">
+
+            </div>
+        </div>
+    </main>
+    <footer>
+        <div id="pagina-inicial-footer-links">
+            <div class="pagina-inicial-footer-element">
+                <h1>Navegação</h1>
+                <div class="pagina-inicial-footer-element-a">
+                    <a href="/contato">Contato</a>
+                    <a href="/FAQ">FAQ</a>
+                </div>
+
+            </div>
+            <div class="pagina-inicial-footer-element">
+                <h1>Insagram</h1>
+                <div class="pagina-inicial-footer-element-a">
+                    <a href="https://www.instagram.com/sheltercode/" target="_blank">Shelter Code</a>
+                    <a href="https://www.instagram.com/incentiva.app/" target="_blank">Incentiva</a>
+                </div>
+            </div>
+
+        </div>
+        <p>© Copyright 2024 - Incentiva | Todos os Direitos Reservados.</p>
+    </footer>
+</div>

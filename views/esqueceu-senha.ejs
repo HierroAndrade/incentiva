@@ -1,0 +1,71 @@
+<script>
+
+    authFetchJson("/user/get", "GET").then((response) => {
+        console.log(response.status);
+        if ((response.ok)) {
+            window.location.replace("/home");
+        }
+    })
+</script>
+
+<link rel="stylesheet" href="/styles/esqueceu-senha.css">
+
+<div id="esqueceu-senha1">
+    <img src="../assets/incentiva-branca-logo.png" alt="" srcset="">
+    <div id="esqueceu-senha1-conteudo-principal">
+        <h1>Esqueci a senha</h1>
+        <div id="esqueceu-senha1-conteudo-principal-box">
+            <h3>Um código será enviado para o email da conta:</h3>
+            <input type="text" class="esqueceu-senha1-inputs-style" id="cadastro-input-email" placeholder="Email*"
+                autocomplete="off">
+            <button id="esqueceu-senha1-enviar-btn">Enviar</button>
+            <p id="esqueceu-senha-voltar-login-p">
+                Voltar para o <a href="/login" id="esqueceu-senha-voltar">
+                    login</a>
+            </p>
+
+        </div>
+    </div>
+
+    <div id="esqueceu-senha2-conteudo-principal" style="display: none;">
+        <h1>Verificação</h1>
+        <div id="esqueceu-senha2-conteudo-principal-box">
+            <h3>Digite o código que foi enviado no email:</h3>
+            <div id="esqueceu-senha2-inputs">
+                <input type="text" class="esqueceu-senha2-inputs-style" id="esqueceu-senha-codigo" placeholder="Código">
+            </div>
+            <div>
+                <button id="reenviar-codigo">
+                    Reenviar Codigo
+                </button>
+            </div>
+            <button id="esqueceu-senha2-concluir-btn">Concluir</button>
+
+            <a href="/esqueceu-senha" id="voltar-para-esqueceu-senha">Voltar</a>
+        </div>
+    </div>
+
+    <div id="esqueceu-senha3-conteudo-principal" style="display: none;">
+        <h1>Redefinir senha</h1>
+        <div id="esqueceu-senha3-conteudo-principal-box">
+            <h3>Preencha as Informações:</h3>
+            <input type="password" class="esqueceu-senha3-inputs-style" id="esqueceu-senha3-input-senha"
+                placeholder="Nova senha*">
+            <input type="password" class="esqueceu-senha3-inputs-style" id="esqueceu-senha3-input-confirma-senha"
+                placeholder="Confirmar Senha*">
+            <button id="esqueceu-senha3-redefinir-btn">Redefinir</button>
+        </div>
+    </div>
+
+    <dialog id="criacao-modal-error" class="criacao-dialogs">
+
+        <p id="criacao-msg-error">
+            Algum campo não foi preenchido!
+        </p>
+        <div id="criacao-modal-error-btns">
+            <button id="criacao-modal-error-ok">OK</button>
+        </div>
+    </dialog>
+</div>
+
+<script src="/scripts/esqueceu-senha.js"></script>

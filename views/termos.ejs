@@ -1,0 +1,201 @@
+<script>
+
+
+    authFetchJson("/user/get", "GET").then((response) => {
+        console.log(response.status);
+        if ((response.status == 401 || response.status == 403)) {
+            window.location.replace("/login");
+        } else {
+            console.log(response);
+            response.json().then((data) => {
+                if (data.user.verified == true) {
+                    if (!data.user.username) {
+                        window.location.replace("/etapa-perfil");
+                    }
+                } else {
+                    window.location.replace("/verificacao-email")
+                }
+
+            })
+        }
+    })
+</script>
+
+<link rel="stylesheet" href="/styles/termos.css">
+<div id="termos">
+    <div id="termos-sair">
+        Sair
+    </div>
+    <div id="termos-box">
+        <div class="termos-style">
+            <h2>Termos de Postagem de Projetos Acadêmicos</h2>
+            <div class="termos-conteudo">
+                <div class="termos-conteudo-col">
+                    <p>Ao publicar um projeto acadêmico na nossa plataforma, o autor concorda com os termos e
+                        condições estabelecidos abaixo. Estes termos visam garantir a legalidade e a integridade dos
+                        projetos disponibilizados, além de proteger os direitos de todas as partes envolvidas.</p>
+                    <p>1. Direitos Comerciais do Comprador</p>
+                    <p>1.1. O autor concede ao comprador do projeto todos os direitos comerciais sobre o material
+                        publicado, permitindo seu uso para fins pessoais e comerciais.</p>
+                </div>
+                <div class="termos-conteudo-col">
+                    <p>
+                        1.2. O comprador poderá adaptar, modificar e utilizar o projeto conforme suas necessidades
+                        comerciais, observando as restrições estabelecidas nestes termos.
+                    </p>
+                    <p>
+                        2. Proibição de Plágio
+                    </p>
+
+                    <p>
+                        2.1. O projeto acadêmico publicado na plataforma deve ser original e criado pelo autor.
+                    </p>
+                </div>
+                <div class="termos-conteudo-col">
+                    <p>
+                        2.2. É estritamente proibido publicar material que contenha plágio, cópia total ou parcial
+                        de obras de terceiros sem a devida autorização ou sem dar os devidos créditos, conforme
+                        estabelecido pela Lei de Direitos Autorais (Lei nº 9.610/1998).
+                    </p>
+
+                    <p>
+                        3. Restrições Relacionadas ao INPI e Registro de Patente
+                    </p>
+                </div>
+            </div>
+            <div class="termos-buttons">
+                <div class="termos-pag-indicador">1/3</div>
+                <button class="termos-avancar">Avançar</button>
+            </div>
+        </div>
+
+        <div class="termos-style" style="display: none;">
+            <h2>Termos de Postagem de Projetos Acadêmicos</h2>
+            <div class="termos-conteudo">
+                <div class="termos-conteudo-col">
+                    <p>
+                        3.1. O projeto acadêmico não pode conter informações, ideias ou conteúdos que estejam
+                        registrados no Instituto Nacional da Propriedade Industrial (INPI) ou que sejam objeto
+                        de
+                        pedidos de patente em andamento, salvo se o autor for o detentor dos direitos e fornecer
+                        a
+                        documentação comprovando tal fato.
+                    </p>
+                    <p>
+                        3.2. A publicação de qualquer projeto que infrinja direitos de propriedade industrial de
+                        terceiros é estritamente proibida.
+                    </p>
+                </div>
+                <div class="termos-conteudo-col">
+                    <p>
+                        4. Conformidade com a Legislação Nacional
+                    </p>
+                    <p>
+                        4.1. O autor garante que o conteúdo do projeto acadêmico não infringe qualquer lei ou
+                        regulamento vigente no Brasil.
+                    </p>
+                    <p>
+                        4.2. É proibida a publicação de projetos que contenham conteúdos ilícitos, imorais ou
+                        que incitem a violação de direitos de terceiros.
+                    </p>
+                    <p>
+                        5. Documentação Exigida
+                    </p>
+                </div>
+                <div class="termos-conteudo-col">
+                    <p>
+                        5.1. Para a publicação na plataforma, o projeto acadêmico deve ser acompanhado de
+                        documentação acadêmica que comprove sua validade, rigor e aplicabilidade.
+                    </p>
+                    <p>
+                        5.2. A documentação submetida deve estar de acordo com a natureza e os objetivos do
+                        projeto.
+                    </p>
+                    <p>
+                        5.3. A falta de apresentação da documentação adequada pode resultar na recusa ou remoção
+                        do projeto da plataforma.
+                    </p>
+                </div>
+            </div>
+            <div class="termos-buttons">
+                <div class="termos-pag-indicador">2/3</div>
+                <button class="termos-voltar">Voltar</button>
+                <button class="termos-avancar">Avançar</button>
+            </div>
+        </div>
+
+
+        <div class="termos-style" style="display: none;">
+            <h2>Termos de Postagem de Projetos Acadêmicos</h2>
+            <div class="termos-conteudo">
+                <div class="termos-conteudo-col">
+                    <p>
+                        6. Disponibilidade de Conteúdo
+                    </p>
+                    <p>
+                        6.1. Sempre que possível, o autor é incentivado a disponibilizar o conteúdo do projeto
+                        de forma que permita a colaboração, adaptação e expansão por parte dos compradores e da
+                        comunidade.
+                    </p>
+                    <p>
+                        6.2. A forma de disponibilização do conteúdo deve ser claramente indicada pelo autor no
+                        momento da submissão do projeto, respeitando os direitos comerciais e as condições
+                        acordadas.
+                    </p>
+                </div>
+                <div class="termos-conteudo-col">
+                    <p>
+                        7. Aceitação dos Termos
+                    </p>
+                    <p>
+                        7.1. Ao submeter um projeto acadêmico para publicação, o autor declara que leu,
+                        compreendeu e concorda com todos os termos estabelecidos neste documento.
+                    </p>
+                    <p>
+                        7.2. A plataforma reserva-se o direito de revisar e modificar esses termos a qualquer
+                        momento, sendo responsabilidade do autor se manter atualizado sobre as alterações.
+                    </p>
+                </div>
+                <div class="termos-conteudo-col">
+
+                </div>
+            </div>
+            <div class="termos-buttons">
+                <div class="termos-pag-indicador">3/3</div>
+                <button class="termos-voltar">Voltar</button>
+                <button id="termos-terminar">Terminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    document.getElementById("termos-sair").addEventListener("click", () => {
+        window.location.href = "/home"
+    })
+
+    document.getElementsByClassName("termos-avancar")[0].addEventListener("click", () => {
+        document.getElementsByClassName("termos-style")[0].style.display = "none"
+        document.getElementsByClassName("termos-style")[1].style.display = ""
+    })
+
+    document.getElementsByClassName("termos-avancar")[1].addEventListener("click", () => {
+        document.getElementsByClassName("termos-style")[1].style.display = "none"
+        document.getElementsByClassName("termos-style")[2].style.display = ""
+    })
+
+    document.getElementsByClassName("termos-voltar")[0].addEventListener("click", () => {
+        document.getElementsByClassName("termos-style")[0].style.display = ""
+        document.getElementsByClassName("termos-style")[1].style.display = "none"
+    })
+
+    document.getElementsByClassName("termos-voltar")[1].addEventListener("click", () => {
+        document.getElementsByClassName("termos-style")[1].style.display = ""
+        document.getElementsByClassName("termos-style")[2].style.display = "none"
+    })
+
+    document.getElementById("termos-terminar").addEventListener("click", () => {
+        window.location.href = "/criacao-projeto"
+    })
+</script>

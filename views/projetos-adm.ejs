@@ -1,0 +1,865 @@
+<script>
+
+
+    authFetchJson("/user/get", "GET").then((response) => {
+        console.log(response.status);
+        if ((response.status == 401 || response.status == 403)) {
+            window.location.replace("/login");
+        } else {
+            console.log(response);
+            response.json().then((data) => {
+                if (data.user.verified == true) {
+                    if (!data.user.username) {
+                        window.location.replace("/etapa-perfil");
+                    }
+                } else {
+                    window.location.replace("/verificacao-email")
+                }
+
+                if (!localStorage.getItem("selectedIndex")) {
+                    localStorage.setItem("selectedIndex", "0")
+                }
+
+                let myOwnerProjects = [];
+                let doIHaveAProject = false;
+                let selectPjs = document.getElementById("p-adm-select-projetos");
+
+                let selectedIndex = selectPjs.selectedIndex;
+
+
+                fetch("/project/getAll")
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Erro ao buscar os projetos: ' + response.statusText);
+                        }
+                        return response.json();
+                    }).then(projects => {
+
+                        projects.forEach(pj => {
+                            console.log("a", pj.owner._id)
+                            console.log("b", data.user._id)
+                            console.log("c", pj.owner._id == data.user._id)
+                            if (pj.owner._id == data.user._id) {
+                                myOwnerProjects.push({ pj, owner: true });
+                                doIHaveAProject = true
+                            }
+                        });
+
+                        if (!doIHaveAProject) {
+                            window.location.href = "/sem-projetos"
+                        }
+
+
+                        console.log("proj", myOwnerProjects);
+
+                        myOwnerProjects.forEach((el) => {
+                            let opt = document.createElement("option");
+                            opt.value = el.pj.name;
+                            opt.innerText = el.pj.name;
+                            if (el.owner) {
+                                opt.setAttribute("owner", "true")
+                            } else {
+                                opt.setAttribute("owner", "false")
+                            }
+                            selectPjs.appendChild(opt);
+                        })
+
+
+
+                        selectPjs.addEventListener("change", (e) => {
+                            const criacaoLinksContent = document.getElementById("criacao-links-content");
+                            criacaoLinksContent.innerHTML = "";
+                            selectedIndex = selectPjs.selectedIndex;
+                            localStorage.setItem("selectedIndex", selectedIndex);
+
+                            console.log(myOwnerProjects[selectedIndex]?.pj)
+                            if (!myOwnerProjects[selectedIndex]?.pj?.owner?._id) {
+                                window.location.replace("/projetos-post-na-home")
+                            }
+
+                            if (myOwnerProjects[selectedIndex].pj.owner._id == data.user._id) {
+                                document.getElementById("p-adm-nav-itens-side").innerHTML = `
+                            
+                            <a href="/projetos-post-na-home" class="p-adm-nav-side-item">Post na Home</a>
+                            <a href="/projetos-saiba-mais"  class="p-adm-nav-side-item">Saiba Mais</a>
+                             <a href="/projetos-adm" class="p-adm-nav-side-item">ADM</a>
+                     
+                            `
+                            }
+
+
+
+                            if (myOwnerProjects[selectedIndex].pj.team_members[0]) {
+                                document.getElementById("p-adm-remover-membro-content").innerHTML = ""
+                                myOwnerProjects[selectedIndex].pj.team_members.forEach((member) => {
+                                    document.getElementById("p-adm-remover-membro-content").innerHTML += `
+                                    <div class="p-adm-remover-membro-item">
+                                    <img src="/${member.profile_img}" class="img-remover-membro-style">
+                                    <div class="p-adm-remover-membro-author">#${member.username}</div>
+                                    <button class="p-adm-remover-membro-btn" pjId="${myOwnerProjects[selectedIndex].pj._id}" memberId="${member._id}" type="button" >
+                                    <span class="material-symbols-outlined" pjId="${myOwnerProjects[selectedIndex].pj._id}" memberId="${member._id}" type="span">
+                                    close
+                                    </span>
+                                    </button>
+                                    </div>
+                                    `
+                                })
+
+                                Array.from(document.getElementsByClassName("p-adm-remover-membro-btn")).forEach((btn) => {
+                                    btn.addEventListener("click", async (e) => {
+                                        let info = {};
+                                        info.memberId = e.target.getAttribute("memberid")
+                                        info.pjId = e.target.getAttribute("pjid");
+
+                                        if (confirm("Você tem certeza que quer excluir esse membro?")) {
+                                            if (e.target.getAttribute("type") == "span") {
+                                                e.target.parentElement.parentElement.remove()
+                                            }
+
+                                            if (e.target.getAttribute("type") == "button") {
+                                                e.target.parentElement.remove()
+                                            }
+
+
+                                            const response = await fetch(`/project/deleteMember`, {
+                                                method: 'DELETE',
+                                                headers: {
+                                                    'Content-Type': 'application/json',
+                                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                                },
+                                                body: JSON.stringify(info)
+                                            })
+
+                                            const json = await response.json();
+
+                                            location.reload()
+                                        }
+
+                                    })
+                                })
+
+                            } else {
+                                document.getElementById("p-adm-remover-membro-content").innerHTML = "Você é o único membro do projeto"
+                            }
+
+
+
+
+                            document.getElementById("chave-pix-antiga-value").innerText = myOwnerProjects[selectedIndex].pj.pix
+
+                            if (myOwnerProjects[selectedIndex].pj.preco) {
+                                document.getElementById("criacao-preco-projeto").children[1].innerText = "Edite o preço de venda do seu projeto concluído R$:"
+                                document.getElementById("criacao-projeto-preco").disabled = ""
+                                document.getElementById("criacao-projeto-preco").value = myOwnerProjects[selectedIndex].pj.preco
+                            } else {
+                                document.getElementById("criacao-preco-projeto").children[1].innerText = "Você não pode modificar o valor do seu projeto já que ele ainda está em desenvolvimento"
+                                document.getElementById("criacao-projeto-preco").value = ""
+                                document.getElementById("criacao-projeto-preco").disabled = "true"
+                            }
+
+                            function removeOtherLink(button) {
+                                button.parentElement.remove();
+                            }
+
+                            function goToLink(button) {
+                                let link = button.getAttribute("link");
+                                window.open(link, "_blank");
+                            }
+
+
+                            myOwnerProjects[selectedIndex].pj.links.forEach((link) => {
+
+
+
+                                const linkItem = document.createElement("div");
+                                linkItem.classList.add("criacao-links-item");
+                                const linkNameInput = document.createElement("input");
+                                linkNameInput.type = "text";
+                                linkNameInput.classList.add("criacao-links-item-nome-link");
+                                linkNameInput.placeholder = "Nome do link";
+                                linkNameInput.value = link.name;
+                                const linkInput = document.createElement("input");
+                                linkInput.type = "text";
+                                linkInput.classList.add("criacao-links-item-link");
+                                linkInput.placeholder = "Link";
+                                linkInput.value = link.link;
+
+                                const removeBtn = document.createElement("button");
+                                removeBtn.classList.add("criacao-remove-item-link");
+                                removeBtn.addEventListener("click", () => removeOtherLink(removeBtn));
+
+                                const gotoBtn = document.createElement("button");
+                                gotoBtn.setAttribute("link", link.link)
+                                gotoBtn.classList.add("criacao-goto-item-link");
+                                gotoBtn.addEventListener("click", () => goToLink(gotoBtn));
+
+                                const closeIcon = document.createElement("span");
+                                closeIcon.classList.add("material-symbols-outlined");
+                                closeIcon.textContent = "close";
+
+                                const linkIcon = document.createElement("span");
+                                linkIcon.classList.add("material-symbols-outlined");
+                                linkIcon.textContent = "captive_portal";
+
+                                if (link.name == "Documentação") {
+                                    linkNameInput.disabled = "true"
+                                    linkItem.disabled = "true"
+                                    removeBtn.disabled = "true"
+                                    gotoBtn.disabled = "true"
+                                }
+
+                                gotoBtn.appendChild(linkIcon)
+                                removeBtn.appendChild(closeIcon);
+                                linkItem.appendChild(linkNameInput);
+                                linkItem.appendChild(linkInput);
+                                linkItem.appendChild(removeBtn);
+                                linkItem.appendChild(gotoBtn);
+
+                                criacaoLinksContent.appendChild(linkItem);
+                            })
+
+
+
+
+                        })
+
+                        document.getElementById("salvar-link-btn").addEventListener("click", async () => {
+                            selectedIndex = selectPjs.selectedIndex
+                            let links = [];
+                            let linksHtmlArray = Array.from(document.getElementsByClassName("criacao-links-item"));
+                            linksHtmlArray.forEach((e) => {
+                                let name = e.children[0].value; // O valor do input de nome do link
+                                let link = e.children[1].value; // O valor do input do link
+
+                                // Adiciona o link ao array como um objeto com as propriedades 'name' e 'link'
+                                links.push({ name, link });
+                            });
+
+                            let editedTextContent = {};
+                            editedTextContent.links = links;
+
+                            const response = await fetch(`/project/edit/${myOwnerProjects[selectedIndex].pj._id}`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                },
+                                body: JSON.stringify(editedTextContent)
+                            })
+
+                            const json = await response.json();
+
+                            location.reload();
+                        })
+
+                        document.getElementById("restaurar-link-btn").addEventListener("click", () => {
+
+                            selectedIndex = selectPjs.selectedIndex
+
+                            let criacaoLinksContent = document.getElementById("criacao-links-content");
+                            criacaoLinksContent.innerHTML = "";
+
+                            function removeOtherLink(button) {
+                                button.parentElement.remove();
+                            }
+
+                            function goToLink(button) {
+                                let link = button.getAttribute("link");
+                                window.open(link, "_blank");
+                            }
+
+                            myOwnerProjects[selectedIndex].pj.links.forEach((link) => {
+
+
+
+                                const linkItem = document.createElement("div");
+                                linkItem.classList.add("criacao-links-item");
+                                const linkNameInput = document.createElement("input");
+                                linkNameInput.type = "text";
+                                linkNameInput.classList.add("criacao-links-item-nome-link");
+                                linkNameInput.placeholder = "Nome do link";
+                                linkNameInput.value = link.name;
+                                const linkInput = document.createElement("input");
+                                linkInput.type = "text";
+                                linkInput.classList.add("criacao-links-item-link");
+                                linkInput.placeholder = "Link";
+                                linkInput.value = link.link;
+
+                                const removeBtn = document.createElement("button");
+                                removeBtn.classList.add("criacao-remove-item-link");
+                                removeBtn.addEventListener("click", () => removeOtherLink(removeBtn));
+
+                                const gotoBtn = document.createElement("button");
+                                gotoBtn.setAttribute("link", link.link)
+                                gotoBtn.classList.add("criacao-goto-item-link");
+                                gotoBtn.addEventListener("click", () => goToLink(gotoBtn));
+
+                                const closeIcon = document.createElement("span");
+                                closeIcon.classList.add("material-symbols-outlined");
+                                closeIcon.textContent = "close";
+
+                                const linkIcon = document.createElement("span");
+                                linkIcon.classList.add("material-symbols-outlined");
+                                linkIcon.textContent = "captive_portal";
+
+                                if (link.name == "Documentação") {
+                                    linkNameInput.disabled = "true"
+                                    linkItem.disabled = "true"
+                                    removeBtn.disabled = "true"
+                                    gotoBtn.disabled = "true"
+                                }
+
+                                gotoBtn.appendChild(linkIcon)
+                                removeBtn.appendChild(closeIcon);
+                                linkItem.appendChild(linkNameInput);
+                                linkItem.appendChild(linkInput);
+                                linkItem.appendChild(removeBtn);
+                                linkItem.appendChild(gotoBtn);
+
+                                criacaoLinksContent.appendChild(linkItem);
+                            })
+                        })
+
+                        document.getElementById("salvar-pagamento-info-btn").addEventListener("click", async () => {
+                            selectedIndex = selectPjs.selectedIndex
+                            let pixKey = ""
+                            let podeEnviar = false
+                            let semModificacoes = true
+                            let editedTextContent = {}
+
+                            if (!document.getElementById("criacao-projeto-preco").disabled) {
+                                editedTextContent.preco = Number(document.getElementById("criacao-projeto-preco").value);
+                            }
+
+
+                            let selectPix = document.getElementById("criacao-tipo-pix");
+                            let prePixKey = "";
+                            if (selectPix.value == "cpf") {
+                                pixKey = undefined;
+                                prePixKey = document.getElementById("cpf-part-1").value + document.getElementById("cpf-part-2").value + document.getElementById("cpf-part-3").value + document.getElementById("cpf-part-4").value
+                                if (prePixKey.length == 11) {
+                                    pixKey = prePixKey;
+                                    editedTextContent.pix = pixKey;
+                                    semModificacoes = false
+                                } else if (prePixKey.length == 0) {
+                                    semModificacoes = true
+                                }
+                                else {
+
+                                    semModificacoes = false
+                                    document.getElementById("criacao-msg-error").textContent = "Digite um CPF válido!"
+                                    modalError.showModal()
+                                    return
+                                }
+                            } else if (selectPix.value == "telefone") {
+                                pixKey = undefined;
+                                prePixKey = document.getElementById("number-part-1").value + document.getElementById("number-part-2").value + document.getElementById("number-part-3").value
+                                if (prePixKey.length == 11) {
+                                    pixKey = prePixKey;
+                                    editedTextContent.pix = pixKey;
+                                    semModificacoes = false
+                                } else if (prePixKey.length == 0) {
+                                    semModificacoes = true
+                                } else {
+                                    semModificacoes = false
+                                    document.getElementById("criacao-msg-error").textContent = "Digite um número telefone válido!"
+                                    modalError.showModal()
+                                    return
+                                }
+                            } else if (selectPix.value == "email") {
+                                pixKey = undefined;
+                                prePixKey = document.getElementById("input-email-pix").value;
+                                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                                if (emailRegex.test(prePixKey)) {
+                                    pixKey = prePixKey;
+                                    editedTextContent.pix = pixKey;
+                                    semModificacoes = false
+                                } else if (prePixKey.length == 0) {
+                                    semModificacoes = true
+                                } else {
+                                    semModificacoes = false
+                                    document.getElementById("criacao-msg-error").textContent = "Digite um email válido!"
+                                    modalError.showModal()
+                                    return
+                                }
+                            } else if (selectPix.value == "aleatoria") {
+                                pixKey = undefined;
+                                prePixKey = document.getElementById("input-chave-aleatoria-pix");
+
+                                if (prePixKey.value) {
+                                    pixKey = prePixKey;
+                                    editedTextContent.pix = pixKey;
+                                    semModificacoes = false;
+                                } else if (prePixKey.value = "") {
+                                    semModificacoes = true;
+                                } else {
+                                    document.getElementById("criacao-msg-error").textContent = "Digite uma chave aleatória válida!";
+                                    modalError.showModal();
+                                    semModificacoes = false;
+                                    return
+                                }
+                            }
+
+                            if (editedTextContent.pix || editedTextContent.preco) {
+                                const response = await fetch(`/project/edit/${myOwnerProjects[selectedIndex].pj._id}`, {
+                                    method: 'PUT',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                    },
+                                    body: JSON.stringify(editedTextContent)
+                                })
+                                const json = await response.json();
+                            }
+
+
+                            location.reload()
+                        })
+
+                        document.getElementById("restaurar-pagamento-info-link-btn").addEventListener("click", () => {
+                            selectedIndex = selectPjs.selectedIndex
+
+                        })
+
+                        if (localStorage.getItem("selectedIndex")) {
+                            selectPjs.selectedIndex = Number(localStorage.getItem("selectedIndex"));
+                            selectPjs.dispatchEvent(new Event("change"));
+
+                        }
+
+                        document.getElementById("p-adm-btn-remove-proj").addEventListener("click", async () => {
+
+                            selectedIndex = selectPjs.selectedIndex;
+
+                            if (confirm("Tem certeza que deseja excluir esse projeto?")) {
+                                const response = await fetch(`/project/deleteProject`, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                    },
+                                    body: JSON.stringify({ pjId: myOwnerProjects[selectedIndex]?.pj?._id })
+                                })
+
+                                const json = await response.json()
+
+
+
+                                if (json.msg == "sucesso") {
+                                    location.replace("/home")
+                                }
+                            }
+
+                        })
+
+                        document.getElementById("p-adm-enviar-solicitacao-btn").addEventListener("click", async (e) => {
+                            selectedIndex = selectPjs.selectedIndex;
+                            let usernameInput = document.getElementById("p-adm-input-solicitacao");
+                            if (myOwnerProjects[selectedIndex]?.pj?.owner?.username == usernameInput.value) {
+                                document.getElementById("criacao-msg-error").textContent = "Você não pode enviar uma solicitação para si mesmo!"
+                                modalError.showModal()
+                                return
+                            }
+
+                            let enviouParaMembro = false
+                            myOwnerProjects[selectedIndex]?.pj?.team_members.forEach((membro) => {
+                                if (usernameInput.value == membro.username) {
+                                    enviouParaMembro = true;
+                                }
+                            })
+
+                            if (enviouParaMembro) {
+                                document.getElementById("criacao-msg-error").textContent = "Você não pode enviar uma solicitação o para um integrante do seu grupo!"
+                                modalError.showModal()
+                                return
+                            }
+
+                            console.log({ pjId: myOwnerProjects[selectedIndex]?.pj?._id, memberId: data.user._id, status: "pendente" })
+
+                            const response = await fetch(`/project/solicitacao`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                },
+                                body: JSON.stringify({ pjId: myOwnerProjects[selectedIndex]?.pj?._id, username: usernameInput.value, status: "pendente" })
+                            })
+
+                            const json = await response.json()
+
+                            document.getElementById("criacao-msg-error").textContent = json.msg
+                            modalError.showModal()
+
+                            usernameInput.value = ""
+                        })
+                    })
+
+
+
+            })
+        }
+    })
+</script>
+
+<link rel="stylesheet" href="/styles/projetos-adm.css">
+<link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+<div id="p-adm">
+    <aside id="p-adm-aside-bar">
+
+        <img src="./assets/incentiva-branca-logo.png">
+        <nav id="p-adm-nav-itens">
+            <div id="p-adm-incons-itens">
+                <div class="p-adm-aside-nav-item">
+                    <span class="material-symbols-outlined">
+                        home
+                    </span>
+                    <a onclick=" window.location.href = '/home'">Home</a>
+                </div>
+                <div class="p-adm-aside-nav-item">
+                    <span class="material-symbols-outlined">
+                        file_copy
+                    </span>
+                    <a id="goToProject">Projetos</a>
+                </div>
+                <div class="p-adm-aside-nav-item">
+                    <span class="material-symbols-outlined">
+                        chat
+                    </span>
+                    <a onclick=" window.location.href = '/chat'">Mensagens</a>
+                </div>
+            </div>
+            <button id="p-adm-desconectar-btn">Desconectar <span class="material-symbols-outlined">
+                    logout
+                </span> </button>
+        </nav>
+
+    </aside>
+
+    <div id="p-adm-fill-space">
+
+    </div>
+
+    <div id="p-adm-first-division">
+        <div id="p-adm-projeto-selecionado">
+            <h5>Projeto selecionado:</h5>
+        </div>
+        <div id="p-adm-functions">
+            <select name="" id="p-adm-select-projetos">
+
+            </select>
+
+
+
+            <button id="p-adm-btn-remove-proj">
+                <span class="material-symbols-outlined">
+                    delete
+                </span>
+                Excluir Projeto
+            </button>
+
+            <button id="p-adm-btn-criar-outro-proj" onclick="location.href = '/termos'">
+                Criar outro Projeto +
+            </button>
+        </div>
+
+        <div id="p-adm-functions-squares">
+            <div id="adm-opcoes">
+                <a href="#adm-solicitacoes">Solicitações<span class="material-symbols-outlined">
+                        arrow_forward
+                    </span></a>
+                <a href="#adm-links">Links do Projeto<span class="material-symbols-outlined">
+                        arrow_forward
+                    </span></a>
+                <a href="#adm-pagamento">Opções Financeiras<span class="material-symbols-outlined">
+                        arrow_forward
+                    </span></a>
+            </div>
+            <div class="p-adm-func-squares" id="adm-solicitacoes">
+                <h2 id="p-adm-h2-enviar-solicitacao">Enviar Solicitação
+                    <span class="material-symbols-outlined">
+                        forward_to_inbox
+                    </span>
+                </h2>
+                <div id="p-adm-customized-input-solicitacao">
+                    <div id="p-adm-customized-first-part">
+                        #
+                    </div>
+                    <input type="text" id="p-adm-input-solicitacao" placeholder="Nome de usuário">
+                </div>
+                <button id="p-adm-enviar-solicitacao-btn">
+                    Enviar
+                </button>
+            </div>
+
+            <div class="p-adm-func-squares">
+                <h2 id="p-adm-remover-membro-h2">Remover Membro <span class="material-symbols-outlined">
+                        person_remove
+                    </span></h2>
+
+                <div id="p-adm-remover-membro-content">
+
+
+                </div>
+
+            </div>
+            <div class="p-adm-func-squares" id="adm-links">
+                <h2 id="p-adm-links-h2">Links do Projeto<span class="material-symbols-outlined">
+                        link
+                    </span>
+
+                </h2>
+                <h2 id="criacao-links-h2">Edite os links do seu Projeto</h2>
+                <p id="criacao-links-legenda">
+                    Adicione ou Remova links do seu projeto
+
+                </p>
+                <div class="criacao-links">
+
+
+
+
+                    <div id="criacao-links-content">
+                        <!-- <div class="criacao-links-item">
+                        <input type="text" class="criacao-links-item-nome-link">
+                        <input type="text" class="criacao-links-item-link">
+                        <button class="criacao-remove-item-link"><span class="material-symbols-outlined">
+                                close
+                            </span></button>
+                    </div> -->
+                    </div>
+                    <button id="criacao-links-adicionar-link">
+                        Adicionar outro link+
+                    </button>
+
+                    <div id="links-btns" class="adm-edicao-btns">
+                        <button id="restaurar-link-btn" class="restaura-btn">Restaurar Alterações <span
+                                class="material-symbols-outlined">
+                                refresh
+                            </span> </button>
+                        <button id="salvar-link-btn" class="salva-btn">Salvar Alterações <span
+                                class="material-symbols-outlined">
+                                save
+                            </span> </button>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="p-adm-func-squares" id="adm-pagamento">
+                <h2 id="p-adm-financeiro-h2">Financeiro<span class="material-symbols-outlined">
+                        paid
+                    </span></h2>
+                <div id="criacao-preco-projeto">
+                    <h2>Edite o preço do Projeto</h2>
+                    <p>Defina o preço do seu projeto concluído R$:</p>
+                    <input type="number" id="criacao-projeto-preco" placeholder="R$" min="0">
+                </div>
+
+                <div id="criacao-pix">
+                    <img src="/assets/pix.png" alt="" srcset="">
+                    <h2>
+                        Edite o Pix do Projeto
+                    </h2>
+                    <p>
+                        Nesse pix você poderá receber o dinheiro de um incentivo ou da compra do seu projeto.
+                    </p>
+
+                    <div id="chave-pix-antiga">
+                        <span>Chave Pix antiga:</span> <span id="chave-pix-antiga-value"></span>
+                    </div>
+
+                    <div id="chave-pix-nova">
+                        <span>Chave Pix Nova:</span></span>
+                    </div>
+                    <select id="criacao-tipo-pix" onchange="atualizarPlaceholder()">
+                        <option value="cpf">CPF</option>
+                        <option value="telefone">Telefone</option>
+                        <option value="email">E-mail</option>
+                        <option value="aleatoria">Chave Aleatória</option>
+                    </select>
+                    <div id="criacao-change-input-model">
+                        <div id="customized-cpf"><input type="text" id="cpf-part-1"
+                                autocomplete="off"><span>.</span><input type="text" id="cpf-part-2"
+                                autocomplete="off"><span>.</span><input type="text" id="cpf-part-3"
+                                autocomplete="off"><span>-</span>
+                            <input type="text" id="cpf-part-4" autocomplete="off">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="pagamento-btns" class="adm-edicao-btns">
+                    <button id="restaurar-pagamento-info-link-btn" class="restaura-btn">Restaurar Alterações <span
+                            class="material-symbols-outlined">
+                            refresh
+                        </span> </button>
+                    <button id="salvar-pagamento-info-btn" class="salva-btn">Salvar Alterações <span
+                            class="material-symbols-outlined">
+                            save
+                        </span>
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div id="p-adm-second-division">
+        <nav id="p-adm-nav-itens-side">
+            <a href="" class="p-adm-nav-side-item">Post na Home</a>
+            <a href="" class="p-adm-nav-side-item">Saiba Mais</a>
+            <a href="" class="p-adm-nav-side-item">ADM</a>
+        </nav>
+    </div>
+
+
+
+    <dialog id="criacao-modal-error" class="criacao-dialogs">
+
+        <p id="criacao-msg-error">
+            Algum campo não foi preenchido!
+        </p>
+        <div id="criacao-modal-error-btns">
+            <button id="criacao-modal-error-ok">OK</button>
+        </div>
+    </dialog>
+
+</div>
+
+
+
+
+<script>
+
+    const modalError = document.getElementById("criacao-modal-error");
+    const modalErrorOkBtn = document.getElementById("criacao-modal-error-ok")
+
+
+    modalErrorOkBtn.addEventListener("click", () => {
+        document.getElementById("criacao-modal-error").close();
+
+    })
+
+    document.getElementById("p-adm-desconectar-btn").addEventListener("click", (e) => {
+        if (confirm("Tem certeza que deseja desconectar?")) {
+            localStorage.removeItem("token");
+            window.location.replace("/login");
+        }
+
+    })
+
+
+
+
+    const addLinkBtn = document.getElementById("criacao-links-adicionar-link");
+
+    addLinkBtn.addEventListener("click", (e) => {
+
+        const linkItem = document.createElement("div");
+        linkItem.classList.add("criacao-links-item");
+        const linkNameInput = document.createElement("input");
+        linkNameInput.type = "text";
+        linkNameInput.classList.add("criacao-links-item-nome-link");
+        linkNameInput.placeholder = "Nome do link";
+
+        const linkInput = document.createElement("input");
+        linkInput.type = "text";
+        linkInput.classList.add("criacao-links-item-link");
+        linkInput.placeholder = "Link";
+
+
+        const removeBtn = document.createElement("button");
+        removeBtn.classList.add("criacao-remove-item-link");
+        removeBtn.addEventListener("click", () => removeOtherLink(removeBtn));
+
+
+        const closeIcon = document.createElement("span");
+        closeIcon.classList.add("material-symbols-outlined");
+        closeIcon.textContent = "close";
+
+
+
+
+
+        removeBtn.appendChild(closeIcon);
+        linkItem.appendChild(linkNameInput);
+        linkItem.appendChild(linkInput);
+        linkItem.appendChild(removeBtn);
+
+
+        document.getElementById("criacao-links-content").appendChild(linkItem);
+    });
+
+    document.getElementById("criacao-projeto-preco").addEventListener("input", () => {
+        document.getElementById("criacao-projeto-preco").value = document.getElementById("criacao-projeto-preco").value.replace(/\D/g, "").slice(0, 6);
+    });
+
+    function removeOtherLink(button) {
+        button.parentElement.remove();
+    }
+    function applyNumberInputLimit(inputElement, maxLength) {
+        inputElement.addEventListener("input", (e) => {
+            e.target.value = e.target.value.replace(/\D/g, '').slice(0, maxLength);
+        });
+    }
+
+    applyNumberInputLimit(document.getElementById("cpf-part-1"), 3);
+    applyNumberInputLimit(document.getElementById("cpf-part-2"), 3);
+    applyNumberInputLimit(document.getElementById("cpf-part-3"), 3);
+    applyNumberInputLimit(document.getElementById("cpf-part-4"), 2);
+
+    function atualizarPlaceholder() {
+
+
+
+
+        const selectTipoPix = document.getElementById('criacao-tipo-pix');
+        const inputPixValue = document.getElementById('criacao-projeto-pix-value');
+        const changeInputModelDiv = document.getElementById('criacao-change-input-model');
+
+        switch (selectTipoPix.value) {
+            case 'cpf':
+                changeInputModelDiv.innerHTML = `
+        <div id="customized-cpf"><input type="text" id="cpf-part-1" autocomplete="off"><span>.</span><input type="text"
+                        id="cpf-part-2" autocomplete="off"><span>.</span><input type="text" id="cpf-part-3" autocomplete="off"><span>-</span>
+                    <input type="text" id="cpf-part-4" autocomplete="off">
+        </div>
+        `
+
+                applyNumberInputLimit(document.getElementById("cpf-part-1"), 3);
+                applyNumberInputLimit(document.getElementById("cpf-part-2"), 3);
+                applyNumberInputLimit(document.getElementById("cpf-part-3"), 3);
+                applyNumberInputLimit(document.getElementById("cpf-part-4"), 2);
+                break;
+            case 'telefone':
+                changeInputModelDiv.innerHTML = `
+        <div id="customized-input-telefone">
+                    <span>(</span><input type="text" id="number-part-1" autocomplete="off"><span>)</span><input type="text"
+                      id="number-part-2" autocomplete="off"><span>-</span><input type="text" id="number-part-3" autocomplete="off">
+        </div>
+        `
+                applyNumberInputLimit(document.getElementById("number-part-1"), 2);
+                applyNumberInputLimit(document.getElementById("number-part-2"), 5);
+                applyNumberInputLimit(document.getElementById("number-part-3"), 4);
+                break;
+            case 'email':
+                changeInputModelDiv.innerHTML = `
+       
+                    <input type="email" id="input-email-pix" maxlength="50" placeholder="email@email.com">
+        
+        `
+                break;
+            case 'aleatoria':
+                changeInputModelDiv.innerHTML = `
+        
+                    <input type="text" id="input-chave-aleatoria-pix" maxlength="36" placeholder="Chave Aleatória">
+       
+        `
+                break;
+        }
+
+        // Limpar o valor do input ao mudar o tipo de chave
+        inputPixValue.value = '';
+    }
+</script>

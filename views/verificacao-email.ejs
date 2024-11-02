@@ -1,0 +1,141 @@
+<script>
+    authFetchJson("/user/get", "GET").then((response) => {
+        console.log(response.status);
+        if ((response.status == 401 || response.status == 403)) {
+            window.location.replace("/login");
+        } else {
+            console.log(response);
+            response.json().then((data) => {
+                if (data.user.verified == true) {
+                    if (!data.user.username) {
+                        window.location.replace("/etapa-perfil");
+                    } else {
+                        window.location.replace("/home");
+                    }
+                }
+                document.getElementById("ve1-email").innerText = data.user.email
+
+                document.getElementById("reenviar-codigo").onclick = () => {
+                    enviaCodigo(data.user.email);
+                }
+
+                document.getElementById("ve1-avancar-btn").onclick = () => {
+                    enviaCodigo(data.user.email);
+                    document.getElementById("ve1-conteudo-principal").style.display = "none";
+                    document.getElementById("ve2-conteudo-principal-box").style.display = "";
+                }
+
+                document.getElementById("ve2-concluir-btn").addEventListener("click", async () => {
+                    const codigo = document.getElementById('codigo-input').value;
+                    const email = data.user.email;
+
+
+                    if (!codigo || codigo.length !== 6) {
+                        document.getElementById("criacao-msg-error").textContent = "O código deve ter 6 dígitos"
+                        modalError.showModal()
+                        return;
+                    }
+
+                    try {
+                        const response = await fetch("/user/verificaCodigo", {
+                            method: "PUT",
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                            },
+                            body: JSON.stringify({ codigo, email })
+                        });
+
+                        const data = await response.json();
+                        if (response.status === 200) {
+                            document.getElementById("criacao-msg-error").textContent = "Verificação realizada com sucesso!"
+                            modalError.showModal()
+                            window.location.replace("/etapa-perfil");
+                        } else {
+
+                            document.getElementById("criacao-msg-error").textContent = data.msg
+                            modalError.showModal()
+
+                        }
+                    } catch (error) {
+                        console.error("Erro na verificação do código:", error);
+                    }
+                })
+
+            })
+        }
+    })
+</script>
+
+
+<link rel="stylesheet" href="/styles/verificacao-email.css">
+
+<div id="ve1">
+    <img src="/assets/incentiva-branca-logo.png" alt="" srcset="">
+    <div id="ve1-conteudo-principal">
+        <h1>Verificação</h1>
+        <div id="ve1-conteudo-principal-box">
+            <h3>Para navegar na plataforma é necessário verificar seu email. Por isso enviaremos um código de
+                verificação para:</h3>
+
+            <p id="ve1-email">
+            </p>
+
+            <button id="ve1-avancar-btn">Enviar código</button>
+
+            <p>
+                Voltar para <a href="/login">login</a>
+            </p>
+
+        </div>
+    </div>
+
+    <div id="ve2-conteudo-principal-box" style="display: none;">
+        <h3>Digite o código que foi enviado no email:</h3>
+        <div id="ve2-inputs">
+            <input type="text" autocomplete="off" class="ve2-inputs-style" placeholder="Código" id="codigo-input">
+        </div>
+        <div>
+            <button id="reenviar-codigo">
+                Reenviar Codigo
+            </button>
+        </div>
+        <button id="ve2-concluir-btn">Verificar Código</button>
+
+    </div>
+
+    <dialog id="criacao-modal-error" class="criacao-dialogs">
+
+        <p id="criacao-msg-error">
+            Algum campo não foi preenchido!
+        </p>
+        <div id="criacao-modal-error-btns">
+            <button id="criacao-modal-error-ok">OK</button>
+        </div>
+    </dialog>
+    <dialog id="criacao-modal-error" class="criacao-dialogs">
+
+        <p id="criacao-msg-error">
+            Algum campo não foi preenchido!
+        </p>
+        <div id="criacao-modal-error-btns">
+            <button id="criacao-modal-error-ok">OK</button>
+        </div>
+    </dialog>
+
+</div>
+
+<script src="/scripts/verificacao-email.js">
+
+</script>
+
+<script>
+
+    const modalError = document.getElementById("criacao-modal-error");
+    const modalErrorOkBtn = document.getElementById("criacao-modal-error-ok")
+
+    modalErrorOkBtn.addEventListener("click", () => {
+        document.getElementById("criacao-modal-error").close();
+
+    })
+</script>

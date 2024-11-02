@@ -1,0 +1,342 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+:root {
+    --azul-clean: #198CF8;
+    /* Variável de cor */
+}
+
+/* esqueceu senha */
+
+
+#esqueceu-senha1 {
+    height: 100vh;
+    background-color: var(--azul-clean);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 150px;
+}
+
+#esqueceu-senha1 img {
+    width: 700px;
+}
+
+#esqueceu-senha1-conteudo-principal {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#esqueceu-senha1-conteudo-principal h1 {
+    color: white;
+    font-weight: 600;
+
+}
+
+#esqueceu-senha1-conteudo-principal-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+#esqueceu-senha1-conteudo-principal-box h3 {
+    font-weight: 600;
+    margin-bottom: 25px;
+    margin-top: 22px;
+}
+
+.esqueceu-senha1-inputs-style {
+    border: none;
+    padding: 15px 10px;
+    border-radius: 5px;
+    width: 350px;
+    background-color: rgb(238, 238, 238);
+    margin-bottom: 10px;
+    font-size: 17px;
+}
+
+.esqueceu-senha1-inputs-style:focus {
+    outline: none;
+}
+
+.esqueceu-senha1-inputs-style::placeholder {
+    font-size: 15px;
+    font-weight: 500;
+    color: rgb(154, 154, 154);
+}
+
+#esqueceu-senha1-enviar-btn {
+    margin: 25px 0;
+    padding: 10px 140px;
+    width: 350px;
+    color: white;
+    background-color: var(--azul-clean);
+    border: none;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 5px;
+}
+
+#esqueceu-senha1-enviar-btn:hover {
+    opacity: 60%;
+    cursor: pointer;
+}
+
+#esqueceu-senha1-enviar-btn:active {
+    opacity: 90%;
+}
+
+#esqueceu-senha-voltar {
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--azul-clean);
+}
+
+/* ////////// */
+
+
+#esqueceu-senha2-conteudo-principal {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#esqueceu-senha2-conteudo-principal h1 {
+    color: white;
+    font-weight: 600;
+
+}
+
+#esqueceu-senha2-conteudo-principal-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+#esqueceu-senha2-conteudo-principal-box h3 {
+    font-weight: 600;
+    margin-bottom: 30px;
+    margin-top: 22px;
+}
+
+.esqueceu-senha2-inputs-style {
+    border: none;
+    padding: 15px 10px 15px 10px;
+    width: 200px;
+    border-radius: 5px;
+    background-color: rgb(238, 238, 238);
+    margin-bottom: 10px;
+    font-size: 17px;
+    text-align: center;
+}
+
+.esqueceu-senha2-inputs-style:focus {
+    outline: none;
+}
+
+.esqueceu-senha2-inputs-style::placeholder {
+    font-size: 15px;
+    font-weight: 500;
+    color: rgb(154, 154, 154);
+}
+
+#esqueceu-senha2-concluir-btn {
+    margin: 25px 0;
+    padding: 10px 140px;
+    width: 350px;
+    color: white;
+    background-color: var(--azul-clean);
+    border: none;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 5px;
+}
+
+#esqueceu-senha2-concluir-btn:hover {
+    opacity: 60%;
+    cursor: pointer;
+}
+
+#esqueceu-senha2-concluir-btn:active {
+    opacity: 90%;
+}
+
+#esqueceu-senha-voltar {
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--azul-clean);
+}
+
+#esqueceu-senha2-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+#esqueceu-senha2-reenviar {
+    text-decoration: none;
+    font-weight: 600;
+    color: black;
+}
+
+/* ////// */
+
+
+
+#esqueceu-senha3-conteudo-principal {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#esqueceu-senha3-conteudo-principal h1 {
+    color: white;
+    font-weight: 600;
+
+}
+
+#esqueceu-senha3-conteudo-principal-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+#esqueceu-senha3-conteudo-principal-box h3 {
+    font-weight: 600;
+    margin-bottom: 25px;
+    margin-top: 22px;
+}
+
+.esqueceu-senha3-inputs-style {
+    border: none;
+    padding: 15px 10px;
+    border-radius: 5px;
+    width: 350px;
+    background-color: rgb(238, 238, 238);
+    margin-bottom: 10px;
+    font-size: 17px;
+}
+
+.esqueceu-senha3-inputs-style:focus {
+    outline: none;
+}
+
+.esqueceu-senha3-inputs-style::placeholder {
+    font-size: 15px;
+    font-weight: 500;
+    color: rgb(154, 154, 154);
+}
+
+#esqueceu-senha3-redefinir-btn {
+    margin: 25px 0;
+    padding: 10px 140px;
+    width: 350px;
+    color: white;
+    background-color: var(--azul-clean);
+    border: none;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 5px;
+}
+
+#esqueceu-senha3-redefinir-btn:hover {
+    opacity: 60%;
+    cursor: pointer;
+}
+
+#esqueceu-senha3-redefinir-btn:active {
+    opacity: 90%;
+}
+
+#esqueceu-senha-voltar-login-p {
+    font-size: 20px;
+}
+
+#esqueceu-senha-voltar-login-p a {
+    font-size: 20px;
+}
+
+#voltar-para-esqueceu-senha {
+    font-size: 20px;
+    text-decoration: none;
+    color: var(--azul-clean);
+    font-weight: 500;
+}
+
+
+.criacao-dialogs {
+    margin: auto;
+    width: 500px;
+    border-radius: 20px;
+    border: none;
+    padding: 20px;
+    text-align: center;
+}
+
+#criacao-msg-error {
+    font-size: 20px
+}
+
+#criacao-modal-error-btns {
+    display: flex;
+    justify-content: center;
+}
+
+#criacao-modal-error-ok {
+    padding: 10px 30px;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 20px;
+    background-color: var(--azul-clean);
+    color: white;
+    border: none;
+    margin-top: 15px;
+}
+
+#criacao-modal-error-ok:hover {
+    opacity: 50%;
+    cursor: pointer;
+}
+
+#reenviar-codigo {
+    border: none;
+    background-color: transparent;
+    font-size: 18px;
+    color: var(--azul-clean);
+    font-weight: 500;
+    margin-top: 20px;
+}
+
+
+#reenviar-codigo:hover {
+    opacity: 50%;
+    cursor: pointer;
+}
+
+#reenviar-codigo:active {
+    opacity: 50%;
+}

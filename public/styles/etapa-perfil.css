@@ -1,0 +1,213 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+:root {
+    --azul-clean: #198CF8;
+    /* Variável de cor */
+}
+
+/* etapa perfil */
+
+#etapa-perfil-voltar-login {
+    display: block;
+    text-decoration: none;
+    font-size: 20px;
+    color: var(--azul-clean);
+    font-weight: 600;
+    margin-top: 20px;
+    margin-left: 20px;
+
+}
+
+#etapa-perfil-conteudo-principal-alinhamento {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 80vh;
+    /* background-color: #198CF8; */
+}
+
+#etapa-perfil-conteudo-principal {
+    height: 620px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 5px 5px 15px rgb(197, 197, 197);
+    width: 600px;
+    padding: 40px;
+    border-radius: 20px;
+}
+
+#etapa-perfil-three-circles {
+    display: flex;
+    justify-content: space-around;
+    width: 100px;
+    margin: 60px 0;
+}
+
+#etapa-perfil-three-circles div {
+    width: 18px;
+    height: 18px;
+    background-color: #bbbbbb;
+    border-radius: 50%;
+}
+
+.etapa-perfil-conteudo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 350px;
+}
+
+#etapa-perfil-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 500px;
+    padding-top: 20px;
+}
+
+#etapa-perfil-buttons button {
+    background-color: var(--azul-clean);
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    font-size: 18px;
+    border-radius: 10px
+}
+
+#etapa-perfil-buttons button:hover {
+    opacity: 60%;
+    cursor: pointer;
+}
+
+#etapa-perfil-buttons button:active {
+    opacity: 90%;
+}
+
+#etapa-perfil-customized-input {
+    display: flex;
+    margin-top: 20px;
+}
+
+#etapa-perfil-hashtag {
+    width: 60px;
+    height: 60px;
+    background-color: rgb(232, 232, 232);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px 0 0 10px;
+    border-right: 1px solid black;
+    font-size: 20px;
+}
+
+#etapa-perfil-pesquisa-nome-input {
+    width: 360px;
+    height: 60px;
+    background-color: rgb(232, 232, 232);
+    border: none;
+    font-size: 18px;
+    border-radius: 0 10px 10px 0;
+    padding-left: 10px;
+}
+
+#etapa-perfil-pesquisa-nome-input:focus {
+    outline: none;
+}
+
+#etapa-perfil-conteudo-1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#etapa-perfil-conteudo-1 h2,
+#etapa-perfil-conteudo-2 h2,
+#etapa-perfil-conteudo-3 h2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: var(--azul-clean);
+    font-weight: 300;
+}
+
+#etapa-perfil-biografia {
+    width: 500px;
+    height: 160px;
+    border-radius: 20px;
+    border: none;
+    background-color: rgb(232, 232, 232);
+    padding: 20px;
+    font-size: 15px;
+}
+
+#etapa-perfil-biografia:focus {
+    outline: none;
+}
+
+#etapa-perfil-input-file-customizado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+#etapa-perfil-input-file-customizado label {
+    background-color: var(--azul-clean);
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    font-size: 18px;
+}
+
+#etapa-perfil-input-file-customizado label:hover {
+    cursor: pointer;
+    opacity: 70%;
+}
+
+#etapa-perfil-foto-de-perfil-descricao {
+    margin-top: 15px;
+    font-size: 16px;
+    padding: 10px 8px;
+    background-color: rgb(232, 232, 232);
+}
+
+#etapa-perfil-pesquisa-nome-input[error] {
+    background-color: rgba(242, 62, 62, 0.78);
+}
+
+#etapa-perfil-pesquisa-nome-input[error]::placeholder {
+    color: white;
+}
+
+#etapa-perfil-foto-previsu {
+    /* width: 100px;
+    height: 100px;
+    border-radius: 50%; */
+    background-color: #bbbbbb;
+    margin-bottom: 20px;
+
+    width: 100px;
+    /* Defina o tamanho desejado */
+    height: 100px;
+    /* Defina o tamanho desejado */
+    border-radius: 50%;
+    /* Faz a imagem ficar circular */
+    object-fit: cover;
+    /* Corta a imagem para preencher o espaço sem distorcer */
+    display: block;
+
+}
+
+/* etapa perfil */

@@ -1,0 +1,1222 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+button:hover {
+    opacity: 50%;
+    cursor: pointer;
+}
+
+button:active {
+    opacity: 90%;
+}
+
+
+:root {
+    --azul-clean: #198CF8;
+    /* Variável de cor */
+}
+
+/* p-status */
+
+#saiba-mais-fill-space {
+    min-width: 300px;
+    max-width: 300px;
+}
+
+body {
+    background-color: rgb(248, 248, 248);
+}
+
+#saiba-mais {
+    display: flex;
+
+}
+
+#saiba-mais-aside-bar {
+    background-color: var(--azul-clean);
+    height: 100vh;
+    width: 300px;
+    padding: 25px 0 0 22px;
+    top: 0;
+    position: fixed;
+}
+
+#saiba-mais-aside-bar img {
+    width: 250px;
+
+}
+
+.saiba-mais-aside-nav-item {
+    display: flex;
+    align-items: center;
+    margin: 25px 0 25px 0;
+    gap: 10px;
+
+}
+
+.saiba-mais-aside-nav-item:hover {
+    opacity: 60%;
+    cursor: pointer;
+
+}
+
+
+
+.saiba-mais-aside-nav-item span {
+    color: white;
+    font-size: 36px;
+    user-select: none;
+}
+
+.saiba-mais-aside-nav-item a {
+    text-decoration: none;
+    font-size: 24px;
+    color: white;
+    user-select: none;
+
+}
+
+#saiba-mais-nav-itens {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 88vh;
+    padding-bottom: 10px;
+}
+
+#saiba-mais-desconectar-btn {
+    padding: 10px 25px;
+    width: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    background-color: white;
+    color: var(--azul-clean);
+    border-radius: 10px;
+    border: none;
+    gap: 10px;
+}
+
+#saiba-mais-desconectar-btn span {
+    font-size: 30px;
+}
+
+#saiba-mais-first-division {
+    width: 1100px;
+    height: 100vh;
+    padding: 20px;
+}
+
+#saiba-mais-second-division {
+    width: 500px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#saiba-mais-nav-itens-side {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+
+}
+
+.saiba-mais-nav-side-item {
+    text-decoration: none;
+    color: var(--azul-clean);
+    font-size: 30px;
+}
+
+.saiba-mais-nav-side-item:nth-last-child(2) {
+
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid var(--azul-clean);
+}
+
+#saiba-mais-functions {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+
+}
+
+#saiba-mais-projeto-selecionado h5 {
+    font-weight: 300;
+    font-size: 20px;
+    color: gray;
+}
+
+#saiba-mais-select-projetos {
+    border: none;
+    font-size: 18px;
+    font-weight: 300;
+    padding: 20px 5px;
+    width: 250px;
+    color: rgb(96, 96, 96);
+    box-shadow: 2px 2px 2px rgb(213, 213, 213);
+}
+
+#saiba-mais-btn-criar-outro-proj {
+    border: none;
+    padding: 10px;
+    width: 280px;
+    font-size: 20px;
+    border-radius: 15px;
+    background-color: var(--azul-clean);
+    color: white;
+}
+
+
+#saiba-mais-btn-sair-do-proj {
+    font-size: 20px;
+    width: 190px;
+    height: 60px;
+    border: none;
+    color: var(--azul-clean);
+    border: 2px solid var(--azul-clean);
+    background-color: white;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#saiba-mais-btn-sair-do-proj span {
+    font-size: 30px;
+}
+
+
+#p-sm-extra-images-container {
+    padding-top: 50px;
+    max-width: 1000px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    border-radius: 20px;
+}
+
+.p-sm-extra-image-style {
+    border-radius: 20px;
+    max-width: 200px;
+    border: 1px solid var(--azul-clean);
+    object-fit: cover;
+}
+
+
+#p-sm-know-more-content {
+
+    padding: 30px 100px 150px 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+}
+
+#p-sm-know-more-project {
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    border: 2px solid #0080f8;
+    width: 1000px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#p-sm-know-more-some-items {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+
+/* #p-sm-know-more-pj-status-value {} */
+
+#p-sm-know-more-pj-logo {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 1px solid var(--azul-clean);
+    object-fit: cover;
+    display: block;
+}
+
+#p-sm-know-more-pj-little-informations {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+#p-sm-know-more-pj-little-informations h3 {
+    font-size: 24px;
+    color: #000000;
+    font-weight: 400;
+}
+
+.p-sm-know-more-aligned-text {
+    width: 880px;
+    font-size: 20px;
+    font-weight: 500;
+    color: #1d1d1d;
+    word-break: break-all
+}
+
+.p-sm-know-more-question {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 22px 0 22px 0;
+}
+
+.p-sm-know-more-question h2 {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+#p-sm-know-more-pj-progress-show {
+    width: 600px;
+    height: 40px;
+    background-color: rgb(240, 240, 240);
+    outline: 1px solid black;
+    border-radius: 5px;
+}
+
+#p-sm-know-more-pj-progress-show-percentage {
+    border-radius: 5px 0 0 5px;
+    height: 40px;
+    width: 200px;
+    background-color: rgb(41, 155, 255);
+}
+
+#p-sm-know-more-progress {
+    width: 20dvw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 0 40px 0;
+}
+
+#p-sm-know-more-progress h3 {
+    font-size: 1.4dvw;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+#p-sm-know-more-first-informations {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2dvw 0 0 0;
+    padding-bottom: 10px;
+    font-size: 0.9dvw;
+}
+
+#p-sm-know-more-first-informations h1 {
+    font-size: 60px;
+    text-align: center;
+}
+
+#p-sm-know-more-pj-name {
+    color: #0080f8;
+}
+
+#p-sm-know-more-phases {
+    padding-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#p-sm-know-more-phases h2 {
+    width: 15dvw;
+    font-size: 1.4dvw;
+    font-weight: 600;
+    background-color: #ffffff;
+    position: relative;
+    bottom: -1dvw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#p-sm-know-more-phases p {
+    font-size: 1.1dvw;
+    padding: 30px;
+    border-radius: 10px;
+    border: 1px solid #0080f8;
+}
+
+
+
+.p-sm-style-boxes {
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    font-weight: 500;
+}
+
+.p-sm-style-clickable {
+    color: var(--azul-clean);
+}
+
+.p-sm-style-clickable:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+#p-sm-clicables,
+#p-sm-no-clicables {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+#p-sm-know-more-pj-status-value,
+#p-sm-know-more-pj-type-of-proj {
+    font-weight: 300;
+}
+
+#p-sm-know-more-content-btn-fechar {
+    font-size: 20px;
+    border-radius: 10px;
+    color: var(--azul-clean);
+    border: 2px solid var(--azul-clean);
+    padding: 5px 20px;
+}
+
+#p-sm-know-more-content-btn-fechar:hover {
+    cursor: pointer;
+    opacity: 50%;
+}
+
+#p-sm-know-more-content-btn-fechar:active {
+    opacity: 100%;
+}
+
+#saiba-mais-km {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+#p-sm-know-more-extra-images {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+#p-sm-know-more-extra-images {
+    font-size: 20px;
+}
+
+
+#p-sm-know-more-links {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 25px;
+    align-items: center;
+}
+
+#p-sm-know-more-links h2 {
+    margin-bottom: 15px;
+}
+
+#p-sm-know-more-links-content {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+}
+
+#p-sm-know-more-links-content div strong {
+    font-size: 20px;
+}
+
+#p-sm-know-more-links-content div a {
+    font-size: 18px;
+    text-decoration: none;
+}
+
+#p-sm-know-more-links-content div a:hover {
+    text-decoration: underline;
+}
+
+.saiba-mais-dialogs {
+    width: 500px;
+    background-color: white;
+    border-radius: 20px;
+    border: none;
+    margin: auto;
+}
+
+.saiba-mais-fechar-dialog-div {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 20px;
+}
+
+.saiba-mais-fechar-dialog-btn {
+    border: none;
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.saiba-mais-fechar-dialog-btn span {
+    font-size: 30px;
+    color: var(--azul-clean);
+}
+
+.saiba-mais-modal-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 40px;
+}
+
+#saiba-mais-integrantes-content,
+#saiba-mais-incentivos-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 20px;
+    overflow: auto;
+
+}
+
+.saiba-mais-integrante-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+.saiba-mais-integrante-username {
+    font-size: 20px;
+}
+
+.saiba-mais-integrantes-item {
+    min-width: 50px;
+    background-color: #eeeeee;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px;
+    border-radius: 20px;
+}
+
+.saiba-mais-integrantes-item[currentUser] button {
+    visibility: hidden;
+}
+
+.saiba-mais-incentivo-item {
+    background-color: #eeeeee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 8px;
+    border-radius: 20px;
+}
+
+.saiba-mais-incentivo-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+
+.saiba-mais-incentivo-username {
+    font-size: 20px;
+}
+
+.saiba-mais-incentivo-value {
+    font-size: 20px;
+}
+
+#saiba-mais-total-incentivado {
+    display: flex;
+    font-size: 25px;
+}
+
+#saiba-mais-total-incentivado h2 {
+    font-size: 25px;
+}
+
+#saiba-mais-total-incentivado span {
+    margin-left: 5px;
+
+}
+
+#saiba-mais-mensagem {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: 15px;
+    color: #bcbcbc;
+    padding: 40px;
+}
+
+#saiba-mais-mensagem h2 {
+    font-weight: 400;
+}
+
+.iniciar-transacao-btn {
+    margin-bottom: 20px;
+    padding: 10px 40px;
+    font-size: 28px;
+    background-color: white;
+    color: var(--azul-clean);
+    font-weight: 600;
+    border: 2px solid var(--azul-clean);
+    border-radius: 10px;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+}
+
+.iniciar-transacao-btn span {
+    font-size: 40px;
+}
+
+
+.transacao-dialag {
+    border: none;
+    border-radius: 20px;
+    width: 900px;
+    margin: auto;
+}
+
+.transacao-fechar-dialog {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.transacao-fechar-dialog-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+}
+
+.transacao-fechar-dialog-btn span {
+    font-size: 30px;
+    color: var(--azul-clean);
+}
+
+#transacao-incentivo-style {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 45px;
+    gap: 60px;
+}
+
+#transacao-etapa-inicial-incentivo-mensagem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#transacao-etapa-inicial-incentivo-mensagem h2 {
+    font-size: 36px;
+
+}
+
+
+#transacao-etapa-inicial-incentivo-mensagem p {
+    font-size: 20px;
+    text-align: center;
+}
+
+#transacao-etapa-inicial-incentivo-gerar-pix {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#transacao-customized-incentivo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* #transacao-customized-incentivo p:first-child {
+    font-size: 40px;
+    font-weight: 600;
+    color: var(--azul-clean);
+} */
+
+#transacao-customized-incentivo-valor-inteiro {
+    margin-left: 8px;
+    border: none;
+    height: 60px;
+    width: 170px;
+    border-radius: 20px;
+    border: 2px solid var(--azul-clean);
+    font-size: 22px;
+    padding: 5px;
+    text-align: center;
+}
+
+#transacao-customized-incentivo-valor-centavos {
+    border: none;
+    height: 60px;
+    width: 60px;
+    border-radius: 20px;
+    border: 2px solid var(--azul-clean);
+    font-size: 22px;
+    padding: 5px;
+    text-align: center;
+}
+
+#transacao-customized-incentivo-valor-centavos::placeholder {
+    text-align: center;
+}
+
+#transacao-customized-incentivo p:nth-last-child(2) {
+    color: var(--azul-clean);
+    font-size: 40px;
+    margin: 0 5px;
+
+}
+
+#transacao-etapa-inicial-incentivo-gerar-pix h2 {
+    font-weight: 600;
+    font-size: 30px;
+}
+
+
+#transacao-incentivo-gerar-pix-btn,
+#transacao-compra-gerar-pix-btn {
+    margin-top: 20px;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    background-color: var(--azul-clean);
+    font-size: 30px;
+    font-weight: 600;
+}
+
+
+
+#transacao-compra-style {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    gap: 60px;
+}
+
+#transacao-etapa-inicial-compra-mensagem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#transacao-etapa-inicial-compra-mensagem h2 {
+    font-size: 36px;
+
+}
+
+#transacao-etapa-inicial-compra-mensagem p {
+    font-size: 20px;
+    text-align: center;
+}
+
+#transacao-etapa-inicial-compra-gerar-pix {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#transacao-etapa-inicial-compra-gerar-pix h2 {
+    font-weight: 600;
+    font-size: 30px;
+}
+
+#transacao-compra-content {
+    display: flex;
+    gap: 5px;
+}
+
+#transacao-compra-content p {
+    font-size: 28px;
+}
+
+#transacao-compra-content span {
+    font-size: 28px;
+}
+
+
+
+
+
+#transacao-etapa-final-compra-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 50px;
+}
+
+#transacao-etapa-final-compra-pix-img {
+    width: 400px;
+}
+
+#transacao-etapa-final-compra-content button {
+    padding: 8px 25px;
+    font-size: 20px;
+    font-weight: 500;
+    width: 400px;
+}
+
+#transacao-etapa-final-compra-copiar-pix-btn {
+    color: var(--azul-clean);
+    border-radius: 5px;
+    border: 2px solid var(--azul-clean);
+    background-color: white;
+}
+
+#transacao-etapa-final-compra-simular-pagamento-pix {
+    background-color: var(--azul-clean);
+    color: white;
+    border: none;
+}
+
+#transacao-etapa-final-compra-pix-msg {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+#transacao-etapa-final-compra-pix-msg h4 {
+    font-size: 30px;
+}
+
+#transacao-etapa-final-compra-pix-msg p {
+    font-size: 20px;
+    text-align: center;
+    width: 600px;
+}
+
+
+
+
+
+
+#transacao-etapa-final-incentivo-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 50px;
+}
+
+#transacao-etapa-final-incentivo-pix-img {
+    width: 400px;
+}
+
+#transacao-etapa-final-incentivo-content button {
+    padding: 8px 25px;
+    font-size: 20px;
+    font-weight: 500;
+    width: 400px;
+}
+
+#transacao-etapa-final-incentivo-copiar-pix-btn {
+    color: var(--azul-clean);
+    border-radius: 5px;
+    border: 2px solid var(--azul-clean);
+    background-color: white;
+}
+
+#transacao-etapa-final-incentivo-simular-pagamento-pix {
+    background-color: var(--azul-clean);
+    color: white;
+    border: none;
+}
+
+#transacao-etapa-final-incentivo-pix-msg {
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+#transacao-etapa-final-incentivo-pix-msg h4 {
+    font-size: 30px;
+}
+
+#transacao-etapa-final-incentivo-pix-msg p {
+    font-size: 20px;
+    text-align: center;
+    width: 600px;
+}
+
+
+.transacao-aprovada {
+    border: none;
+    border-radius: 20px;
+    width: 500px;
+    margin: auto;
+}
+
+#transacao-aprovada-incentivo-content,
+#transacao-aprovada-compra-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px;
+}
+
+.transacao-aprovada-msg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+
+.transacao-aprovada-msg p {
+    font-size: 20px;
+}
+
+.transacao-aprovada-btn {
+    margin-top: 20px;
+    color: white;
+    font-size: 20px;
+    background-color: var(--azul-clean);
+    width: 90px;
+    padding: 8px 20px;
+    border-radius: 20px;
+    border: none;
+}
+
+#transacao-customized-incentivo-rs {
+    font-size: 28px;
+}
+
+#inicar-conversa-btn {
+    margin-bottom: 20px;
+    padding: 10px 40px;
+    font-size: 28px;
+    background-color: white;
+    color: var(--azul-clean);
+    font-weight: 600;
+    border: 2px solid var(--azul-clean);
+    border-radius: 10px;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+}
+
+#inicar-conversa-btn span {
+    font-size: 40px;
+}
+
+.enviar-msg-btn {
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.transacao-incentivo-item {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.transacao-incentivo-item label {
+    font-size: 20px;
+
+}
+
+.transacao-incentivo-item input {
+    padding: 5px;
+    font-size: 18px;
+
+
+}
+
+#customized-input-telefone {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#customized-input-telefone span {
+    font-size: 30px;
+}
+
+#number-part-1 {
+    width: 50px;
+    text-align: center;
+}
+
+#number-part-2 {
+    width: 100px;
+    text-align: center;
+}
+
+#number-part-3 {
+    width: 100px;
+    text-align: center;
+}
+
+#cpf-part-1 {
+    width: 100px;
+    text-align: center;
+}
+
+#cpf-part-2 {
+    width: 100px;
+    text-align: center;
+}
+
+#cpf-part-3 {
+    width: 100px;
+    text-align: center;
+}
+
+#cpf-part-4 {
+    width: 50px;
+    text-align: center;
+}
+
+#customized-cpf {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+#customized-cpf span {
+    font-size: 30px;
+}
+
+#customized-incentivo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+#customized-incentivo span {
+    font-size: 25px;
+}
+
+#incentivo-item-realizar-pagamento {
+    margin-top: 10px;
+    font-size: 25px;
+    font-weight: 500;
+    background-color: var(--azul-clean);
+    border-radius: 10px;
+    border: none;
+    padding: 10px 30px;
+    color: white;
+}
+
+#incentivo-item-incentivo-input {
+    width: 100px;
+    text-align: center;
+}
+
+#incentivo-item-e-mail-input {
+    width: 300px;
+    text-align: center;
+}
+
+#incentivo-item-nome-completo-input {
+    width: 300px;
+}
+
+
+
+.transacao-compra-item {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.transacao-compra-item label {
+    font-size: 20px;
+
+}
+
+.transacao-compra-item input {
+    padding: 5px;
+    font-size: 18px;
+}
+
+#customized-input-telefone-compra {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#customized-input-telefone-compra span {
+    font-size: 30px;
+}
+
+#compra-number-part-1 {
+    width: 50px;
+    text-align: center;
+}
+
+#compra-number-part-2 {
+    width: 100px;
+    text-align: center;
+}
+
+#compra-number-part-3 {
+    width: 100px;
+    text-align: center;
+}
+
+
+#compra-cpf-part-1 {
+    width: 100px;
+    text-align: center;
+}
+
+#compra-cpf-part-2 {
+    width: 100px;
+    text-align: center;
+}
+
+#compra-cpf-part-3 {
+    width: 100px;
+    text-align: center;
+}
+
+#compra-cpf-part-4 {
+    width: 50px;
+    text-align: center;
+}
+
+#compra-customized-cpf {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+#compra-customized-cpf span {
+    font-size: 30px;
+}
+
+#compra-customized-incentivo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+#compra-customized-incentivo span {
+    font-size: 25px;
+}
+
+#compra-item-realizar-pagamento {
+    margin-top: 20px;
+    font-size: 25px;
+    font-weight: 500;
+    background-color: var(--azul-clean);
+    border-radius: 10px;
+    border: none;
+    padding: 10px 30px;
+    color: white;
+}
+
+
+#compra-item-e-mail-input {
+    width: 300px;
+    text-align: center;
+}
+
+#compra-item-nome-completo-input {
+    width: 300px;
+}
+
+
+.criacao-dialogs {
+    margin: auto;
+    width: 500px;
+    border-radius: 20px;
+    border: none;
+    padding: 20px;
+    text-align: center;
+}
+
+
+#criacao-msg-error {
+    font-size: 20px
+}
+
+#criacao-modal-error-btns {
+    display: flex;
+    justify-content: center;
+}
+
+#criacao-modal-error-ok {
+    padding: 10px 30px;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 20px;
+    background-color: var(--azul-clean);
+    color: white;
+    border: none;
+    margin-top: 15px;
+}
+
+#criacao-modal-error-ok:hover {
+    opacity: 50%;
+    cursor: pointer;
+}

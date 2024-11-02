@@ -1,0 +1,4 @@
+.env
+/public/projectImgs
+/public/userLogos
+node_modules

@@ -1,0 +1,212 @@
+<script>
+
+
+    authFetchJson("/user/get", "GET").then((response) => {
+        console.log(response.status);
+        if ((response.status == 401 || response.status == 403)) {
+            window.location.replace("/login");
+        } else {
+            console.log(response);
+            response.json().then((data) => {
+                if (data.user.verified == true) {
+                    if (!data.user.username) {
+                        window.location.replace("/etapa-perfil");
+                    }
+                } else {
+                    window.location.replace("/verificacao-email")
+                }
+
+                document.getElementById("goToProject").addEventListener("click", () => {
+
+                    let temProjeto = false;
+
+                    fetch("/project/getAll")
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Erro ao buscar os projetos: ' + response.statusText);
+                            }
+                            return response.json();
+                        }).then(projects => {
+
+                            projects.forEach(pj => {
+                                if (pj.owner._id == data.user._id) {
+                                    temProjeto = true;
+                                }
+                            });
+
+                            console.log(projects, temProjeto);
+
+                            projects.forEach(pj => {
+                                pj.team_members.forEach((member) => {
+                                    if (member._id == data.user._id) {
+                                        temProjeto = true;
+                                    }
+                                })
+                            })
+
+                            if (temProjeto) {
+                                window.location.href = "/projetos-post-na-home"
+                            } else {
+                                window.location.href = "/sem-projetos"
+                            }
+
+                        })
+
+                })
+
+            });
+        }
+    });
+
+    document.getElementById("contato-enviar-btn").addEventListener("click", async () => {
+        const nomeCompleto = document.querySelector("input[placeholder='Nome Completo']").value.trim();
+        const email = document.querySelector("input[placeholder='Email']").value.trim();
+        const mensagem = document.querySelector("input[placeholder='Mensagem']").value.trim();
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        function validarEmail(email) {
+            return emailRegex.test(email);
+        }
+
+        // Verifica se todos os campos estão preenchidos
+        if (!nomeCompleto || !email || !mensagem) {
+
+            document.getElementById("criacao-msg-error").textContent = "Por favor, preencha todos os campos."
+            modalError.showModal()
+            return;
+        }
+
+        // Verifica se o email é válido
+        if (!validarEmail(email)) {
+            document.getElementById("criacao-msg-error").textContent = "Por favor, insira um email válido."
+            modalError.showModal()
+            return;
+        }
+
+        const bodyContent = {
+            nomeCompleto: nomeCompleto,
+            email: email,
+            mensagem: mensagem
+        };
+
+        try {
+            const response = await fetch('/user/contato', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',  // Especificar o tipo de conteúdo
+                },
+                body: JSON.stringify(bodyContent)
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                document.getElementById("criacao-msg-error").textContent = result.msg
+                modalError.showModal()
+
+                document.querySelector("input[placeholder='Nome Completo']").value = "";
+                document.querySelector("input[placeholder='Email']").value = "";
+                document.querySelector("input[placeholder='Mensagem']").value = "";
+            } else {
+                document.getElementById("criacao-msg-error").textContent = result.msg
+                modalError.showModal()
+            }
+        } catch (error) {
+            console.error('Erro ao enviar contato:', error);
+        }
+    });
+
+</script>
+
+<link rel="stylesheet" href="/styles/contato-home.css">
+<link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+<div id="contato-home">
+
+    <aside id="home-aside-bar">
+
+        <img src="./assets/incentiva-branca-logo.png">
+        <nav id="home-nav-itens">
+
+            <div id="home-incons-itens">
+                <div class="home-aside-nav-item">
+                    <span class="material-symbols-outlined">
+                        home
+                    </span>
+                    <a onclick=" window.location.href = '/home'">Home</a>
+                </div>
+                <div class="home-aside-nav-item" id="goToProject">
+                    <span class="material-symbols-outlined">
+                        file_copy
+                    </span>
+                    <a>Projetos</a>
+                </div>
+                <div class="home-aside-nav-item">
+                    <span class="material-symbols-outlined">
+                        chat
+                    </span>
+                    <a onclick=" window.location.href = '/chat'">Mensagens</a>
+                </div>
+            </div>
+            <button id="home-desconectar-btn">Desconectar <span class="material-symbols-outlined">
+                    logout
+                </span> </button>
+        </nav>
+
+    </aside>
+
+    <div id="home-fill-space">
+
+    </div>
+
+    <main id="contato-conteudo-principal">
+        <div id="contato-msg-box">
+            <h1>Contate-nos</h1>
+            <div id="contato-msg-inputs">
+                <input type="text" class="contato-inputs-style" placeholder="Nome Completo">
+                <input type="text" class="contato-inputs-style" placeholder="Email">
+                <input type="text" class="contato-inputs-style" placeholder="Mensagem" autocomplete="off">
+            </div>
+            <button id="contato-enviar-btn">Enviar</button>
+        </div>
+        <div id="contato-msg-alternativa">
+            <h1>Se você preferir:</h1>
+            <div><span class="material-symbols-outlined">
+                    mail
+                </span> <a href="">empresa.sheltercode@gmail.com</a></div>
+            <div> <img src="./assets/instagram.png"><a href="">@incentiva.app</a></div>
+        </div>
+    </main>
+
+    <dialog id="criacao-modal-error" class="criacao-dialogs">
+
+        <p id="criacao-msg-error">
+            Algum campo não foi preenchido!
+        </p>
+        <div id="criacao-modal-error-btns">
+            <button id="criacao-modal-error-ok">OK</button>
+        </div>
+    </dialog>
+
+</div>
+
+<script>
+    const modalError = document.getElementById("criacao-modal-error");
+    const modalErrorOkBtn = document.getElementById("criacao-modal-error-ok")
+
+    modalErrorOkBtn.addEventListener("click", () => {
+        document.getElementById("criacao-modal-error").close();
+
+    })
+
+
+
+    document.getElementById("home-desconectar-btn").addEventListener("click", (e) => {
+        if (confirm("Tem certeza que deseja desconectar?")) {
+            localStorage.removeItem("token");
+            window.location.replace("/login");
+        }
+
+    })
+</script>

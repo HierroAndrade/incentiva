@@ -1,0 +1,535 @@
+<script>
+
+    async function startChat(userMessagerId) {
+        const response = await socket.timeout(10000).emitWithAck("start chat", userMessagerId)
+
+        if (response.status != -1) {
+            location.replace("/chat/" + response.chat._id)
+        }
+    }
+
+    authFetchJson("/user/get", "GET").then((response) => {
+        console.log(response.status);
+        if ((response.status == 401 || response.status == 403)) {
+            window.location.replace("/login");
+        } else {
+            console.log(response);
+            response.json().then((data) => {
+                if (data.user.verified == true) {
+                    if (!data.user.username) {
+                        window.location.replace("/etapa-perfil");
+                    }
+                    [...document.getElementsByClassName("saiba-mais-integrantes-item")].forEach((el) => {
+                        if (el.dataset.user == data.user._id) {
+                            el.setAttribute("currentUser", "");
+                        }
+                    })
+                } else {
+                    window.location.replace("/verificacao-email")
+                }
+
+                document.getElementById("goToProject").addEventListener("click", () => {
+
+                    let temProjeto = false;
+
+                    fetch("/project/getAll")
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Erro ao buscar os projetos: ' + response.statusText);
+                            }
+                            return response.json();
+                        }).then(projects => {
+
+                            projects.forEach(pj => {
+                                if (pj.owner._id == data.user._id) {
+                                    temProjeto = true;
+                                }
+                            });
+
+                            console.log(projects, temProjeto);
+
+                            projects.forEach(pj => {
+                                pj.team_members.forEach((member) => {
+                                    if (member._id == data.user._id) {
+                                        temProjeto = true;
+                                    }
+                                })
+                            })
+
+                            if (temProjeto) {
+                                window.location.href = "/projetos-post-na-home"
+                            } else {
+                                window.location.href = "/sem-projetos"
+                            }
+
+                        })
+
+                })
+
+            })
+        }
+    })
+</script>
+
+<link rel="stylesheet" href="/styles/saiba-mais.css">
+<link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+<div id="saiba-mais">
+    <aside id="saiba-mais-aside-bar">
+        <img src="/assets/incentiva-branca-logo.png">
+        <nav id="saiba-mais-nav-itens">
+            <div id="saiba-mais-incons-itens">
+                <div class="saiba-mais-aside-nav-item">
+                    <span class="material-symbols-outlined">
+                        home
+                    </span>
+                    <a onclick=" window.location.href = '/home'">Home</a>
+                </div>
+                <div class="saiba-mais-aside-nav-item" id="goToProject">
+                    <span class="material-symbols-outlined">
+                        file_copy
+                    </span>
+                    <a>Projetos</a>
+                </div>
+                <div class="saiba-mais-aside-nav-item">
+                    <span class="material-symbols-outlined">
+                        chat
+                    </span>
+                    <a onclick=" window.location.href = '/chat'">Mensagens</a>
+                </div>
+            </div>
+            <button id="saiba-mais-desconectar-btn">Desconectar <span class="material-symbols-outlined">
+                    logout
+                </span> </button>
+        </nav>
+
+    </aside>
+
+    <div id="saiba-mais-fill-space">
+
+    </div>
+
+    <div id="saiba-mais-km" projectId="<%= project._id %>">
+
+        <main id="p-sm-know-more-content">
+
+            <% if (project.status=="Concluído" ) { %>
+
+                <button id="iniciar-compra-btn" class="iniciar-transacao-btn" onclick="iniciaCompra()">
+
+                    <span class="material-symbols-outlined">
+                        payments
+                    </span>
+                    Comprar Projeto
+                </button>
+
+
+                <% } else { %>
+
+                    <button id="iniciar-incentivo-btn" class="iniciar-transacao-btn" onclick="iniciaIncentivo()">
+
+                        <span class="material-symbols-outlined">
+                            payments
+                        </span>
+                        Incentivar Projeto
+                    </button>
+
+
+                    <% } %>
+
+
+                        <div id="p-sm-know-more-project">
+                            <div id="p-sm-know-more-first-informations">
+                                <h1>Saiba Mais sobre o Projeto <span id="p-sm-know-more-pj-name">
+                                        <%= project.name %>
+                                    </span></h1>
+
+                                <div id="p-sm-know-more-some-items">
+
+                                    <div id="p-sm-clicables">
+                                        <div class="p-sm-style-boxes p-sm-style-clickable">
+                                            Integrantes
+                                        </div>
+
+                                        <div class="p-sm-style-boxes p-sm-style-clickable">
+                                            Incentivos recebidos
+                                        </div>
+                                    </div>
+
+                                    <div id="p-sm-no-clicables">
+                                        <div class="p-sm-style-boxes">
+                                            Status: <span id="p-sm-know-more-pj-status-value">
+                                                <%= project.status %>
+                                            </span>
+                                        </div>
+
+                                        <div class="p-sm-style-boxes">
+                                            Tipo de projeto: <span id="p-sm-know-more-pj-type-of-proj">
+                                                <%= project.type_of_project %>
+                                            </span>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                                <img src="/<%= project.logo_img %>" id="p-sm-know-more-pj-logo">
+                                <div id="p-sm-know-more-pj-little-informations">
+                                    <h3 id="p-sm-know-more-pj-field">
+                                        <%= project.field %>
+                                    </h3>
+                                    &bullet;
+                                    <h3 id="p-sm-know-more-pj-localization">
+                                        <%= project.localization %>
+                                    </h3>
+                                    &bullet;
+                                    <h3 id="p-sm-know-more-pj-college">
+                                        <%= project.instituition %>
+                                    </h3>
+                                </div>
+
+                                <p class="p-sm-know-more-aligned-text" id="p-sm-know-more-pj-quick-desc">
+                                    <%= project.quick_description %>
+
+                            </div>
+
+                            <div id="p-sm-know-more-pj-questions">
+                                <div class="p-sm-know-more-question">
+                                    <h2>Qual é o objetivo?
+                                    </h2>
+                                    <p class="p-sm-know-more-aligned-text">
+                                        <%= project.goal %>
+                                    </p>
+                                </div>
+                                <div class="p-sm-know-more-question">
+                                    <h2>Quais técnicas ou conhecimentos foram utilizados?
+                                    </h2>
+                                    <p class="p-sm-know-more-aligned-text">
+                                        <%= project.knowledge_used %>
+                                    </p>
+                                </div>
+                                <div class="p-sm-know-more-question">
+                                    <h2>Qual o motivo da criação?
+                                    </h2>
+                                    <p class="p-sm-know-more-aligned-text">
+                                        <%= project.reason_for_creation %>
+                                    </p>
+                                </div>
+                                <div class="p-sm-know-more-question">
+                                    <h2>Quais impactos terá na sociedade?
+                                    </h2>
+                                    <p class="p-sm-know-more-aligned-text">
+                                        <%= project.society_impacts%>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="p-sm-know-more-question">
+                                <h2>Detalhamento
+                                </h2>
+                                <p class="p-sm-know-more-aligned-text" id="p-sm-know-more-detalhamento">
+                                    <%= project.extra_informations %>
+                                </p>
+                            </div>
+
+                            <div id="p-sm-know-more-progress">
+                                <h3>Progresso: <span id="p-sm-know-more-pj-progress-number"
+                                        progress="<%= project.progress %>">
+                                        <%= project.progress %>%
+                                    </span></h3>
+                                <div id="p-sm-know-more-pj-progress-show">
+                                    <div id="p-sm-know-more-pj-progress-show-percentage"></div>
+                                </div>
+
+                            </div>
+
+
+                            <div id="p-sm-know-more-pj-questions">
+                                <% if (project.extra_imgs && project.extra_imgs.length> 0) { %>
+                                    <div id="p-sm-know-more-extra-images">
+                                        <h2>Imagens Extras</h2>
+                                        <div id="p-sm-extra-images-container">
+                                            <% project.extra_imgs.forEach(function(img) { %>
+                                                <img src="/<%= img %>" class="p-sm-extra-image-style"
+                                                    alt="Imagem extra do projeto">
+                                                <% }); %>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                            </div>
+
+        </main>
+
+    </div>
+
+
+    <dialog id="saiba-mais-integrantes" class="saiba-mais-dialogs">
+        <div class="saiba-mais-fechar-dialog-div">
+            <button id="saiba-mais-fechar-integrantes-dialog-btn" class="saiba-mais-fechar-dialog-btn">
+                <span class="material-symbols-outlined">
+                    close
+                </span>
+            </button>
+        </div>
+
+        <div class="saiba-mais-modal-display">
+            <h2>Integrantes do Projeto:</h2>
+
+            <div id="saiba-mais-integrantes-content">
+                <div class="saiba-mais-integrantes-item" data-user="<%= project.owner._id %>">
+
+                    <img src="/<%= project.owner.profile_img %>" class="saiba-mais-integrante-img">
+                    <p class="saiba-mais-integrante-username">
+                        #<%= project.owner.username %>
+                    </p>
+                    <button onclick="startChat('<%= project.owner._id %>')" class="enviar-msg-btn">
+                        <span class="material-symbols-outlined">
+                            chat_bubble
+                        </span>
+                    </button>
+                </div>
+
+
+
+                <% if (project.team_members.length> 0) { %>
+                    <% project.team_members.forEach(function(member) { %>
+
+                        <div class="saiba-mais-integrantes-item" data-user="<%= member._id %>">
+
+                            <img src="/<%= member.profile_img %>" class="saiba-mais-integrante-img">
+                            <p class="saiba-mais-integrante-username">
+                                #<%= member.username %>
+                            </p>
+                            <button onclick="startChat('<%= member._id %>')" class="enviar-msg-btn">
+                                <span class="material-symbols-outlined">
+                                    chat_bubble
+                                </span>
+                            </button>
+                        </div>
+
+
+
+                        <% }); %>
+                            <% } %>
+
+
+
+
+            </div>
+        </div>
+
+    </dialog>
+
+
+    <dialog id="saiba-mais-incentivos" class="saiba-mais-dialogs">
+
+        <div class="saiba-mais-fechar-dialog-div">
+            <button id="saiba-mais-fechar-incentivos-dialog-btn" class="saiba-mais-fechar-dialog-btn">
+                <span class="material-symbols-outlined">
+                    close
+                </span>
+            </button>
+        </div>
+
+        <div class="saiba-mais-modal-display">
+
+            <% if (project.incentivos.length> 0) { %>
+
+                <div id="saiba-mais-total-incentivado">
+                    <h2>Total incentivado R$: </h2> <span id="saiba-mais-total-incentivado">
+
+                        <%= project.incentivos.reduce((a, currentValue)=> a + currentValue.value, 0 ) %>
+
+                    </span>
+                </div>
+
+                <div id="saiba-mais-incentivos-content">
+
+                    <% project.incentivos.forEach(function(incentivo) { %>
+                        <div class="saiba-mais-incentivo-item">
+                            <img src="/<%= incentivo.person_id.profile_img %>" class="saiba-mais-incentivo-img">
+                            <p class="saiba-mais-incentivo-username">
+                                #<%= incentivo.person_id.username %>
+                            </p>
+                            <p class="saiba-mais-incentivo-value">
+                                R$<%= incentivo.value%>
+                            </p>
+                        </div>
+
+                        <% }); %>
+                </div>
+                <% } else { %>
+
+                    <div id="saiba-mais-mensagem">
+                        <h2>Esse projeto ainda não recebeu incentivos...</h2>
+                    </div>
+
+                    <% } %>
+        </div>
+
+    </dialog>
+
+
+    <dialog class="transacao-dialag" id="transacao-etapa-inicial-incentivo">
+        <div class="transacao-fechar-dialog">
+            <button class="transacao-fechar-dialog-btn">
+                <span class="material-symbols-outlined">
+                    close
+                </span>
+            </button>
+        </div>
+        <div id="transacao-incentivo-style">
+            <div id="transacao-etapa-inicial-incentivo-mensagem">
+                <h2> Incentivar o Projeto <%= project.name %>
+                </h2>
+                <p>
+                    Ao incentivar um projeto, você recebe créditos no desenvolvimento, com seu nome destacado na
+                    seção
+                    de
+                    Incentivos Recebidos do Projeto.
+                </p>
+            </div>
+            <div id="transacao-etapa-inicial-incentivo-gerar-pix">
+                <div class="transacao-incentivo-item">
+                    <label for="incentivo-item-telefone-input">Digite seu Número de Telefone:</label>
+                    <div id="customized-input-telefone">
+                        <span>(</span><input type="text" id="number-part-1"><span>)</span><input type="text"
+                            id="number-part-2"><span>-</span><input type="text" id="number-part-3">
+                    </div>
+                </div>
+                <div class="transacao-incentivo-item">
+                    <label for="incentivo-item-nome-completo-input">
+                        Digite seu Nome Completo:
+                    </label>
+                    <input type="text" id="incentivo-item-nome-completo-input" autocomplete="off">
+                </div>
+                <div class="transacao-incentivo-item">
+                    <label for="incentivo-item-e-mail-input">
+                        Digite seu E-mail:
+                    </label>
+                    <input type="text" id="incentivo-item-e-mail-input" autocomplete="off">
+                </div>
+                <div class="transacao-incentivo-item">
+                    <label for="cpf-part-1">Digite seu Cadastro de Pessoa Física (CPF):</label>
+                    <div id="customized-cpf"><input type="text" id="cpf-part-1"><span>.</span><input type="text"
+                            id="cpf-part-2"><span>.</span><input type="text" id="cpf-part-3"><span>-</span>
+                        <input type="text" id="cpf-part-4">
+                    </div>
+                </div>
+                <div class="transacao-incentivo-item">
+                    <label for="incentivo-item-incentivo-input">
+                        Digite o valor do Incentivo:
+                    </label>
+                    <div id="customized-incentivo">
+                        <span>R$:</span>
+                        <input type="text" id="incentivo-item-incentivo-input">
+                    </div>
+
+                </div>
+                <button id="incentivo-item-realizar-pagamento">
+                    Realizar Pagamento
+                </button>
+            </div>
+        </div>
+
+    </dialog>
+
+
+
+
+    <dialog class="transacao-dialag" id="transacao-etapa-inicial-compra">
+        <div class="transacao-fechar-dialog">
+            <button class="transacao-fechar-dialog-btn">
+                <span class="material-symbols-outlined">
+                    close
+                </span>
+            </button>
+        </div>
+        <div id="transacao-compra-style">
+            <div id="transacao-etapa-inicial-compra-mensagem">
+                <h2> Comprar o Projeto <%= project.name %>
+                </h2>
+                <p>
+                    Ao comprar o projeto, você ganha acesso ao link da documentação completa do projeto acadêmico,
+                    e links de arquivos externos, como códigos de programação, relatórios técnicos, artigos científicos,
+                    apresentações, e dados de pesquisa, além de acesso exclusivo ao projeto na plataforma Incentiva.
+                </p>
+            </div>
+            <div id="transacao-etapa-inicial-compra-gerar-pix">
+                <h2>Valor da Compra:</h2>
+                <div id="transacao-compra-content">
+                    <p>R$:</p>
+                    <span id="transacao-compra-valor">
+                        <%= project.preco %>
+                    </span>
+                </div>
+                <div class="transacao-compra-item">
+                    <label for="compra-item-telefone-input">Digite seu Número de Telefone:</label>
+                    <div id="customized-input-telefone-compra">
+                        <span>(</span><input type="text" id="compra-number-part-1"><span>)</span><input type="text"
+                            id="compra-number-part-2"><span>-</span><input type="text" id="compra-number-part-3">
+                    </div>
+                </div>
+                <div class="transacao-compra-item">
+                    <label for="compra-item-nome-completo-input">
+                        Digite seu Nome Completo:
+                    </label>
+                    <input type="text" id="compra-item-nome-completo-input" autocomplete="off">
+                </div>
+                <div class="transacao-compra-item">
+                    <label for="compra-item-e-mail-input">
+                        Digite seu E-mail:
+                    </label>
+                    <input type="text" id="compra-item-e-mail-input" autocomplete="off">
+                </div>
+                <div class="transacao-compra-item">
+                    <label for="compra-cpf-part-1">Digite seu Cadastro de Pessoa Física (CPF):</label>
+                    <div id="compra-customized-cpf"><input type="text" id="compra-cpf-part-1"><span>.</span><input
+                            type="text" id="compra-cpf-part-2"><span>.</span><input type="text"
+                            id="compra-cpf-part-3"><span>-</span>
+                        <input type="text" id="compra-cpf-part-4">
+                    </div>
+                </div>
+                <button id="compra-item-realizar-pagamento">
+                    Realizar Pagamento
+                </button>
+            </div>
+        </div>
+
+    </dialog>
+
+
+
+    <dialog id="criacao-modal-error" class="criacao-dialogs">
+
+        <p id="criacao-msg-error">
+            Algum campo não foi preenchido!
+        </p>
+        <div id="criacao-modal-error-btns">
+            <button id="criacao-modal-error-ok">OK</button>
+        </div>
+    </dialog>
+
+
+
+</div>
+
+
+
+
+<script>
+    document.getElementById("saiba-mais-desconectar-btn").addEventListener("click", (e) => {
+        if (confirm("Tem certeza que deseja desconectar?")) {
+            localStorage.removeItem("token");
+            window.location.replace("/login");
+        }
+
+    })
+
+
+</script>
+
+<script src="/scripts/saiba-mais.js">
+
+</script>

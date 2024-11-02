@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+:root {
+    --azul-clean: #198CF8;
+    /* Variável de cor */
+}
+
+/* cadastro */
+
+#cadastro {
+    height: 100vh;
+    background-color: var(--azul-clean);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 150px;
+}
+
+#cadastro img {
+    width: 700px;
+}
+
+#cadastro-conteudo-principal {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#cadastro-conteudo-principal h1 {
+    color: white;
+    font-weight: 600;
+
+}
+
+#cadastro-conteudo-principal-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+#cadastro-conteudo-principal-box h3 {
+    font-weight: 600;
+    margin-bottom: 25px;
+    margin-top: 22px;
+}
+
+.cadastro-inputs-style {
+    border: none;
+    padding: 15px 10px;
+    border-radius: 5px;
+    width: 350px;
+    background-color: rgb(238, 238, 238);
+    margin-bottom: 10px;
+    font-size: 17px;
+}
+
+.cadastro-inputs-style:focus {
+    outline: none;
+}
+
+.cadastro-inputs-style::placeholder {
+    font-size: 15px;
+    font-weight: 500;
+    color: rgb(154, 154, 154);
+}
+
+#cadastro-cadastrar-btn {
+    margin: 25px 0;
+    padding: 10px 140px;
+    width: 350px;
+    color: white;
+    background-color: var(--azul-clean);
+    border: none;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 5px;
+}
+
+#cadastro-cadastrar-btn:hover {
+    opacity: 60%;
+    cursor: pointer;
+}
+
+#cadastro-cadastrar-btn:active {
+    opacity: 90%;
+}
+
+#cadastro-login {
+    text-decoration: none;
+    font-weight: 600;
+    color: black;
+}
+
+#cadastro-error-msg {
+    color: red;
+    height: 25px;
+}
+
+#password-criteria-msg {
+    padding: 10px 0 20px 0;
+    font-weight: 500;
+    text-align: center;
+}
+
+#cadastro-conteudo-principal-box p {
+    color: gray;
+    font-size: 18px;
+}
+
+#see-pass-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 10px;
+    gap: 8px;
+    border-radius: 20px;
+    border: none;
+    color: var(--azul-clean);
+    font-size: 15px;
+    font-weight: 500;
+}
+
+#see-pass-btn:hover {
+    cursor: pointer;
+    opacity: 50%;
+}
+
+
+#see-pass-btn:active {
+    cursor: pointer;
+    opacity: 100%;
+}
+
+
+
+
+/* cadastro */

@@ -1,0 +1,270 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+:root {
+    --azul-clean: #198CF8;
+    /* Variável de cor */
+}
+
+/* esqueceu senha */
+
+
+#ve1 {
+    height: 100vh;
+    background-color: var(--azul-clean);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 150px;
+}
+
+#ve1 img {
+    width: 700px;
+}
+
+#ve1-conteudo-principal {
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#ve1-conteudo-principal h1 {
+    color: white;
+    font-weight: 600;
+
+}
+
+#ve1-conteudo-principal-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+#reenviar-codigo {
+    border: none;
+    background-color: transparent;
+    font-size: 18px;
+    color: var(--azul-clean);
+    font-weight: 500;
+    margin-top: 20px;
+}
+
+#reenviar-codigo:hover {
+    opacity: 50%;
+    cursor: pointer;
+}
+
+#reenviar-codigo:active {
+    opacity: 50%;
+}
+
+#ve1-conteudo-principal-box h3 {
+    font-weight: 600;
+    margin-bottom: 20px;
+    margin-top: 22px;
+    text-align: center;
+}
+
+#ve1-email {
+    font-size: 20px;
+}
+
+#ve1-avancar-btn {
+    margin: 25px 0 50px;
+    padding: 10px;
+    width: 350px;
+    color: white;
+    background-color: var(--azul-clean);
+    border: none;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#ve1-avancar-btn:hover {
+    opacity: 60%;
+    cursor: pointer;
+}
+
+#ve1-avancar-btn:active {
+    opacity: 90%;
+}
+
+#esqueceu-senha-voltar {
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--azul-clean);
+}
+
+
+
+/* PT2: */
+
+
+
+
+#ve2-conteudo-principal-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 500px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+#ve2-conteudo-principal-box h3 {
+    font-weight: 600;
+    margin-bottom: 30px;
+    margin-top: 22px;
+}
+
+.ve2-inputs-style {
+    border: none;
+    padding: 15px 10px;
+    width: 200px;
+    border-radius: 5px;
+    background-color: rgb(238, 238, 238);
+    margin-bottom: 10px;
+    font-size: 17px;
+    text-align: center;
+}
+
+.ve2-inputs-style:focus {
+    outline: none;
+}
+
+.ve2-inputs-style::placeholder {
+    font-size: 15px;
+    font-weight: 500;
+    color: rgb(154, 154, 154);
+    text-align: center;
+}
+
+#ve2-concluir-btn {
+    margin: 25px 0 20px 0;
+    padding: 10px 0;
+    width: 350px;
+    color: white;
+    background-color: var(--azul-clean);
+    border: none;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 5px;
+}
+
+#ve2-concluir-btn:hover {
+    opacity: 60%;
+    cursor: pointer;
+}
+
+#ve2-concluir-btn:active {
+    opacity: 90%;
+}
+
+#esqueceu-senha-voltar {
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: 500;
+    color: var(--azul-clean);
+}
+
+#ve2-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+#ve2-reenviar {
+    text-decoration: none;
+    font-weight: 600;
+    color: black;
+}
+
+
+
+.criacao-dialogs {
+    margin: auto;
+    width: 500px;
+    border-radius: 20px;
+    border: none;
+    padding: 20px;
+    text-align: center;
+}
+
+
+#criacao-msg-error {
+    font-size: 20px
+}
+
+#criacao-modal-error-btns {
+    display: flex;
+    justify-content: center;
+}
+
+#criacao-modal-error-ok {
+    padding: 10px 30px;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 20px;
+    background-color: var(--azul-clean);
+    color: white;
+    border: none;
+    margin-top: 15px;
+}
+
+#criacao-modal-error-ok:hover {
+    opacity: 50%;
+    cursor: pointer;
+}
+
+
+.criacao-dialogs {
+    margin: auto;
+    width: 500px;
+    border-radius: 20px;
+    border: none;
+    padding: 20px;
+    text-align: center;
+}
+
+
+#criacao-msg-error {
+    font-size: 20px
+}
+
+#criacao-modal-error-btns {
+    display: flex;
+    justify-content: center;
+}
+
+#criacao-modal-error-ok {
+    padding: 10px 30px;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 20px;
+    background-color: var(--azul-clean);
+    color: white;
+    border: none;
+    margin-top: 15px;
+}
+
+#criacao-modal-error-ok:hover {
+    opacity: 50%;
+    cursor: pointer;
+}
