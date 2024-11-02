@@ -55,7 +55,7 @@ app.use("/user", require("./routes/user.js"));
 //     }
 // });
 
-
+console.log("testando comit")
 
 app.use("*", async (req, res) => {
     const urlPath = req.originalUrl.split("/")[1]; // Pega a primeira parte do caminho
