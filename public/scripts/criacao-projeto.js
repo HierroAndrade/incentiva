@@ -193,7 +193,8 @@ modalErrorOkBtn.addEventListener("click", () => {
 nextBtn.addEventListener("click", (e) => {
 
     if (!pjName.value || !pjQuickDesc.value || !pjBackgroundImg.files[0] || !pjLogoImg.files[0]) {
-
+        document.getElementById("criacao-msg-error").textContent = "Preencha todos os campos!"
+        modalError.showModal()
     } else {
 
         fetch("project/getAll")
@@ -486,7 +487,7 @@ endUpCreationBtn.addEventListener("click", async () => {
                 goal: pjGoal.value,
                 preco: Number(precoInput.value),
                 team_members: membersId,
-                pix: pixKey.value,
+                pix: pixKey,
                 links,
                 knowledge_used: pjTechniques.value,
                 reason_for_creation: pjReason.value,
@@ -610,7 +611,24 @@ document.getElementById("criacao-saiba-mais-previsualizar").addEventListener("cl
 
 
 
-    document.getElementById("p-sm-know-more-pj-progress-show-percentage").style.width = ((progresso / 100) * 600) + "px"
+    // document.getElementById("p-sm-know-more-pj-progress-show-percentage").style.width = ((progresso / 100) * 600) + "px"
+
+    const progressBar = document.getElementById("p-sm-know-more-pj-progress-show");
+    const progressFill = document.getElementById("p-sm-know-more-pj-progress-show-percentage");
+
+    const updateProgress = (progresso) => {
+        if (progressBar.offsetWidth > 500) {
+            progressFill.style.width = ((progresso / 100) * 600) + "px";
+
+        }
+        else {
+            progressFill.style.width = ((progresso / 100) * 200) + "px";
+
+        }
+    };
+
+    // Exemplo de uso:
+
     document.getElementById("p-sm-know-more-pj-progress-number").textContent = progresso + "%"
     document.getElementById("p-sm-know-more-pj-name").textContent = projetoNome;
     document.getElementById("p-sm-know-more-pj-status-value").textContent = projetoStatus;
@@ -641,7 +659,7 @@ document.getElementById("criacao-saiba-mais-previsualizar").addEventListener("cl
     });
 
     document.getElementById("criacao-pre-visualizar-sm").showModal();
-
+    updateProgress(document.getElementById("criacao-pj-progress").value);
     document.getElementById("p-sm-know-more-content-btn-fechar").addEventListener("click", (e) => {
         document.getElementById("criacao-pre-visualizar-sm").close();
     })

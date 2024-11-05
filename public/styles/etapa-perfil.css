@@ -169,6 +169,7 @@
     align-items: center;
     border-radius: 20px;
     font-size: 18px;
+
 }
 
 #etapa-perfil-input-file-customizado label:hover {
@@ -192,22 +193,142 @@
 }
 
 #etapa-perfil-foto-previsu {
-    /* width: 100px;
-    height: 100px;
-    border-radius: 50%; */
     background-color: #bbbbbb;
     margin-bottom: 20px;
-
     width: 100px;
-    /* Defina o tamanho desejado */
     height: 100px;
-    /* Defina o tamanho desejado */
     border-radius: 50%;
-    /* Faz a imagem ficar circular */
     object-fit: cover;
-    /* Corta a imagem para preencher o espaço sem distorcer */
     display: block;
+}
+
+@media (max-width:700px) {
+    #etapa-perfil-three-circles {
+        display: flex;
+        justify-content: space-around;
+        width: 80px;
+        margin: 60px 0 30px 0;
+    }
+
+    #etapa-perfil-three-circles div {
+        width: 12px;
+        height: 12px;
+        background-color: #bbbbbb;
+        border-radius: 50%;
+    }
+
+    #etapa-perfil-voltar-login {
+        display: block;
+        text-decoration: none;
+        font-size: 15px;
+        color: var(--azul-clean);
+        font-weight: 600;
+        margin-top: 15px;
+        margin-left: 20px;
+    }
+
+    #etapa-perfil-conteudo-principal {
+        height: 500px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 5px 5px 15px rgb(197, 197, 197);
+        width: 330px;
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+    #etapa-perfil-conteudo-1 img {
+        width: 250px;
+    }
+
+    #etapa-perfil-conteudo-1 h2,
+    #etapa-perfil-conteudo-2 h2,
+    #etapa-perfil-conteudo-3 h2 {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        color: var(--azul-clean);
+        font-weight: 300;
+        font-size: 20px;
+    }
+
+    #etapa-perfil-hashtag {
+        width: 30px;
+        height: 50px;
+        background-color: rgb(232, 232, 232);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 10px 0 0 10px;
+        border-right: 1px solid black;
+    }
+
+    #etapa-perfil-pesquisa-nome-input {
+        width: 250px;
+        height: 50px;
+        background-color: rgb(232, 232, 232);
+        border: none;
+        font-size: 15px;
+        border-radius: 0 10px 10px 0;
+        padding-left: 10px;
+    }
+
+    .etapa-perfil-conteudo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 300px;
+    }
+
+    #etapa-perfil-buttons {
+        display: flex;
+        justify-content: space-between;
+        width: 300px;
+        padding-top: 20px;
+    }
+
+    #etapa-perfil-conteudo-2 img {
+        width: 250px;
+    }
+
+
+    #etapa-perfil-biografia {
+        width: 300px;
+        height: 160px;
+        border-radius: 20px;
+        border: none;
+        background-color: rgb(232, 232, 232);
+        padding: 20px;
+        font-size: 15px;
+        margin-bottom: 40px;
+    }
+
+
+    #incentiva-img {
+        width: 250px;
+    }
+
+    #etapa-perfil-input-file-customizado label {
+        background-color: var(--azul-clean);
+        color: white;
+        padding: 6px 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 20px;
+        font-size: 14px;
+    }
+
+    #etapa-perfil-foto-de-perfil-descricao {
+        margin-top: 15px;
+        font-size: 14px;
+        padding: 6px 4px;
+        background-color: rgb(232, 232, 232);
+    }
 
 }
+
 
 /* etapa perfil */

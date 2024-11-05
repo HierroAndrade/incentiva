@@ -96,8 +96,6 @@ document.addEventListener("DOMContentLoaded", function () {
     btnEnviar.addEventListener("click", async function () {
         const email = document.getElementById("cadastro-input-email").value;
 
-
-
         if (!email) {
             exibirMensagem('erro', 'Por favor, preencha o campo de email.');
             return;
@@ -108,9 +106,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!validarEmail(email)) {
             document.getElementById("criacao-msg-error").textContent = "Por favor, insira um email válido."
             modalError.showModal()
+            return
         } else {
             try {
-                mostrarVerificacao();
 
                 const response = await fetch("user/esqueci-senha", {
                     method: "POST",
@@ -125,8 +123,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 const result = await response.json();
                 if (response.ok) {
                     exibirMensagem('sucesso', "Código enviado para o email " + email);
+                    mostrarVerificacao();
                 } else {
                     exibirMensagem('erro', result.message);
+
                 }
             } catch (error) {
                 exibirMensagem('erro', 'Erro ao enviar o código. Tente novamente.');
@@ -176,6 +176,33 @@ document.addEventListener("DOMContentLoaded", function () {
             exibirMensagem('erro', 'Por favor, preencha ambos os campos de senha.');
             return;
         }
+
+        function validarSenhaForte(senha) {
+            const criterios = [
+                { regex: /.{4,}/, msg: "A senha precisa ter pelo menos 4 caracteres." },
+                { regex: /[a-z]/, msg: "A senha precisa ter pelo menos uma letra minúscula." },
+                { regex: /[0-9]/, msg: "A senha precisa ter pelo menos um número." },
+            ];
+
+            let erros = criterios.filter(criterio => !criterio.regex.test(senha)).map(criterio => criterio.msg);
+
+            console.log(erros)
+
+
+            if (erros[0]) {
+                exibirMensagem('erro', erros.join(" "));
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+
+        if (validarSenhaForte(document.getElementById("esqueceu-senha3-input-senha").value)) {
+            return;
+        }
+
+
 
         if (novaSenha !== confirmaSenha) {
             exibirMensagem('erro', 'As senhas não coincidem.');

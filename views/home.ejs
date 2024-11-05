@@ -11,6 +11,70 @@
             console.log(response);
             response.json().then(async (data) => {
 
+                document.getElementById("edit-username").value = data.user.username
+                document.getElementById("edit-bio").value = data.user.bio
+                document.getElementById("edit-perfil-foto-previsu").src = data.user.profile_img;
+                document.getElementById("edit-perfil-foto-de-perfil-descricao").innerText = data.user.profile_img;
+
+                document.getElementById("editar-perfil-salvar-btn").addEventListener("click", async () => {
+
+                    let response = await fetch(`/user/get/${document.getElementById("edit-username").value}`)
+                    let json = await response.json()
+
+
+                    if (document.getElementById("edit-username").value != data.user.username && response.status != 404) {
+                        document.getElementById("criacao-msg-error").textContent = "Já existe um usuário com esse nome!";
+                        modalError.showModal();
+                        return
+                    }
+
+                    response = await authFetchJson("/user/edit", {
+                        method: "PUT",
+                        body: JSON.stringify({
+                            username: document.getElementById("edit-username").value,
+                            bio: document.getElementById("edit-bio").value
+                        })
+                    })
+
+                    json = await response.json();
+
+                    data.user = json;
+
+                    document.getElementById("home-perfil-username-info").textContent = json.username
+                    document.getElementById("home-perfil-bio-info").textContent = json.bio
+
+                    if (document.getElementById("edit-perfil-foto").files[0]) {
+                        const formData = new FormData();
+                        formData.append('user_logo', document.getElementById("edit-perfil-foto").files[0])
+
+                        response = await fetch("/user/attachLogo", {
+                            method: "PUT",
+                            body: formData,
+                            headers: {
+                                "Authorization": "Bearer " + localStorage.getItem("token")
+                            }
+                        })
+
+                        if (response.status != 200)
+                            return
+
+                        json = await response.json()
+
+                        data.user = json;
+
+                        document.getElementById("home-perfil-circle").src = json.profile_img;
+                    }
+
+                    document.getElementById("criacao-msg-error").textContent = "Usuário editado!";
+                    modalError.showModal();
+
+
+
+                })
+
+
+
+
                 if (data.user.verified == true) {
                     if (!data.user.username) {
                         window.location.replace("/etapa-perfil");
@@ -76,15 +140,17 @@
                 const json = await response.json()
 
                 console.log(json.solicitacoes)
-                const temSolicitacao = false;
+                let temSolicitacao = false;
 
-
+                document.getElementById("home-solicitacao-box-conteudo").innerHTML = ""
                 json.solicitacoes.forEach((sl, index) => {
 
+
                     if (sl.user._id == data.user._id) {
-                        const temSolicitacao = true;
-                        document.getElementById("home-solicitacao-box-conteudo").innerHTML = ""
-                        document.getElementById("home-solicitacao-box-conteudo").innerHTML = `
+
+                        temSolicitacao = true;
+
+                        document.getElementById("home-solicitacao-box-conteudo").innerHTML += `
                             <div class="home-solicitacao-item" pjId="${sl.project._id}" memberId="${sl.user._id}" solicitacaoId="${sl._id}">
                     <img src="${sl.project.logo_img}" class="home-solicitacao-pj-img">
                     <p><span class="home-solicitacao-author">${sl.project.name}</span> convidou você para participar do projeto.
@@ -167,11 +233,11 @@
         <img src="./assets/incentiva-branca-logo.png">
         <nav id="home-nav-itens">
             <div id="home-incons-itens">
-                <div class="home-aside-nav-item">
+                <div class="home-aside-nav-item" onclick=" window.location.href = '/home'">
                     <span class="material-symbols-outlined">
                         home
                     </span>
-                    <a onclick=" window.location.href = '/home'">Home</a>
+                    <a>Home</a>
                 </div>
                 <div class="home-aside-nav-item" id="goToProject">
                     <span class="material-symbols-outlined">
@@ -179,7 +245,7 @@
                     </span>
                     <a>Projetos</a>
                 </div>
-                <div class="home-aside-nav-item">
+                <div class="home-aside-nav-item" onclick=" window.location.href = '/chat'">
                     <span class="material-symbols-outlined">
                         chat
                     </span>
@@ -250,17 +316,19 @@
                     <h2 id="home-perfil-username-info"></h2>
                     <p id="home-perfil-bio-info"></p>
                 </div>
-                <button id="home-perfil-editar-btn" style="opacity: 0%;">
+                <button id="home-perfil-editar-btn">
                     <span class="material-symbols-outlined">
                         edit
                     </span>
 
                 </button>
-            </div>
 
+            </div>
+            <a href="/contato-home" id="home-contato-a">Contato Incentiva</a>
+            <!-- <a href="/contato-home" id="home-contato-a">Contato Incentiva</a> -->
         </div>
 
-        <a href="/contato-home" id="home-contato-a">Contato Incentiva</a>
+
 
     </aside>
 
@@ -276,6 +344,51 @@
         </div>
     </dialog>
 
+
+    <dialog id="editar-perfil-modal">
+        <div id="close-edit-modal">
+            <button id="close-edit-modal-btn">
+                <span class="material-symbols-outlined">
+                    close
+                </span>
+            </button>
+        </div>
+        <div id="edit-profile-content">
+            <h2>
+                Edite seu perfil
+            </h2>
+            <div id="edit-username-content">
+                <label for="edit-username">Nome de usuário:</label>
+                <input type="text" id="edit-username">
+            </div>
+
+
+            <div id="edit-bio-content">
+                <label for="edit-bio"> Biografia:</label>
+                <textarea id="edit-bio"></textarea>
+            </div>
+
+
+            <div id="edit-img">
+                <img src="" id="edit-perfil-foto-previsu">
+                <label for="edit-perfil-foto">
+                    Foto de perfil
+                    <span class="material-symbols-outlined">upload</span>
+                    <input type="file" id="edit-perfil-foto" style="display: none;">
+                </label>
+                <div id="edit-perfil-foto-de-perfil-descricao">
+                    Foto selecionada
+                </div>
+            </div>
+            <div id="edit-profile-btns">
+                <button id="editar-perfil-salvar-btn">Salvar<span class="material-symbols-outlined">
+                        save
+                    </span></button>
+            </div>
+        </div>
+
+
+    </dialog>
 </div>
 
 <script>

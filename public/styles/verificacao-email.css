@@ -80,6 +80,12 @@
     font-size: 20px;
 }
 
+#ve1-conteudo-principal-box p a {
+    text-decoration: none;
+    color: var(--azul-clean);
+    font-weight: 500;
+}
+
 #ve1-avancar-btn {
     margin: 25px 0 50px;
     padding: 10px;
@@ -166,6 +172,9 @@
     font-size: 20px;
     font-weight: 600;
     border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #ve2-concluir-btn:hover {
@@ -267,4 +276,243 @@
 #criacao-modal-error-ok:hover {
     opacity: 50%;
     cursor: pointer;
+}
+
+#voltar-para-esqueceu-senha {
+    font-size: 20px;
+    text-decoration: none;
+    color: var(--azul-clean);
+    font-weight: 500;
+}
+
+@media (max-width:1450px) {
+    #ve1 {
+        height: 100vh;
+        background-color: var(--azul-clean);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 60px;
+    }
+
+    #ve1 img {
+        width: 500px;
+    }
+}
+
+
+@media (max-width:1200px) {
+    #ve1 {
+        height: 100vh;
+        background-color: var(--azul-clean);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 60px;
+    }
+
+    #ve1 img {
+        width: 500px;
+    }
+}
+
+
+@media (max-width:650px) {
+    #ve1-conteudo-principal h1 {
+        color: white;
+        font-weight: 600;
+        font-size: 20px;
+    }
+
+    #ve1-conteudo-principal-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        background-color: white;
+        border-radius: 10px;
+        padding: 4px;
+    }
+
+    #ve1 img {
+        width: 300px;
+    }
+
+    .ve1-inputs-style {
+        border: none;
+        padding: 10px 10px;
+        border-radius: 5px;
+        width: 280px;
+        background-color: rgb(238, 238, 238);
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+
+    #ve1 {
+        height: 100vh;
+        background-color: var(--azul-clean);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    #ve1-cadastrar-btn {
+        margin: 25px 0;
+        padding: 10px 140px;
+        width: 200px;
+        color: white;
+        background-color: var(--azul-clean);
+        border: none;
+        font-size: 20px;
+        font-weight: 600;
+        border-radius: 5px;
+    }
+
+    #ve1-conteudo-principal {
+        width: 340px;
+    }
+
+    #ve1-conteudo-principal-box p {
+        color: gray;
+        font-size: 14px;
+    }
+
+    #ve1-conteudo-principal-box h3 {
+        font-weight: 600;
+        margin-bottom: 10px;
+        margin-top: 22px;
+        font-size: 16px;
+        padding: 0 30px;
+        text-align: center;
+    }
+
+    #esqueceu-senha-voltar-login-p a {
+        font-size: 16px;
+    }
+
+    #ve1-enviar-btn {
+        margin: 25px 0;
+        padding: 10px 140px;
+        width: 200px;
+        color: white;
+        background-color: var(--azul-clean);
+        border: none;
+        font-size: 20px;
+        font-weight: 600;
+        border-radius: 5px;
+    }
+
+    #esqueceu-senha2-conteudo-principal {
+        width: 340px;
+    }
+
+    #esqueceu-senha2-conteudo-principal-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        background-color: white;
+        border-radius: 10px;
+        padding: 20px;
+    }
+
+    #esqueceu-senha2-concluir-btn {
+        padding: 10px;
+        width: 200px;
+        margin: 15px 0;
+    }
+
+    #esqueceu-senha2-conteudo-principal-box h3 {
+        font-weight: 600;
+        margin-bottom: 10px;
+        margin-top: 22px;
+        font-size: 16px;
+        padding: 0 30px;
+        text-align: center;
+    }
+
+    #voltar-para-esqueceu-senha {
+        font-size: 16px;
+        text-decoration: none;
+        color: var(--azul-clean);
+        font-weight: 500;
+    }
+
+    #esqueceu-senha2-conteudo-principal h1 {
+        color: white;
+        font-size: 20px;
+    }
+
+    #reenviar-codigo {
+        border: none;
+        background-color: transparent;
+        font-size: 18px;
+        color: var(--azul-clean);
+        font-weight: 500;
+        margin-top: 10px;
+    }
+
+
+    .criacao-dialogs {
+        margin: auto;
+        width: 300px;
+        border-radius: 20px;
+        border: none;
+        padding: 20px;
+        text-align: center;
+    }
+
+    #criacao-msg-error {
+        font-size: 18px;
+    }
+
+    #criacao-modal-error-ok {
+        padding: 8px 20px;
+        font-size: 15px;
+        font-weight: 500;
+        border-radius: 20px;
+        background-color: var(--azul-clean);
+        color: white;
+        border: none;
+        margin-top: 15px;
+    }
+
+    #ve1-avancar-btn {
+        width: 200px;
+    }
+
+    #ve2-conteudo-principal-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 340px;
+        background-color: white;
+        border-radius: 10px;
+        padding: 20px;
+    }
+
+    #ve2-conteudo-principal-box h3 {
+        font-weight: 600;
+        margin-bottom: 25px;
+        margin-top: 18px;
+        text-align: center;
+    }
+
+    #ve2-concluir-btn {
+        margin: 20px 0 16px 0;
+        padding: 10px 0;
+        width: 200px;
+        color: white;
+        background-color: var(--azul-clean);
+        border: none;
+        font-size: 20px;
+        font-weight: 600;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }

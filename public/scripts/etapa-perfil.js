@@ -91,26 +91,29 @@ const inputFile = document.getElementById('etapa-perfil-foto');
 const fileDescription = document.getElementById('etapa-perfil-foto-de-perfil-descricao');
 const previewImage = document.getElementById("etapa-perfil-foto-previsu");
 
-
 inputFile.addEventListener('change', (event) => {
     const file = event.target.files[0];
 
-    console.log(file);
     if (file) {
-
         fileDescription.textContent = file.name;
 
-
-        const fileReader = new FileReader();
-        fileReader.onload = () => {
-            previewImage.src = fileReader.result;
-        };
-        fileReader.readAsDataURL(file);
+        if (file.type.startsWith('image/')) { // Verifica se é uma imagem
+            const fileReader = new FileReader();
+            fileReader.onload = () => {
+                previewImage.src = fileReader.result;
+            };
+            fileReader.readAsDataURL(file);
+        } else {
+            fileDescription.textContent = 'Por favor, selecione um arquivo de imagem válido.';
+            previewImage.src = '';
+            inputFile.value = ''; // Reseta o input
+        }
     } else {
         fileDescription.textContent = 'Nenhuma imagem selecionada';
         previewImage.src = '';
     }
 });
+
 
 goBackBtn.addEventListener("click", (e) => {
     counterStep--;

@@ -112,3 +112,161 @@ body {
 #termos-sair:hover {
     cursor: pointer;
 }
+
+@media (max-width:1700px) {
+    .termos-conteudo-col p {
+        font-size: 15px
+    }
+
+    .termos-conteudo-col {
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        height: 500px;
+        justify-content: space-between;
+        font-size: 22px;
+    }
+}
+
+@media (max-width:1200px) {
+    .termos-style h2 {
+        font-size: 20px;
+    }
+
+    .termos-conteudo {
+        display: flex;
+        gap: 40px;
+        justify-content: center;
+    }
+
+    #termos {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 100%;
+        height: 100vh;
+        padding: 60px;
+    }
+
+    .termos-conteudo-col p {
+        font-size: 12px
+    }
+
+    #termos-box {
+        width: 70%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        padding: 50px;
+        background-color: white;
+    }
+
+    .termos-buttons button,
+    .termos-avancar,
+    #termos-terminar {
+        width: 70px;
+        font-size: 12px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .termos-pag-indicador {
+        font-size: 14px;
+        color: var(--azul-clean);
+        font-weight: 500;
+    }
+
+    .termos-style h2 {
+        font-size: 20px;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    #termos-box {
+        width: 75%;
+        height: 80vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        background-color: white;
+    }
+
+    .termos-buttons {
+        margin-top: 20px;
+        display: flex;
+        justify-content: end;
+        gap: 30px;
+        align-items: center;
+    }
+
+    .termos-conteudo-col {
+        width: 170px;
+        display: flex;
+        flex-direction: column;
+        height: 500px;
+        justify-content: space-between;
+        font-size: 22px;
+    }
+}
+
+@media (max-width:960px) {
+    .termos-conteudo-col p {
+        font-size: 7px;
+    }
+
+    .termos-conteudo-col {
+        width: 70px;
+        display: flex;
+        flex-direction: column;
+        height: 500px;
+        justify-content: space-between;
+        font-size: 22px;
+    }
+
+    .termos-conteudo {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+
+
+    }
+
+    #termos-box {
+        width: 90%;
+        height: 90vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        background-color: white;
+    }
+
+
+    .termos-buttons button,
+    .termos-avancar,
+    #termos-terminar {
+        width: 30px;
+        font-size: 12px;
+        padding: 5px 40px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .termos-pag-indicador {
+        font-size: 12px;
+        color: var(--azul-clean);
+        font-weight: 500;
+    }
+
+    .termos-buttons {
+        margin-top: 20px;
+        display: flex;
+        justify-content: end;
+        gap: 10px;
+        align-items: center;
+    }
+}

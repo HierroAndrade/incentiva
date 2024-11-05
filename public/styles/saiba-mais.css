@@ -315,7 +315,7 @@ body {
 }
 
 #p-sm-know-more-progress h3 {
-    font-size: 1.4dvw;
+    font-size: 20px;
     margin-bottom: 5px;
     font-weight: 600;
 }
@@ -1219,4 +1219,362 @@ body {
 #criacao-modal-error-ok:hover {
     opacity: 50%;
     cursor: pointer;
+}
+
+
+@media (max-width:1550px) {
+    #saiba-mais {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #saiba-mais-desconectar-btn {
+        padding: 10px 25px;
+        width: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0px;
+        background-color: white;
+        color: var(--azul-clean);
+        border-radius: 10px;
+        border: none;
+        gap: 10px;
+    }
+
+    .saiba-mais-aside-nav-item {
+        display: flex;
+        align-items: center;
+        margin: 15px 0 15px 0;
+        gap: 0px;
+    }
+
+    .saiba-mais-aside-nav-item a {
+        font-size: 18px;
+    }
+
+    .saiba-mais-aside-nav-item span {
+        font-size: 20px
+    }
+
+    #saiba-mais-nav-itens {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        height: 85vh;
+        padding-bottom: 10px;
+    }
+
+    #saiba-mais-aside-bar {
+        background-color: var(--azul-clean);
+        height: 100vh;
+        width: 200px;
+        padding: 20px 0 0 0;
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #saiba-mais-fill-space {
+        min-width: 200px;
+        max-width: 200px;
+    }
+
+    #saiba-mais-aside-bar img {
+        width: 160px;
+    }
+}
+
+@media (max-width:1550px) {
+    #p-sm-know-more-content {
+        padding: 30px 20px 150px 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        flex-direction: column;
+    }
+
+    #p-sm-know-more-project {
+        padding: 10px;
+        background-color: white;
+        border-radius: 10px;
+        border: 2px solid #0080f8;
+        width: 950px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+}
+
+@media (max-width:1220px) {
+    #p-sm-know-more-project {
+        padding: 10px;
+        background-color: white;
+        border-radius: 10px;
+        border: 2px solid #0080f8;
+        width: 300px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    #p-sm-know-more-first-informations h1 {
+        font-size: 20px;
+        width: 280px;
+        text-align: center;
+        text-align: center;
+    }
+
+    .p-sm-style-boxes {
+        font-size: 12px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 7px;
+        font-weight: 600;
+    }
+
+    #p-sm-know-more-pj-logo {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        border: 1px solid var(--azul-clean);
+        object-fit: cover;
+        display: block;
+    }
+
+    #p-sm-know-more-pj-little-informations {
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+        align-items: center;
+        font-size: 20px;
+        margin-bottom: 14px;
+        margin-top: 14px;
+    }
+
+    #p-sm-know-more-pj-little-informations h3 {
+        font-size: 14px;
+        color: #000000;
+        font-weight: 400;
+        height: 12px;
+    }
+
+    .p-sm-know-more-aligned-text {
+        width: 100%;
+        font-size: 20px;
+        font-weight: 500;
+        color: #1d1d1d;
+        word-break: break-all;
+    }
+
+    .p-sm-know-more-question h2 {
+        font-size: 20px;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    #p-sm-know-more-pj-progress-show {
+        width: 200px;
+        height: 20px;
+        background-color: rgb(240, 240, 240);
+        outline: 1px solid black;
+        border-radius: 5px;
+    }
+
+    #p-sm-know-more-pj-progress-show-percentage {
+        border-radius: 5px 0 0 5px;
+        height: 20px;
+        background-color: rgb(41, 155, 255);
+    }
+
+    .iniciar-transacao-btn {
+        margin-bottom: 20px;
+        padding: 10px 10px;
+        font-size: 22px;
+        background-color: white;
+        color: var(--azul-clean);
+        font-weight: 600;
+        border: 2px solid var(--azul-clean);
+        border-radius: 10px;
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .iniciar-transacao-btn span {
+        font-size: 30px;
+    }
+}
+
+
+@media (max-width:900px) {
+    .saiba-mais-aside-nav-item a {
+        font-size: 0px;
+    }
+
+    .saiba-mais-aside-nav-item span {
+        font-size: 40px;
+    }
+
+    #saiba-mais-aside-bar img {
+        width: 0px
+    }
+
+    #saiba-mais-aside-bar {
+        background-color: var(--azul-clean);
+        height: 100vh;
+        width: 100px;
+        padding: 20px 0 0 0;
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #saiba-mais-fill-space {
+        min-width: 100px;
+        max-width: 100px;
+    }
+
+    #saiba-mais-desconectar-btn {
+        padding: 10px 25px;
+        width: 80px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0px;
+        background-color: white;
+        color: var(--azul-clean);
+        border-radius: 10px;
+        border: none;
+        gap: 10px;
+    }
+}
+
+
+@media (max-width:700px) {
+    #transacao-etapa-inicial-incentivo-mensagem h2 {
+        font-size: 32px;
+        text-align: center;
+    }
+
+    #transacao-etapa-inicial-incentiva-mensagem p {
+        font-size: 14px;
+        text-align: center;
+    }
+
+    #transacao-incentiva-style {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 50px;
+        gap: 30px;
+    }
+
+    #cpf-part-1,
+    #cpf-part-2,
+    #cpf-part-3 {
+        width: 70px;
+        text-align: center;
+    }
+
+    .transacao-incentiva-item label {
+        font-size: 17px;
+        text-align: center;
+    }
+
+
+
+
+
+
+
+    #transacao-etapa-inicial-compra-mensagem h2 {
+        font-size: 32px;
+        text-align: center;
+    }
+
+    #transacao-etapa-inicial-compra-mensagem p {
+        font-size: 14px;
+        text-align: center;
+    }
+
+    #transacao-compra-style {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 50px;
+        gap: 30px;
+    }
+
+    #compra-cpf-part-1,
+    #compra-cpf-part-2,
+    #compra-cpf-part-3 {
+        width: 70px;
+        text-align: center;
+    }
+
+    .transacao-compra-item label {
+        font-size: 17px;
+        text-align: center;
+    }
+
+    .transacao-dialag {
+        border: none;
+        border-radius: 20px;
+        width: 500px;
+        margin: auto;
+    }
+
+    .saiba-mais-aside-nav-item span {
+        font-size: 30px;
+    }
+
+    #saiba-mais-desconectar-btn {
+        padding: 6px 5px;
+        width: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0px;
+        background-color: white;
+        color: var(--azul-clean);
+        border-radius: 10px;
+        border: none;
+        gap: 10px;
+    }
+
+    #saiba-mais-aside-bar {
+        background-color: var(--azul-clean);
+        height: 100vh;
+        width: 40px;
+        padding: 20px 0 0 0;
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #saiba-mais-desconectar-btn span {
+        font-size: 30px;
+    }
+
+    .saiba-mais-aside-nav-item span {
+        font-size: 25px;
+    }
+
+    #saiba-mais-fill-space {
+        min-width: 40px;
+        max-width: 40px;
+    }
 }

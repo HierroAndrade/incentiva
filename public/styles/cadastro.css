@@ -86,6 +86,9 @@
     font-size: 20px;
     font-weight: 600;
     border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #cadastro-cadastrar-btn:hover {
@@ -105,11 +108,11 @@
 
 #cadastro-error-msg {
     color: red;
-    height: 25px;
+    height: 20px;
 }
 
 #password-criteria-msg {
-    padding: 10px 0 20px 0;
+    padding: 10px 0 15px 0;
     font-weight: 500;
     text-align: center;
 }
@@ -143,6 +146,106 @@
     opacity: 100%;
 }
 
+@media (max-width:1450px) {
+    #cadastro {
+        height: 100vh;
+        background-color: var(--azul-clean);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 60px;
+    }
+
+    #cadastro img {
+        width: 500px;
+    }
+}
+
+@media (max-width:1200px) {
+    #cadastro {
+        height: 100vh;
+        background-color: var(--azul-clean);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 60px;
+    }
+
+    #cadastro img {
+        width: 500px;
+    }
+}
+
+@media (max-width:650px) {
+    #cadastro-conteudo-principal h1 {
+        color: white;
+        font-weight: 600;
+        font-size: 20px;
+    }
+
+    #cadastro-conteudo-principal-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        background-color: white;
+        border-radius: 10px;
+        padding: 4px;
+    }
+
+    #cadastro img {
+        width: 300px;
+    }
+
+    .cadastro-inputs-style {
+        border: none;
+        padding: 10px 10px;
+        border-radius: 5px;
+        width: 280px;
+        background-color: rgb(238, 238, 238);
+        margin-bottom: 10px;
+        font-size: 14px;
+    }
+
+    #cadastro {
+        height: 100vh;
+        background-color: var(--azul-clean);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    #cadastro-cadastrar-btn {
+        margin: 25px 0;
+        padding: 10px 140px;
+        width: 200px;
+        color: white;
+        background-color: var(--azul-clean);
+        border: none;
+        font-size: 20px;
+        font-weight: 600;
+        border-radius: 5px;
+    }
+
+    #cadastro-conteudo-principal {
+        width: 340px;
+    }
+
+    #cadastro-conteudo-principal-box p {
+        color: gray;
+        font-size: 14px;
+    }
+
+    #cadastro-conteudo-principal-box h3 {
+        font-weight: 600;
+        margin-bottom: 10px;
+        margin-top: 22px;
+        font-size: 16px
+    }
+}
 
 
 

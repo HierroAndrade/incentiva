@@ -104,24 +104,38 @@
 
                             if (myProjects[selectedIndex].pj.owner._id == data.user._id) {
 
-                                document.getElementById("p-sm-btn-sair-do-proj").innerHTML = `
-                                 <span class="material-symbols-outlined">
-                                delete
-                                </span>
-                                Excluir Projeto
-                                `
 
-                                document.getElementById("p-sm-btn-sair-do-proj").id = "p-sm-excluir-proj"
+                                if (document.getElementById("p-sm-btn-sair-do-proj")) {
+                                    document.getElementById("p-sm-btn-sair-do-proj").id = "p-sm-excluir-proj"
+                                    document.getElementById("p-sm-excluir-proj").innerHTML = `
+ <span class="material-symbols-outlined">
+delete
+</span>
+Excluir Projeto
+`
+
+                                } else if (document.getElementById("p-sm-excluir-proj")) {
+
+                                    document.getElementById("p-sm-excluir-proj").innerHTML = `
+ <span class="material-symbols-outlined">
+delete
+</span>
+Excluir Projeto
+`
+                                }
+
+
 
                                 document.getElementById("p-sm-nav-itens-side").innerHTML = `
-                            
-                            <a href="/projetos-post-na-home" class="p-sm-nav-side-item">Post na Home</a>
-                            <a href="/projetos-saiba-mais"  class="p-sm-nav-side-item">Saiba Mais</a>
-                             <a href="/projetos-adm" class="p-sm-nav-side-item">ADM</a>
-                     
-                            `
 
-                                document.getElementById("p-sm-excluir-proj").addEventListener("click", async () => {
+
+<a href="/projetos-post-na-home" class="p-sm-nav-side-item">Post na Home</a>
+<a href="/projetos-saiba-mais"  class="p-sm-nav-side-item">Saiba Mais</a>
+<a href="projetos-adm" class="p-sm-nav-side-item">ADM</a>
+
+`
+
+                                document.getElementById("p-sm-excluir-proj").onclick = async () => {
 
                                     selectedIndex = selectPjs.selectedIndex;
 
@@ -144,37 +158,59 @@
                                         }
                                     }
 
-                                })
+                                }
+
 
 
                             } else {
-                                document.getElementById("p-sm-btn-sair-do-proj").removeAttribute("deleteMode")
-                                document.getElementById("p-sm-btn-sair-do-proj").innerHTML = `
-                                 <span class="material-symbols-outlined">
-                                 logout
-                                 </span>
-                                Sair do Projeto
-                                `
-                                document.getElementById("p-sm-nav-itens-side").innerHTML = `
-                            
-                            <a href="/projetos-post-na-home" class="p-sm-nav-side-item">Post na Home</a>
-                            <a href="/projetos-saiba-mais"  class="p-sm-nav-side-item">Saiba Mais</a>
-                     
-                            `
+                                if (document.getElementById("p-sm-excluir-proj")) {
+                                    document.getElementById("p-sm-excluir-proj").id = "p-sm-btn-sair-do-proj";
 
-                                document.getElementById("p-sm-btn-sair-do-proj").addEventListener("click", async () => {
+                                    document.getElementById("p-sm-btn-sair-do-proj").innerHTML = `
+ <span class="material-symbols-outlined">
+ logout
+ </span>
+Sair do Projeto
+`
 
-                                    const response = await fetch(`/project/deleteMember`, {
-                                        method: 'DELETE',
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                            'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                        },
-                                        body: JSON.stringify({ pjId: myProjects[selectedIndex].pj._id, memberId: data.user._id })
-                                    })
+                                    document.getElementById("p-sm-nav-itens-side").innerHTML = `
 
-                                    window.location.replace("/home")
-                                })
+<a href="/projetos-post-na-home" class="p-sm-nav-side-item">Post na Home</a>
+<a href="/projetos-saiba-mais"  class="p-sm-nav-side-item">Saiba Mais</a>
+
+`
+                                } else if (document.getElementById("p-sm-btn-sair-do-proj")) {
+                                    document.getElementById("p-sm-btn-sair-do-proj").innerHTML = `
+ <span class="material-symbols-outlined">
+ logout
+ </span>
+Sair do Projeto
+`
+
+                                    document.getElementById("p-sm-nav-itens-side").innerHTML = `
+
+<a href="/projetos-post-na-home" class="p-sm-nav-side-item">Post na Home</a>
+<a href="/projetos-saiba-mais"  class="p-sm-nav-side-item">Saiba Mais</a>
+
+`
+                                }
+
+                                document.getElementById("p-sm-btn-sair-do-proj").onclick = async () => {
+
+                                    if (confirm("Deseja sair do Projeto?")) {
+                                        const response = await fetch(`/project/deleteMember`, {
+                                            method: 'DELETE',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                            },
+                                            body: JSON.stringify({ pjId: myProjects[selectedIndex].pj._id, memberId: data.user._id })
+                                        })
+
+                                        window.location.replace("/home")
+                                    }
+                                }
+
                             }
 
 
@@ -208,6 +244,16 @@
                             preViewPjImpactos.innerText = myProjects[selectedIndex].pj.society_impacts;
                             document.getElementById("p-sm-know-more-pj-progress-number").innerText = myProjects[selectedIndex].pj.progress + "%"
                             preViewPjProgresso.style.width = ((myProjects[selectedIndex].pj.progress / 100) * 600) + "px";
+
+                            const progressBar = document.getElementById("p-sm-know-more-pj-progress-show");
+                            const progressWidth = progressBar.offsetWidth; // Obtém a largura atual da div
+
+                            if (progressWidth === 200) {
+                                preViewPjProgresso.style.width = ((myProjects[selectedIndex].pj.progress / 100) * 200) + "px";
+                            } else if (progressWidth === 600) {
+                                preViewPjProgresso.style.width = ((myProjects[selectedIndex].pj.progress / 100) * 600) + "px";
+                            }
+
                             preViewPjImpactos.innerText = myProjects[selectedIndex].pj.society_impacts;
                             if (myProjects[selectedIndex].pj.extra_imgs[0]) {
                                 preViewPjImagensExtras.innerHTML = ""
@@ -444,11 +490,11 @@
         <img src="/assets/incentiva-branca-logo.png">
         <nav id="p-sm-nav-itens">
             <div id="p-sm-incons-itens">
-                <div class="p-sm-aside-nav-item">
+                <div class="p-sm-aside-nav-item" onclick=" window.location.href = '/home'">
                     <span class="material-symbols-outlined">
                         home
                     </span>
-                    <a onclick=" window.location.href = '/home'">Home</a>
+                    <a>Home</a>
                 </div>
                 <div class="p-sm-aside-nav-item" id="goToProject">
                     <span class="material-symbols-outlined">
@@ -456,11 +502,11 @@
                     </span>
                     <a>Projetos</a>
                 </div>
-                <div class="p-sm-aside-nav-item">
+                <div class="p-sm-aside-nav-item" onclick=" window.location.href = '/chat'">
                     <span class="material-symbols-outlined">
                         chat
                     </span>
-                    <a onclick=" window.location.href = '/chat'">Mensagens</a>
+                    <a>Mensagens</a>
                 </div>
             </div>
             <button id="p-sm-desconectar-btn">Desconectar <span class="material-symbols-outlined">
@@ -542,7 +588,7 @@
                         antigas)
                     </p>
                     <label for="edicao-pj-extra-img" class="edicao-file-linked">
-                        Imagens extras<span class="material-symbols-outlined">upload</span>
+                        <span id="desc-img">Imagens extras</span><span class="material-symbols-outlined">upload</span>
                         <input type="file" id="edicao-pj-extra-img" multiple accept="image/*">
                     </label>
                     <div class="edicao-file-name" id="edicao-pj-extra-img-name">

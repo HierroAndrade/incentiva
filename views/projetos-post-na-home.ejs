@@ -98,15 +98,30 @@
                             selectedIndex = selectPjs.selectedIndex;
                             localStorage.setItem("selectedIndex", selectedIndex);
 
+
                             if (myProjects[selectedIndex].pj.owner._id == data.user._id) {
 
-                                document.getElementById("p-pnh-btn-sair-do-proj").innerHTML = `
+
+                                if (document.getElementById("p-pnh-btn-sair-do-proj")) {
+                                    document.getElementById("p-pnh-btn-sair-do-proj").id = "p-pnh-excluir-proj"
+                                    document.getElementById("p-pnh-excluir-proj").innerHTML = `
                                  <span class="material-symbols-outlined">
                                 delete
                                 </span>
                                 Excluir Projeto
                                 `
-                                document.getElementById("p-pnh-btn-sair-do-proj").id = "p-pnh-excluir-proj"
+
+                                } else if (document.getElementById("p-pnh-excluir-proj")) {
+
+                                    document.getElementById("p-pnh-excluir-proj").innerHTML = `
+                                 <span class="material-symbols-outlined">
+                                delete
+                                </span>
+                                Excluir Projeto
+                                `
+                                }
+
+
 
                                 document.getElementById("p-pnh-nav-itens-side").innerHTML = `
                                 
@@ -117,7 +132,9 @@
                      
                             `
 
-                                document.getElementById("p-pnh-excluir-proj").addEventListener("click", async () => {
+
+
+                                document.getElementById("p-pnh-excluir-proj").onclick = async () => {
 
                                     selectedIndex = selectPjs.selectedIndex;
 
@@ -140,43 +157,62 @@
                                         }
                                     }
 
-                                })
+                                }
 
 
 
                             } else {
-                                document.getElementById("p-pnh-btn-sair-do-proj").removeAttribute("deleteMode")
-                                document.getElementById("p-pnh-btn-sair-do-proj").innerHTML = `
+                                if (document.getElementById("p-pnh-excluir-proj")) {
+                                    document.getElementById("p-pnh-excluir-proj").id = "p-pnh-btn-sair-do-proj";
+
+                                    document.getElementById("p-pnh-btn-sair-do-proj").innerHTML = `
                                  <span class="material-symbols-outlined">
                                  logout
                                  </span>
                                 Sair do Projeto
                                 `
 
-                                document.getElementById("p-pnh-nav-itens-side").innerHTML = `
+                                    document.getElementById("p-pnh-nav-itens-side").innerHTML = `
                             
                             <a href="/projetos-post-na-home" class="p-pnh-nav-side-item">Post na Home</a>
                             <a href="/projetos-saiba-mais"  class="p-pnh-nav-side-item">Saiba Mais</a>
                      
                             `
+                                } else if (document.getElementById("p-pnh-btn-sair-do-proj")) {
+                                    document.getElementById("p-pnh-btn-sair-do-proj").innerHTML = `
+                                 <span class="material-symbols-outlined">
+                                 logout
+                                 </span>
+                                Sair do Projeto
+                                `
+
+                                    document.getElementById("p-pnh-nav-itens-side").innerHTML = `
+                            
+                            <a href="/projetos-post-na-home" class="p-pnh-nav-side-item">Post na Home</a>
+                            <a href="/projetos-saiba-mais"  class="p-pnh-nav-side-item">Saiba Mais</a>
+                     
+                            `
+                                }
+
+                                document.getElementById("p-pnh-btn-sair-do-proj").onclick = async () => {
+
+                                    if (confirm("Deseja sair do Projeto?")) {
+                                        const response = await fetch(`/project/deleteMember`, {
+                                            method: 'DELETE',
+                                            headers: {
+                                                'Content-Type': 'application/json',
+                                                'Authorization': 'Bearer ' + localStorage.getItem('token')
+                                            },
+                                            body: JSON.stringify({ pjId: myProjects[selectedIndex].pj._id, memberId: data.user._id })
+                                        })
+
+                                        window.location.replace("/home")
+                                    }
+                                }
+
+
                             }
 
-                            document.getElementById("p-pnh-btn-sair-do-proj").addEventListener("click", async () => {
-
-                                if (confirm("Deseja sair do Projeto?")) {
-
-                                }
-                                const response = await fetch(`/project/deleteMember`, {
-                                    method: 'DELETE',
-                                    headers: {
-                                        'Content-Type': 'application/json',
-                                        'Authorization': 'Bearer ' + localStorage.getItem('token')
-                                    },
-                                    body: JSON.stringify({ pjId: myProjects[selectedIndex].pj._id, memberId: data.user._id })
-                                })
-
-                                window.location.replace("/home")
-                            })
 
 
 
@@ -339,11 +375,11 @@
         <img src="/assets/incentiva-branca-logo.png">
         <nav id="p-pnh-nav-itens">
             <div id="p-pnh-incons-itens">
-                <div class="p-pnh-aside-nav-item">
+                <div class="p-pnh-aside-nav-item" onclick=" window.location.href = '/home'">
                     <span class="material-symbols-outlined">
                         home
                     </span>
-                    <a onclick=" window.location.href = '/home'">Home</a>
+                    <a>Home</a>
                 </div>
                 <div class="p-pnh-aside-nav-item" id="goToProject">
                     <span class="material-symbols-outlined">
@@ -351,11 +387,11 @@
                     </span>
                     <a>Projetos</a>
                 </div>
-                <div class="p-pnh-aside-nav-item">
+                <div class="p-pnh-aside-nav-item" onclick=" window.location.href = '/chat'">
                     <span class="material-symbols-outlined">
                         chat
                     </span>
-                    <a onclick=" window.location.href = '/chat'">Mensagens</a>
+                    <a>Mensagens</a>
                 </div>
             </div>
             <button id="p-pnh-desconectar-btn">Desconectar <span class="material-symbols-outlined">
@@ -1178,7 +1214,7 @@
 
                 <div class="campo-edicao">
                     <label for="edicao-pj-logo-img" class="edicao-file-linked">
-                        Logo<span class="material-symbols-outlined">upload</span>
+                        <span class="img-desc">Logo</span> <span class="material-symbols-outlined">upload</span>
                         <input type="file" id="edicao-pj-logo-img">
                     </label>
                     <div class="edicao-file-name" id="edicao-pj-logo-name">Nenhum arquivo selecionado
@@ -1186,7 +1222,8 @@
                 </div>
                 <div class="campo-edicao">
                     <label for="edicao-pj-back-img" class="edicao-file-linked">
-                        Imagem de fundo<span class="material-symbols-outlined">upload</span>
+                        <span class="img-desc">Imagem de Fundo</span><span
+                            class="material-symbols-outlined">upload</span>
                         <input type="file" id="edicao-pj-back-img">
                     </label>
                     <div class="edicao-file-name" id="edicao-pj-back-name">Nenhum arquivo selecionado

@@ -11,8 +11,20 @@ let projectForUse;
 
 
 
-progressNumber = (parseInt(document.getElementById("p-sm-know-more-pj-progress-number").getAttribute("progress"))) / 100
-document.getElementById("p-sm-know-more-pj-progress-show-percentage").style.width = (progressNumber * 600) + "px"
+const progressNumber = (parseInt(document.getElementById("p-sm-know-more-pj-progress-number").getAttribute("progress")))
+
+const progressBar = document.getElementById("p-sm-know-more-pj-progress-show");
+const progressFill = document.getElementById("p-sm-know-more-pj-progress-show-percentage");
+
+const updateProgress = (progresso) => {
+    const parentWidth = progressBar.offsetWidth;
+    const maxWidth = parentWidth === 200 ? 200 : 600;
+    progressFill.style.width = ((progresso / 100) * maxWidth) + "px";
+};
+
+// Exemplo de uso:
+updateProgress(progressNumber);
+
 
 
 document.getElementsByClassName("p-sm-style-clickable")[0].addEventListener("click", () => {
@@ -131,7 +143,28 @@ applyNumberInputLimit(document.getElementById("compra-cpf-part-4"), 2);
 function trimInputs(inputs) {
     return inputs.map(input => input.trim());
 }
+function calcValidatorDigit(digits, weights) {
+    const sum = digits
+        .map((digit, index) => Number(digit) * weights[index])
+        .reduce((sum, current) => sum + current);
+    const remainder = sum % 11;
+    return remainder < 2 ? 0 : 11 - remainder;
+}
+function validateCPF(cpf) {
+    if (typeof cpf != "string")
+        return false;
+    cpf = cpf.replaceAll(".", "").replaceAll("-", "");
 
+    const cpfArray = Array.from(cpf);
+
+    if (cpfArray.length != 11 || cpfArray.every(c => c == cpf[0]))
+        return false;
+
+    const firstValidatorDigit = calcValidatorDigit(Array.from(cpf.substring(0, 9)), [10, 9, 8, 7, 6, 5, 4, 3, 2]);
+    const secondValidatorDigit = calcValidatorDigit(Array.from(cpf.substring(0, 9) + firstValidatorDigit), [11, 10, 9, 8, 7, 6, 5, 4, 3, 2]);
+
+    return cpf.slice(9) == `${firstValidatorDigit}${secondValidatorDigit}`;
+}
 document.getElementById("incentivo-item-realizar-pagamento").addEventListener("click", async (e) => {
     e.preventDefault();
 
@@ -155,29 +188,9 @@ document.getElementById("incentivo-item-realizar-pagamento").addEventListener("c
     // Verificação: caso algum campo esteja vazio após o trim
 
 
-    function calcValidatorDigit(digits, weights) {
-        const sum = digits
-            .map((digit, index) => Number(digit) * weights[index])
-            .reduce((sum, current) => sum + current);
-        const remainder = sum % 11;
-        return remainder < 2 ? 0 : 11 - remainder;
-    }
 
-    function validateCPF(cpf) {
-        if (typeof cpf != "string")
-            return false;
-        cpf = cpf.replaceAll(".", "").replaceAll("-", "");
 
-        const cpfArray = Array.from(cpf);
 
-        if (cpfArray.length != 11 || cpfArray.every(c => c == cpf[0]))
-            return false;
-
-        const firstValidatorDigit = calcValidatorDigit(Array.from(cpf.substring(0, 9)), [10, 9, 8, 7, 6, 5, 4, 3, 2]);
-        const secondValidatorDigit = calcValidatorDigit(Array.from(cpf.substring(0, 9) + firstValidatorDigit), [11, 10, 9, 8, 7, 6, 5, 4, 3, 2]);
-
-        return cpf.slice(9) == `${firstValidatorDigit}${secondValidatorDigit}`;
-    }
 
     if (!validateCPF(cpf)) {
         document.getElementById("criacao-msg-error").textContent = "CPF inválido!"

@@ -232,20 +232,8 @@ function addProject(pjId, pjNome, pjQuickDesc, pjField, pjLocal, pjStatus, pjSch
                                     ${pjLikes}
                                 </strong>
                             </button >
-                            <button  class="home-comment-style" style="opacity:0">>
-                                <span class="material-symbols-outlined">
-                                    mode_comment
-                                </span>
-                                <strong class="home-comments-number">
-                                    0
-                                </strong>
-                            </button >
-                            <button  class="home-favourite-style" style="opacity:0">
-                                <span class="material-symbols-outlined">
-                                    bookmark
-                                </span>
-                                
-                            </button >
+                            
+                         
                         </div>
                         <div class="home-see-more-box">
                             <span>
@@ -344,5 +332,53 @@ searchInput.addEventListener("keyup", (event) => {
                 });
             })
             .catch(error => console.error('Erro ao buscar todos os projetos:', error));
+    }
+});
+
+
+const editProfileBtn = document.getElementById("home-perfil-editar-btn").addEventListener("click", () => {
+    document.getElementById("editar-perfil-modal").showModal()
+    document.getElementById("close-edit-modal-btn").addEventListener("click", () => {
+        document.getElementById("editar-perfil-modal").close()
+    })
+})
+
+
+
+document.getElementById("edit-username").addEventListener("input", () => {
+    document.getElementById("edit-username").value = document.getElementById("edit-username").value.replace(/[^a-zA-Z0-9À-ÿ.()'" _-]/g, "").slice(0, 14);
+});
+
+document.getElementById("edit-bio").addEventListener("input", () => {
+
+    document.getElementById("edit-bio").value = document.getElementById("edit-bio").value.replace(/[^a-zA-ZÀ-ÿ0-9.,;!?()'" \-´`^~]/g, "").slice(0, 200);
+
+})
+
+const inputFile = document.getElementById('edit-perfil-foto');
+const fileDescription = document.getElementById('edit-perfil-foto-de-perfil-descricao');
+const previewImage = document.getElementById('edit-perfil-foto-previsu'); // Corrigido para o ID do <img>
+
+inputFile.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+
+    if (file) {
+        // Verifica se o arquivo é uma imagem
+        if (file.type.startsWith('image/')) {
+            fileDescription.textContent = file.name;
+
+            const fileReader = new FileReader();
+            fileReader.onload = () => {
+                previewImage.src = fileReader.result; // Atribui ao src da imagem
+            };
+            fileReader.readAsDataURL(file);
+        } else {
+            fileDescription.textContent = 'Por favor, selecione um arquivo de imagem válido.';
+            previewImage.src = ''; // Limpa a pré-visualização
+            inputFile.value = ''; // Reseta o campo de input
+        }
+    } else {
+        fileDescription.textContent = 'Nenhuma imagem selecionada';
+        previewImage.src = '';
     }
 });

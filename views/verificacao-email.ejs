@@ -19,8 +19,8 @@
                     enviaCodigo(data.user.email);
                 }
 
-                document.getElementById("ve1-avancar-btn").onclick = () => {
-                    enviaCodigo(data.user.email);
+                document.getElementById("ve1-avancar-btn").onclick = async () => {
+                    await enviaCodigo(data.user.email);
                     document.getElementById("ve1-conteudo-principal").style.display = "none";
                     document.getElementById("ve2-conteudo-principal-box").style.display = "";
                 }
@@ -101,6 +101,7 @@
             </button>
         </div>
         <button id="ve2-concluir-btn">Verificar Código</button>
+        <a href="/verificacao-email" id="voltar-para-esqueceu-senha">Voltar</a>
 
     </div>
 

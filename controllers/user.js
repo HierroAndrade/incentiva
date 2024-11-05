@@ -69,6 +69,7 @@ module.exports = {
         try {
             delete req.body.password; delete req.body.email;
             const user = await User.findByIdAndUpdate(res.locals.user.id, req.body, { runValidators: true, new: true });
+            delete user.password;
             res.send(user);
         } catch (e) {
             res.status(400).send(e);
@@ -91,13 +92,13 @@ module.exports = {
         if (userFound) {
             res.json({ user: userFound });
         } else {
-            res.json({ msg: "Usuário não existe" });
+            res.status(404).json({ msg: "Usuário não existe" });
         }
 
     },
 
     async attachLogo(req, res) {
-        console.log("ATACH LOGO")
+        console.log("ATACH LOGO");
         try {
             const userLogo = req.files['user_logo'][0];
             const user = await User.findByIdAndUpdate(res.locals.user.id, { profile_img: 'userLogos/' + userLogo.filename }, { runValidators: true, new: true });
@@ -228,7 +229,7 @@ module.exports = {
 
             // Enviar o e-mail com o código
             await transport.sendMail({
-                from: 'Shelter Code <empresa.sheltercode@gmail.com>',
+                from: 'Incentiva <no-reply@incentiva.com>',
                 to: email,
                 subject: 'Verificação de Email',
                 html: `

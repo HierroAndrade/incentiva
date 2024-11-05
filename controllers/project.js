@@ -445,49 +445,55 @@ module.exports = {
         }
         res.send()
     }, async solicitacao(req, res) {
-        //PROCURAR UMA SOLICITAÇÃO JÁ EXSITENTE
-        const { pjId, username, status, getAll } = req.body
+        // Extrair variáveis do corpo da requisição
+        const { pjId, username, status, getAll } = req.body;
 
-        console.log(pjId, username, status, getAll)
+        console.log(pjId, username, status, getAll);
 
+        // Buscar o projeto e o usuário no banco de dados
         const project = await Project.findById(pjId);
-        const user = await User.findOne({ username })
-        const solicitacao = await Solicitacao.findOne({ user: user._id })
+        const user = await User.findOne({ username });
 
+        // Verificar se o usuário foi encontrado antes de tentar acessar _id
+        if (!user) {
+            res.json({ msg: "Usuário não encontrado!" });
+            return;
+        }
+
+        // Procurar uma solicitação existente do usuário
+        const solicitacao = await Solicitacao.findOne({ user: user._id });
+
+        // Verificar se `getAll` foi solicitado para obter todas as solicitações
         if (getAll) {
             const solicitacoes = await Solicitacao.find()
                 .populate("user")
                 .populate("project");
 
             res.json({ solicitacoes });
-            return
+            return;
         }
 
-
-        if (!user) {
-            res.json({ msg: "Usuário não encontrado!" })
-            return
-        }
-
+        // Verificar se já existe uma solicitação para o usuário
         if (solicitacao) {
-            res.json({ msg: "Já existe uma solicitação para esse usuário!" })
-            return
+            res.json({ msg: "Já existe uma solicitação para esse usuário!" });
+            return;
         }
 
-
-        if (user && project) {
-            const solicitacao = new Solicitacao({
+        // Se o usuário e o projeto existirem, criar uma nova solicitação
+        if (project) {
+            const novaSolicitacao = new Solicitacao({
                 user: user._id,
                 project: project._id,
                 status: status
             });
 
-
-            await solicitacao.save();
-            res.json({ msg: `Solicitação enviada para o usuário: #${user.username}!` })
+            await novaSolicitacao.save();
+            res.json({ msg: `Solicitação enviada para o usuário: #${user.username}!` });
+        } else {
+            res.json({ msg: "Projeto não encontrado!" });
         }
-
-    }, async solicitacaoTratamento(req, res) {
+    }
+    , async solicitacaoTratamento(req, res) {
         const { solicitacaoId, memberId, pjId, status } = req.body;
 
         const project = await Project.findById(pjId);

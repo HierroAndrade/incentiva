@@ -24,14 +24,15 @@
 
     const usrnm = document.getElementById("etapa-perfil-pesquisa-nome-input")
     usrnm.addEventListener("input", () => {
-        // Remove caracteres não alfanuméricos e limita o valor a 500 caracteres
-        usrnm.value = usrnm.value.replace(/[^a-zA-Z0-9 ]/g, "").slice(0, 30);
+
+        usrnm.value = usrnm.value.replace(/[^a-zA-Z0-9À-ÿ.()'" _-]/g, "").slice(0, 14);
+
     });
 
     const bio = document.getElementById("etapa-perfil-biografia")
     bio.addEventListener("input", () => {
-        // Remove caracteres não alfanuméricos e limita o valor a 500 caracteres
-        bio.value = bio.value.replace(/[^a-zA-Z0-9 ]/g, "").slice(0, 100);
+
+        bio.value = bio.value.value.replace(/[^a-zA-ZÀ-ÿ0-9.,;!?()'" -]/g, "").slice(0, 200);
     });
 
 
@@ -42,13 +43,13 @@
 
 <div id="etapa-perfil">
     <nav>
-        <a href="" id="etapa-perfil-voltar-login">Voltar para o login</a>
+        <a href="/login" id="etapa-perfil-voltar-login">Voltar para o login</a>
     </nav>
     <div id="etapa-perfil-conteudo-principal-alinhamento">
 
         <main id="etapa-perfil-conteudo-principal">
             <div id="etapa-perfil-conteudo-1" class="etapa-perfil-conteudo">
-                <img src="/assets/logo-azul-incentiva.png" alt="" srcset="">
+                <img src="/assets/logo-azul-incentiva.png">
                 <h2>Escolha o nome do seu perfil:</h2>
                 <div id="etapa-perfil-customized-input">
                     <div id="etapa-perfil-hashtag">#</div>
@@ -59,13 +60,13 @@
             </div>
 
             <div id="etapa-perfil-conteudo-2" class="etapa-perfil-conteudo" style="display: none;">
-                <img src="/assets/logo-azul-incentiva.png" alt="" srcset="">
+                <img src="/assets/logo-azul-incentiva.png">
                 <h2>Escolha a biografia do seu perfil:</h2>
                 <textarea id="etapa-perfil-biografia" style="resize: none;" placeholder="Sem biografia"></textarea>
             </div>
 
             <div id="etapa-perfil-conteudo-3" class="etapa-perfil-conteudo" style="display: none;">
-                <img src="/assets/logo-azul-incentiva.png" alt="" srcset="">
+                <img src="/assets/logo-azul-incentiva.png" id="incentiva-img">
                 <h2>Escolha a sua foto de perfil:</h2>
                 <div id="etapa-perfil-input-file-customizado">
                     <img src="" id="etapa-perfil-foto-previsu">

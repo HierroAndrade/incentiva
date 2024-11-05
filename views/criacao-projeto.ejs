@@ -27,13 +27,13 @@
 
             textarea.addEventListener("input", () => {
                 // Remove caracteres não alfanuméricos e limita o valor a 500 caracteres
-                textarea.value = textarea.value.replace(/[^a-zA-ZÀ-ÿ0-9.,;!?()'" -]/g, "").slice(0, 500);
+                textarea.value = textarea.value.replace(/[^a-zA-ZÀ-ÿ0-9.,;!?()'" \-´`^~]/g, "").slice(0, 500);
 
             });
         });
 
         textareas[0].addEventListener("input", () => {
-            textarea.value = textarea.value.replace(/[^a-zA-ZÀ-ÿ0-9.,;!?()'" -]/g, "").slice(0, 230);
+            textarea.value = textarea.value.replace(/[^a-zA-ZÀ-ÿ0-9.,;!?()'" \-´`^~]/g, "").slice(0, 500);
 
         })
 
@@ -844,7 +844,7 @@
 
                         <div class="criacao-pjbox">
                             <label for="criacao-pj-logo-img" class="criacao-file-linked">
-                                Logo<span class="material-symbols-outlined">upload</span>
+                                <strong>Logo</strong><span class="material-symbols-outlined">upload</span>
                                 <input type="file" id="criacao-pj-logo-img">
                             </label>
                             <div class="criacao-file-name" id="criacao-pj-logo-name">Nenhum arquivo selecionado
@@ -852,7 +852,7 @@
                         </div>
                         <div class="criacao-pjbox">
                             <label for="criacao-pj-back-img" class="criacao-file-linked">
-                                Imagem de fundo<span class="material-symbols-outlined">upload</span>
+                                <strong> Imagem de fundo </strong> <span class="material-symbols-outlined">upload</span>
                                 <input type="file" id="criacao-pj-back-img">
                             </label>
                             <div class="criacao-file-name" id="criacao-pj-back-name">Nenhum arquivo selecionado
@@ -1080,9 +1080,9 @@
 
 
                 <div class="criacao-pjbox criacao-border" style="margin: 10px 0 10px 0;">
-                    <h2>Adicione imagens relevantes ao seu Projeto:</h2>
+                    <h2 id="h2-img-extra">Adicione imagens relevantes ao seu Projeto:</h2>
                     <label for="criacao-pj-extra-img" class="criacao-file-linked">
-                        Imagens extras<span class="material-symbols-outlined">upload</span>
+                        <strong>Imagens extras</strong><span class="material-symbols-outlined">upload</span>
                         <input type="file" id="criacao-pj-extra-img" multiple>
                     </label>
                     <div class="criacao-file-name" id="criacao-pj-extra-img-name">
@@ -1290,16 +1290,3 @@
     </dialog>
 
     <script src="/scripts/criacao-projeto.js"></script>
-
-    <style>
-        .volta-home {
-            font-size: 17px;
-            text-decoration: none;
-            font-weight: 600;
-            color: rgb(0, 0, 0);
-            border: 1px solid black;
-            padding: 2px 6px;
-            border-radius: 10px;
-            margin-top: 10px;
-        }
-    </style>

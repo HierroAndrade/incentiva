@@ -45,39 +45,23 @@ app.use("/project", require("./routes/project.js"));
 app.use("/user", require("./routes/user.js"));
 
 
-// app.get('/favicon.ico', (req, res) => res.status(204));
-// app.use("*", (req, res) => {
-//     const urlPath = req.originalUrl.replace("/", "")
-//     if (fs.existsSync(path.resolve(`./views/${urlPath}.ejs`))) {
-//         res.render(urlPath);
-//     } else {
-//         res.sendFile(path.resolve("./public/404.html"))
-//     }
-// });
-
 console.log("testando comit")
 
 app.use("*", async (req, res) => {
-    const urlPath = req.originalUrl.split("/")[1]; // Pega a primeira parte do caminho
+    const urlPath = req.originalUrl.split("/")[1];
 
-    // Verifica se existe um arquivo .ejs correspondente na pasta views
     if (fs.existsSync(path.resolve(`./views/${urlPath}.ejs`))) {
         res.render(urlPath);
     } else {
         try {
             console.log("url", req.originalUrl)
-            // Caso não encontre, verifica se é uma rota com parâmetro
             if (req.originalUrl.startsWith("/projetos/saiba-mais/")) {
 
 
 
-                const projectId = req.originalUrl.split("/")[3]; // Obtém o ID do projeto
-                // Buscar o projeto no banco de dados e renderizar a view correspondente
-
+                const projectId = req.originalUrl.split("/")[3];
                 console.log("Project ID", projectId);
-
                 const project = await Project.findById(projectId).populate(["owner", "team_members"]).populate({ path: "incentivos", populate: { path: "person_id" } })
-
                 if (project) {
                     res.render("saiba-mais", { project });
                 } else {
@@ -87,8 +71,10 @@ app.use("*", async (req, res) => {
             } else if (req.originalUrl.startsWith("/chat/")) {
                 res.render("chat");
 
+            } else if (req.originalUrl == "/") {
+                res.redirect("/pagina-inicial")
             } else {
-                // Se não for uma rota estática ou rota válida com parâmetro, exibe a página 404
+
                 res.sendFile(path.resolve("./public/404.html"));
             }
         } catch (e) {
@@ -124,7 +110,6 @@ io.on("connection", async (socket) => {
     const chats = await Chat.find({
         $or: [{ user: socket.user.id }, { user2: socket.user.id }]
     }).populate(["user", "user2"]).populate({ path: "messages", populate: { path: "sender" } })
-    // chats.forEach(chat => socket.join(chat._id.toString()))
 
     for (let chat of chats)
         socket.join(chat._id.toString())
@@ -196,10 +181,6 @@ io.on("connection", async (socket) => {
 
 
 
-
-
-
-
 server.listen(PORT, () => {
     console.log("Listening on port: " + PORT);
 });
@@ -209,4 +190,6 @@ if (process.env.NGROK_AUTHTOKEN) {
         process.env.PUBLIC_API_URL = listener.url();
         console.log("Ngrok at: ", process.env.PUBLIC_API_URL);
     })
+} else {
+    process.env.PUBLIC_API_URL = "https://incentiva.tech"
 }
